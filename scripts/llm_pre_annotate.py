@@ -199,8 +199,8 @@ def main():
             "chunk_content": it["code_content"],
             "gemini_suggested_label": lbl,
             "gemini_reason": rsn,
-            "human_label": lbl,          # Pre-filled with LLM suggestion for human review
-            "human_note": rsn            # Pre-filled with LLM rationale for human review
+            "human_label": "",
+            "human_note": ""
         }
         streamlit_rows.append(row)
 

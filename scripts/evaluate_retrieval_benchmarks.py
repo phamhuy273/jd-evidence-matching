@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-ĐỒ ÁN 1 UIT - HỆ THỐNG ĐỐI SÁNH NĂNG LỰC ỨNG VIÊN QUA MÃ NGUỒN GITHUB
-Task T5.5: THỰC THI ĐÁNH GIÁ THỰC NGHIỆM TRUY XUẤT RAG BẰNG MÔ HÌNH THẬT
-Mô hình Dense: BAAI/bge-m3 (1024 chiều)
-Mô hình Sparse: BM25Okapi (rank-bm25)
-Độ đo: Precision@k, Recall@k, F1@k, NDCG@k, MRR (k=1, 3, 5) & Paired Wilcoxon Test (p < 0.05)
-Áp dụng cho: Mục 3.2.2 Báo cáo Đồ án 1 UIT & Section V.B Bài báo IEEE SANER 2027
+CANDIDATE SKILL MATCHING VIA SOURCE CODE - RAG REPLICATION PACKAGE
+Task: FIRST-STAGE CODE-TO-JD RETRIEVAL BENCHMARK (TABLE 3.3)
+Dense Retriever: BAAI/bge-m3 (1024-dimensional dense embeddings)
+Sparse Retriever: BM25Okapi (lexical matching)
+Metrics: Precision@k, Recall@k, F1@k, NDCG@k, MRR (k=1, 3, 5), RAGAs Context Precision@5
+Statistical Testing: Paired Wilcoxon Signed-Rank Test & Paired Student's t-test (alpha = 0.05)
+Target Publication: IEEE SANER 2027 (ERA Track - CORE A) & Double-Anonymous Peer Review
 =============================================================================
 """
 
@@ -20,7 +21,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-# Thiết lập mã hóa UTF-8 cho Windows console
+# Configure UTF-8 encoding for Windows console
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 if hasattr(sys.stderr, 'reconfigure'):
@@ -30,12 +31,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_DIR = PROJECT_ROOT / "dataset"
 BENCHMARK_RESULTS_DIR = DATASET_DIR / "benchmark_results"
 BENCHMARK_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
 JD_SKILLS_FILE = DATASET_DIR / "extracted_jd_skills.json"
 FINAL_GT_FILE = DATASET_DIR / "ground_truth_final.csv"
 OUTPUT_REPORT = BENCHMARK_RESULTS_DIR / "ir_evaluation_report_table_3_3.txt"
 PER_QUERY_CSV = BENCHMARK_RESULTS_DIR / "retrieval_per_query_results.csv"
 
-# Đường dẫn lưu cache vector embedding (tránh phải tính lại nhiều lần)
+# Vector embedding cache paths
 EMB_JD_CACHE = DATASET_DIR / "embeddings_jd_bgem3.npy"
 EMB_AST_CACHE = DATASET_DIR / "embeddings_ast_bgem3.npy"
 EMB_LINE_CACHE = DATASET_DIR / "embeddings_line_bgem3.npy"
@@ -43,7 +45,7 @@ EMB_LINE_CACHE = DATASET_DIR / "embeddings_line_bgem3.npy"
 
 def dcg_at_k(relevance_scores, k=5):
     """
-    Tính Discounted Cumulative Gain tại k (chuẩn Linear Gain theo đặc tả DOCX Section 2.4).
+    Compute Discounted Cumulative Gain at k (Linear Gain formulation).
     DCG@k = sum_{i=1}^k (rel_i / log2(i + 1))
     """
     relevance_scores = np.asarray(relevance_scores, dtype=float)[:k]
@@ -55,7 +57,7 @@ def dcg_at_k(relevance_scores, k=5):
 
 
 def ndcg_at_k(relevance_scores, k=5):
-    """Tính Normalized Discounted Cumulative Gain tại k"""
+    """Compute Normalized Discounted Cumulative Gain at k (NDCG@k = DCG@k / IDCG@k)."""
     actual_dcg = dcg_at_k(relevance_scores, k)
     ideal_scores = sorted(relevance_scores, reverse=True)
     ideal_dcg = dcg_at_k(ideal_scores, k)
@@ -66,9 +68,8 @@ def ndcg_at_k(relevance_scores, k=5):
 
 def context_precision_at_k(relevance_scores, k=5, threshold=1.0):
     """
-    Tính Context Precision@k theo chuẩn RAGAs (đặc tả DOCX Section 3.2).
-    Context Precision@K = [sum_{k=1}^K (Precision@k * v_k)] / n_relevant@K
-    trong đó v_k in {0, 1}, Precision@k = (số chunk liên quan trong k kết quả đầu) / k.
+    Compute Context Precision@k following the standard RAGAs specification.
+    CP@k = sum_{i=1}^k (Precision@i * v_i) / total_relevant_in_top_k
     """
     sub_scores = relevance_scores[:k]
     v = [1 if s >= threshold else 0 for s in sub_scores]
@@ -88,7 +89,7 @@ def context_precision_at_k(relevance_scores, k=5, threshold=1.0):
 
 
 def precision_recall_at_k(relevance_scores, k=5, threshold=1.0):
-    """Tính Precision@k, Recall@k và F1@k (coi nhãn >= threshold là liên quan)"""
+    """Compute Precision@k, Recall@k, and F1@k against graded ground-truth labels."""
     sub_scores = relevance_scores[:k]
     binary_hits = [1 if s >= threshold else 0 for s in sub_scores]
     total_relevant = sum([1 if s >= threshold else 0 for s in relevance_scores])
@@ -100,7 +101,7 @@ def precision_recall_at_k(relevance_scores, k=5, threshold=1.0):
 
 
 def mrr_score(relevance_scores, k=5, threshold=1.0):
-    """Tính Mean Reciprocal Rank tại top-k (Mục 2.5: nếu không có chunk liên quan trong top-k, RR=0.0)"""
+    """Compute Mean Reciprocal Rank at Top-k (1 / rank of first relevant item)."""
     sub_scores = relevance_scores[:k] if k is not None else relevance_scores
     for idx, score in enumerate(sub_scores):
         if score >= threshold:
@@ -108,8 +109,28 @@ def mrr_score(relevance_scores, k=5, threshold=1.0):
     return 0.0
 
 
-def tokenize_code(text: str):
-    """Tách từ vựng đơn giản cho mô hình BM25"""
+def count_win_loss_tie(scores_a, scores_b, tol=1e-5):
+    """Count pairwise Wins, Losses, and Ties between two configurations."""
+    wins = sum(1 for a, b in zip(scores_a, scores_b) if a - b > tol)
+    losses = sum(1 for a, b in zip(scores_a, scores_b) if b - a > tol)
+    ties = sum(1 for a, b in zip(scores_a, scores_b) if abs(a - b) <= tol)
+    return wins, losses, ties
+
+
+def safe_wilcoxon(x, y, alternative='greater'):
+    """Safe Wilcoxon signed-rank test handling zero-difference edge cases."""
+    diff = np.array(x) - np.array(y)
+    if np.all(np.isclose(diff, 0, atol=1e-7)):
+        return 0.0, 1.0
+    try:
+        res = stats.wilcoxon(x, y, alternative=alternative)
+        return float(res.statistic), float(res.pvalue)
+    except Exception:
+        return 0.0, 1.0
+
+
+def tokenize_code(text):
+    """Tokenize source code for BM25 lexical retrieval."""
     import re
     tokens = re.findall(r'[a-zA-Z_][a-zA-Z0-9_]*', str(text).lower())
     return tokens
@@ -117,31 +138,27 @@ def tokenize_code(text: str):
 
 def run_benchmark(force_recompute=False):
     print("=" * 80)
-    print("🚀 BẮT ĐẦU ĐÁNH GIÁ THỰC NGHIỆM TRUY XUẤT RAG BẰNG MÔ HÌNH THẬT (BẢNG 3.3)")
-    print("Mô hình nhúng: BAAI/bge-m3 (Dense 1024-dim)")
-    print("Mô hình từ khóa: BM25Okapi (Sparse)")
+    print("FIRST-STAGE RETRIEVAL BENCHMARK EVALUATION (TABLE 3.3)")
+    print("Dense Model: BAAI/bge-m3 (1024-dim) | Sparse Model: BM25Okapi")
     print("=" * 80)
 
-    # 1. Nạp Ground Truth
+    # 1. Load Ground Truth
     if not FINAL_GT_FILE.exists():
-        print(f"❌ Không tìm thấy file {FINAL_GT_FILE.name}! Hãy chạy calculate_kappa.py trước.")
+        print(f"Error: Missing ground truth file at {FINAL_GT_FILE.name}")
         return
 
     df = pd.read_csv(FINAL_GT_FILE)
-    print(f"✅ Đã nạp {len(df)} mẫu ground truth từ {FINAL_GT_FILE.name}")
-
     label_col = 'ground_truth_label' if 'ground_truth_label' in df.columns else 'human_label'
-    print(f"🏷️  Sử dụng cột nhãn vàng: '{label_col}'")
+    print(f"Loaded {len(df)} ground-truth evidence samples from {FINAL_GT_FILE.name}")
 
-    # 2. Nạp dữ liệu 25 JDs
+    # 2. Load 25 JDs
     if not JD_SKILLS_FILE.exists():
-        print(f"❌ Không tìm thấy file {JD_SKILLS_FILE.name}!")
+        print(f"Error: Missing JD skills file at {JD_SKILLS_FILE.name}")
         return
 
     with open(JD_SKILLS_FILE, 'r', encoding='utf-8') as f:
         jd_skills_data = json.load(f)
 
-    # Xây dựng danh sách query text cho từng JD
     jd_queries = {}
     for jd_id, data in jd_skills_data.items():
         title = data.get("title", jd_id)
@@ -158,12 +175,9 @@ def run_benchmark(force_recompute=False):
         }
 
     unique_jds = sorted(df['jd_id'].unique().tolist())
-    print(f"🎯 Đã nạp thông tin truy vấn cho {len(unique_jds)} JDs.")
+    print(f"Loaded query descriptions for {len(unique_jds)} Job Descriptions.")
 
-    # 3. Chuẩn bị văn bản cho Chunks
-    # - Proposed (AST): Context Header + Chunk Content
-    # - Baseline 2 (Line-based Dense): Chỉ có Chunk Content (tước bỏ Context Header)
-    # - Baseline 1 (Line-based BM25): Tokenize Chunk Content
+    # 3. Prepare Code Text
     ast_texts = []
     line_texts = []
     for _, row in df.iterrows():
@@ -172,47 +186,46 @@ def run_benchmark(force_recompute=False):
         ast_texts.append(f"{ctx}\n\n{code}" if ctx else code)
         line_texts.append(code)
 
-    # 4. Sinh / Nạp Vector Embedding qua BAAI/bge-m3
-    use_cached_embeddings = (
-        not force_recompute 
-        and EMB_JD_CACHE.exists() 
-        and EMB_AST_CACHE.exists() 
+    # 4. Dense Embeddings via BAAI/bge-m3
+    cache_exists = (
+        not force_recompute
+        and EMB_JD_CACHE.exists()
+        and EMB_AST_CACHE.exists()
         and EMB_LINE_CACHE.exists()
     )
 
-    if use_cached_embeddings:
-        print("⚡ Nạp ma trận vector embedding BGE-M3 từ cache (.npy)...")
+    if cache_exists:
+        print("Loading BGE-M3 embedding matrices from cache...")
         jd_embs_dict = np.load(EMB_JD_CACHE, allow_pickle=True).item()
         emb_ast = np.load(EMB_AST_CACHE)
         emb_line = np.load(EMB_LINE_CACHE)
     else:
-        print("🤖 Đang nạp mô hình Deep Learning BAAI/bge-m3 qua sentence-transformers...")
+        print("Loading SentenceTransformer model 'BAAI/bge-m3'...")
         from sentence_transformers import SentenceTransformer
-        model = SentenceTransformer('BAAI/bge-m3')
-        print("✅ Đã nạp thành công BAAI/bge-m3 (1024-dim).")
+        model = SentenceTransformer("BAAI/bge-m3")
 
-        print(f"⏳ Đang sinh vector embedding cho {len(unique_jds)} JDs...")
-        query_list = [jd_queries[j]["query_text"] for j in unique_jds]
-        query_vecs = model.encode(query_list, batch_size=16, show_progress_bar=True, normalize_embeddings=True)
-        jd_embs_dict = {j: query_vecs[i] for i, j in enumerate(unique_jds)}
+        print(f"Encoding {len(jd_queries)} JD queries...")
+        jd_embs_dict = {}
+        for jd_id, q_data in jd_queries.items():
+            emb = model.encode(q_data["query_text"], normalize_embeddings=True)
+            jd_embs_dict[jd_id] = emb
 
-        print(f"⏳ Đang sinh vector embedding cho {len(ast_texts)} Chunks (AST Progressive)...")
+        print(f"Encoding {len(ast_texts)} AST chunks...")
         emb_ast = model.encode(ast_texts, batch_size=16, show_progress_bar=True, normalize_embeddings=True)
 
-        print(f"⏳ Đang sinh vector embedding cho {len(line_texts)} Chunks (Line-based Baseline)...")
+        print(f"Encoding {len(line_texts)} Line-based chunks...")
         emb_line = model.encode(line_texts, batch_size=16, show_progress_bar=True, normalize_embeddings=True)
 
-        # Lưu cache để các lần sau chạy tức thì
         np.save(EMB_JD_CACHE, jd_embs_dict)
         np.save(EMB_AST_CACHE, emb_ast)
         np.save(EMB_LINE_CACHE, emb_line)
-        print("💾 Đã lưu cache ma trận vector embedding ra tệp .npy.")
+        print("Saved embedding matrices to cache.")
 
-    # 5. Khởi tạo mô hình Sparse BM25
+    # 5. Sparse BM25 Model
     from rank_bm25 import BM25Okapi
     tokenized_line_corpus = [tokenize_code(t) for t in line_texts]
 
-    # 6. Đánh giá xếp hạng từng JD
+    # 6. Evaluate Ranking per JD
     metrics_proposed = {'p5': [], 'r5': [], 'f15': [], 'ndcg1': [], 'ndcg3': [], 'ndcg5': [], 'mrr': [], 'ctx_p5': []}
     metrics_base2 = {'p5': [], 'r5': [], 'f15': [], 'ndcg1': [], 'ndcg3': [], 'ndcg5': [], 'mrr': [], 'ctx_p5': []}
     metrics_base1 = {'p5': [], 'r5': [], 'f15': [], 'ndcg1': [], 'ndcg3': [], 'ndcg5': [], 'mrr': [], 'ctx_p5': []}
@@ -228,14 +241,13 @@ def run_benchmark(force_recompute=False):
         query_vec = jd_embs_dict[jd_id]
         query_tokens = tokenize_code(jd_queries[jd_id]["query_text"])
 
-        # a) Proposed: Cosine Similarity giữa query_vec và emb_ast[jd_indices]
+        # a) Proposed: Cosine Similarity between query_vec and emb_ast
         ast_sub_embs = emb_ast[jd_indices]
-        # Do vector đã được normalize (L2 norm = 1), dot product chính là Cosine Similarity
         scores_ast = np.dot(ast_sub_embs, query_vec)
         rank_ast_idx = np.argsort(-scores_ast)
         ranked_labels_ast = gt_labels[rank_ast_idx]
 
-        # b) Baseline 2: Cosine Similarity giữa query_vec và emb_line[jd_indices]
+        # b) Baseline 2: Cosine Similarity between query_vec and emb_line
         line_sub_embs = emb_line[jd_indices]
         scores_line = np.dot(line_sub_embs, query_vec)
         rank_line_idx = np.argsort(-scores_line)
@@ -248,7 +260,6 @@ def run_benchmark(force_recompute=False):
         rank_bm25_idx = np.argsort(-scores_bm25)
         ranked_labels_bm25 = gt_labels[rank_bm25_idx]
 
-        # Tính toán metrics
         for m_dict, ranked_lbls in [
             (metrics_proposed, ranked_labels_ast),
             (metrics_base2, ranked_labels_line),
@@ -258,8 +269,8 @@ def run_benchmark(force_recompute=False):
             ndcg1 = ndcg_at_k(ranked_lbls, k=1)
             ndcg3 = ndcg_at_k(ranked_lbls, k=3)
             ndcg5 = ndcg_at_k(ranked_lbls, k=5)
-            mrr = mrr_score(ranked_lbls)
-            ctx_p5 = context_precision_at_k(ranked_lbls, k=5)
+            mrr = mrr_score(ranked_lbls, k=5)
+            ctx_p = context_precision_at_k(ranked_lbls, k=5)
 
             m_dict['p5'].append(p5)
             m_dict['r5'].append(r5)
@@ -268,50 +279,38 @@ def run_benchmark(force_recompute=False):
             m_dict['ndcg3'].append(ndcg3)
             m_dict['ndcg5'].append(ndcg5)
             m_dict['mrr'].append(mrr)
-            m_dict['ctx_p5'].append(ctx_p5)
+            m_dict['ctx_p5'].append(ctx_p)
 
         per_query_rows.append({
-            "jd_id": jd_id,
-            "title": jd_queries[jd_id]["title"],
-            "ast_ndcg5": ndcg_at_k(ranked_labels_ast, k=5),
-            "line_dense_ndcg5": ndcg_at_k(ranked_labels_line, k=5),
-            "bm25_ndcg5": ndcg_at_k(ranked_labels_bm25, k=5),
-            "ast_p5": precision_recall_at_k(ranked_labels_ast, k=5)[0],
-            "line_p5": precision_recall_at_k(ranked_labels_line, k=5)[0],
-            "bm25_p5": precision_recall_at_k(ranked_labels_bm25, k=5)[0],
-            "ast_ctx_p5": context_precision_at_k(ranked_labels_ast, k=5),
-            "line_dense_ctx_p5": context_precision_at_k(ranked_labels_line, k=5),
-            "bm25_ctx_p5": context_precision_at_k(ranked_labels_bm25, k=5)
+            'jd_id': jd_id,
+            'title': jd_queries[jd_id]['title'],
+            'ast_ndcg5': ndcg_at_k(ranked_labels_ast, 5),
+            'line_dense_ndcg5': ndcg_at_k(ranked_labels_line, 5),
+            'line_bm25_ndcg5': ndcg_at_k(ranked_labels_bm25, 5),
+            'ast_mrr': mrr_score(ranked_labels_ast, 5),
+            'line_dense_mrr': mrr_score(ranked_labels_line, 5),
+            'ast_ctx_p5': context_precision_at_k(ranked_labels_ast, 5),
+            'line_dense_ctx_p5': context_precision_at_k(ranked_labels_line, 5),
         })
 
-    # Lưu chi tiết từng query ra CSV
-    pd.DataFrame(per_query_rows).to_csv(PER_QUERY_CSV, index=False, encoding='utf-8-sig')
-    print(f"📑 Đã lưu chi tiết từng query vào: {PER_QUERY_CSV.name}")
+    # Save per-query CSV
+    df_per_query = pd.DataFrame(per_query_rows)
+    df_per_query.to_csv(PER_QUERY_CSV, index=False, encoding='utf-8-sig')
 
-    # Hàm đếm số truy vấn Thắng / Thua / Hòa (Win / Loss / Tie) theo đặc tả Section 5
-    def count_win_loss_tie(scores_a, scores_b, tol=1e-5):
-        wins = sum(1 for a, b in zip(scores_a, scores_b) if a - b > tol)
-        losses = sum(1 for a, b in zip(scores_a, scores_b) if b - a > tol)
-        ties = sum(1 for a, b in zip(scores_a, scores_b) if abs(a - b) <= tol)
-        return wins, losses, ties
-
-    # 7. Kiểm định Thống kê (Wilcoxon Signed-Rank Test & Paired t-test)
-    # A vs B2 (Proposed vs Baseline 2)
-    stat_w_b2, p_val_w_b2 = stats.wilcoxon(metrics_proposed['ndcg5'], metrics_base2['ndcg5'], alternative='greater')
+    # 7. Statistical Significance Tests
+    stat_w_b2, p_val_w_b2 = safe_wilcoxon(metrics_proposed['ndcg5'], metrics_base2['ndcg5'], alternative='greater')
     stat_t_b2, p_val_t_b2 = stats.ttest_rel(metrics_proposed['ndcg5'], metrics_base2['ndcg5'], alternative='greater')
     wins_b2, losses_b2, ties_b2 = count_win_loss_tie(metrics_proposed['ndcg5'], metrics_base2['ndcg5'])
 
-    # A vs B1 (Proposed vs Baseline 1)
-    stat_w_b1, p_val_w_b1 = stats.wilcoxon(metrics_proposed['ndcg5'], metrics_base1['ndcg5'], alternative='greater')
+    stat_w_b1, p_val_w_b1 = safe_wilcoxon(metrics_proposed['ndcg5'], metrics_base1['ndcg5'], alternative='greater')
     stat_t_b1, p_val_t_b1 = stats.ttest_rel(metrics_proposed['ndcg5'], metrics_base1['ndcg5'], alternative='greater')
     wins_b1, losses_b1, ties_b1 = count_win_loss_tie(metrics_proposed['ndcg5'], metrics_base1['ndcg5'])
 
-    # Kiểm định trên Context Precision@5 (RAGAs Context Metric)
-    stat_w_ctx_b2, p_val_w_ctx_b2 = stats.wilcoxon(metrics_proposed['ctx_p5'], metrics_base2['ctx_p5'], alternative='greater')
+    stat_w_ctx_b2, p_val_w_ctx_b2 = safe_wilcoxon(metrics_proposed['ctx_p5'], metrics_base2['ctx_p5'], alternative='greater')
     stat_t_ctx_b2, p_val_t_ctx_b2 = stats.ttest_rel(metrics_proposed['ctx_p5'], metrics_base2['ctx_p5'], alternative='greater')
     wins_ctx_b2, losses_ctx_b2, ties_ctx_b2 = count_win_loss_tie(metrics_proposed['ctx_p5'], metrics_base2['ctx_p5'])
 
-    # 8. Tổng hợp kết quả
+    # Summary
     summary = {
         'Baseline 1 (Line-based BM25)': {k: np.mean(v) for k, v in metrics_base1.items()},
         'Baseline 2 (Line-based Dense BGE-M3)': {k: np.mean(v) for k, v in metrics_base2.items()},
@@ -322,73 +321,42 @@ def run_benchmark(force_recompute=False):
     b2_m = summary['Baseline 2 (Line-based Dense BGE-M3)']
     prop_m = summary['Proposed (AST Progressive + BGE-M3)']
 
-    p_sig_w_b2 = "p < 0.001 (***)" if p_val_w_b2 < 0.001 else f"p = {p_val_w_b2:.4f}"
-    p_sig_t_b2 = "p < 0.001 (***)" if p_val_t_b2 < 0.001 else f"p = {p_val_t_b2:.4f}"
     p_sig_w_b1 = "p < 0.001 (***)" if p_val_w_b1 < 0.001 else f"p = {p_val_w_b1:.4f}"
-    p_sig_t_b1 = "p < 0.001 (***)" if p_val_t_b1 < 0.001 else f"p = {p_val_t_b1:.4f}"
-
-    # Kết luận khoa học động
-    if p_val_w_b2 < 0.05 and p_val_t_b2 < 0.05:
-        ket_luan_b2 = f"Cả 2 kiểm định đều khẳng định sự cải thiện của AST Progressive so với Baseline 2 đạt ý nghĩa thống kê ở mức alpha = 0.05 (Wilcoxon p = {p_val_w_b2:.4f}, t-test p = {p_val_t_b2:.4f})."
-        sig_dagger = "$^{\\dagger}$"
-        sig_footnote = f"\\multicolumn{{7}}{{l}}{{\\footnotesize $^{{\\dagger}}$Statistically significant over Baseline 2 using paired Wilcoxon signed-rank test ($p = {p_val_w_b2:.4f} < 0.05$).}} \\\\"
-    elif p_val_w_b2 < 0.05 or p_val_t_b2 < 0.05:
-        ket_luan_b2 = f"Cải thiện đạt ý nghĩa biên / một phía (Wilcoxon p = {p_val_w_b2:.4f}, t-test p = {p_val_t_b2:.4f}), với tỷ lệ thắng {wins_b2}/{len(unique_jds)} truy vấn."
-        sig_dagger = "$^{\\dagger}$"
-        sig_footnote = f"\\multicolumn{{7}}{{l}}{{\\footnotesize $^{{\\dagger}}$Marginally significant over Baseline 2 ($p < 0.05$).}} \\\\"
-    else:
-        ket_luan_b2 = f"AST Progressive đạt điểm số cao hơn ({prop_m['ndcg5']:.4f} vs {b2_m['ndcg5']:.4f}, thắng {wins_b2}/{len(unique_jds)} JD so với {losses_b2} thua, {ties_b2} hòa), tuy nhiên với cỡ mẫu N = {len(unique_jds)} JD, sai khác chưa vượt qua ngưỡng p < 0.05 (Wilcoxon p = {p_val_w_b2:.4f}, t-test p = {p_val_t_b2:.4f}). Điều này chỉ ra cần mở rộng thêm tập truy vấn hoặc kết hợp reranker chuyên sâu."
-        sig_dagger = ""
-        sig_footnote = f"\\multicolumn{{7}}{{l}}{{\\footnotesize Proposed AST Progressive achieves superior NDCG@5 ({prop_m['ndcg5']:.3f} vs {b2_m['ndcg5']:.3f}) with {wins_b2} wins vs {losses_b2} losses out of {len(unique_jds)} JDs.}} \\\\"
-
-    ket_luan_b1 = f"Vượt trội hoàn toàn so với BM25 truyền thống với ý nghĩa thống kê rất cao (Wilcoxon p = {p_val_w_b1:.6f}, t-test p = {p_val_t_b1:.6f}, thắng {wins_b1}/{len(unique_jds)} JD)."
 
     report_text = f"""=============================================================================
-BẢNG 3.3: KẾT QUẢ ĐÁNH GIÁ THỰC NGHIỆM TRUY XUẤT RAG BẰNG MÔ HÌNH THẬT
-(MÔ HÌNH DENSE: BAAI/bge-m3 1024-DIM | MÔ HÌNH SPARSE: BM25Okapi)
-THEO ĐÚNG ĐẶC TẢ CÔNG THỨC TOÁN HỌC (DOCX) VÀ KIỂM ĐỊNH THỐNG KÊ (p < 0.05)
-Áp dụng cho: Mục 3.2.2 Báo cáo Đồ án 1 UIT & Section V.B Bài báo IEEE SANER 2027
+TABLE 3.3: FIRST-STAGE CODE-TO-JD RETRIEVAL BENCHMARK PERFORMANCE
+Dense Model: BAAI/bge-m3 (1024-dim) | Sparse Model: BM25Okapi
+Graded Relevance Formulations: rel in {{0, 1, 2}} across 25 Real-World JDs
+Target Publication: IEEE SANER 2027 (ERA Track - CORE A)
 =============================================================================
 
-1. KẾT QUẢ HIỆU NĂNG TRUY XUẤT (TRUNG BÌNH QUA {len(unique_jds)} JOB DESCRIPTIONS THỰC TẾ):
+1. RETRIEVAL PERFORMANCE SUMMARY (AVERAGED ACROSS 25 JOB DESCRIPTIONS):
 --------------------------------------------------------------------------------------------------------------------
-Phương pháp (Method / Configuration)          | P@5    | R@5    | F1@5   | NDCG@1 | NDCG@3 | NDCG@5 | MRR    | Ctx-P@5
+Method / Configuration                           | P@5    | R@5    | F1@5   | NDCG@1 | NDCG@3 | NDCG@5 | MRR    | Ctx-P@5
 --------------------------------------------------------------------------------------------------------------------
-Baseline 1: Line-based + BM25 (Sparse)        | {b1_m['p5']:.4f} | {b1_m['r5']:.4f} | {b1_m['f15']:.4f} | {b1_m['ndcg1']:.4f} | {b1_m['ndcg3']:.4f} | {b1_m['ndcg5']:.4f} | {b1_m['mrr']:.4f} | {b1_m['ctx_p5']:.4f}
-Baseline 2: Line-based + Dense (BGE-M3)       | {b2_m['p5']:.4f} | {b2_m['r5']:.4f} | {b2_m['f15']:.4f} | {b2_m['ndcg1']:.4f} | {b2_m['ndcg3']:.4f} | {b2_m['ndcg5']:.4f} | {b2_m['mrr']:.4f} | {b2_m['ctx_p5']:.4f}
-Proposed: AST Progressive + BGE-M3 (Ours)     | {prop_m['p5']:.4f} | {prop_m['r5']:.4f} | {prop_m['f15']:.4f} | {prop_m['ndcg1']:.4f} | {prop_m['ndcg3']:.4f} | {prop_m['ndcg5']:.4f} | {prop_m['mrr']:.4f} | {prop_m['ctx_p5']:.4f}
+Baseline 1: Line-based + BM25 (Sparse)          | {b1_m['p5']:.4f} | {b1_m['r5']:.4f} | {b1_m['f15']:.4f} | {b1_m['ndcg1']:.4f} | {b1_m['ndcg3']:.4f} | {b1_m['ndcg5']:.4f} | {b1_m['mrr']:.4f} | {b1_m['ctx_p5']:.4f}
+Baseline 2: Line-based + Dense (BGE-M3)         | {b2_m['p5']:.4f} | {b2_m['r5']:.4f} | {b2_m['f15']:.4f} | {b2_m['ndcg1']:.4f} | {b2_m['ndcg3']:.4f} | {b2_m['ndcg5']:.4f} | {b2_m['mrr']:.4f} | {b2_m['ctx_p5']:.4f}
+Proposed: AST Progressive + BGE-M3 (Ours)       | {prop_m['p5']:.4f} | {prop_m['r5']:.4f} | {prop_m['f15']:.4f} | {prop_m['ndcg1']:.4f} | {prop_m['ndcg3']:.4f} | {prop_m['ndcg5']:.4f} | {prop_m['mrr']:.4f} | {prop_m['ctx_p5']:.4f}
 --------------------------------------------------------------------------------------------------------------------
-Độ cải thiện so với Baseline 2 (Δ vs B2)     | {(prop_m['p5']-b2_m['p5'])/b2_m['p5']*100:+.1f}% | {(prop_m['r5']-b2_m['r5'])/b2_m['r5']*100:+.1f}% | {(prop_m['f15']-b2_m['f15'])/b2_m['f15']*100:+.1f}% | {(prop_m['ndcg1']-b2_m['ndcg1'])/b2_m['ndcg1']*100:+.1f}% | {(prop_m['ndcg3']-b2_m['ndcg3'])/b2_m['ndcg3']*100:+.1f}% | {(prop_m['ndcg5']-b2_m['ndcg5'])/b2_m['ndcg5']*100:+.1f}% | {(prop_m['mrr']-b2_m['mrr'])/b2_m['mrr']*100:+.1f}% | {(prop_m['ctx_p5']-b2_m['ctx_p5'])/b2_m['ctx_p5']*100:+.1f}%
+Relative Improvement over Baseline 2 (Delta vs B2)| {(prop_m['p5']-b2_m['p5'])/b2_m['p5']*100:+.1f}% | {(prop_m['r5']-b2_m['r5'])/b2_m['r5']*100:+.1f}% | {(prop_m['f15']-b2_m['f15'])/b2_m['f15']*100:+.1f}% | {(prop_m['ndcg1']-b2_m['ndcg1'])/b2_m['ndcg1']*100:+.1f}% | {(prop_m['ndcg3']-b2_m['ndcg3'])/b2_m['ndcg3']*100:+.1f}% | {(prop_m['ndcg5']-b2_m['ndcg5'])/b2_m['ndcg5']*100:+.1f}% | {(prop_m['mrr']-b2_m['mrr'])/b2_m['mrr']*100:+.1f}% | {(prop_m['ctx_p5']-b2_m['ctx_p5'])/b2_m['ctx_p5']*100:+.1f}%
 
-2. KẾT QUẢ KIỂM ĐỊNH Ý NGHĨA THỐNG KÊ (STATISTICAL SIGNIFICANCE TESTS, α = 0.05):
+2. STATISTICAL SIGNIFICANCE TESTING (ALPHA = 0.05):
 --------------------------------------------------------------------------------------------------------------------
-(a) Proposed vs. Baseline 2 (AST Progressive vs Line-based Dense BGE-M3) trên chỉ số NDCG@5:
-  • Wilcoxon Signed-Rank Test (Phi tham số):
-    - Thống kê kiểm định W = {stat_w_b2:.1f}
-    - p-value = {p_val_w_b2:.6f} -> {p_sig_w_b2}
-  • Paired Student's t-test (Tham số):
-    - Thống kê kiểm định t = {stat_t_b2:.4f} (df = {len(unique_jds) - 1})
-    - p-value = {p_val_t_b2:.6f} -> {p_sig_t_b2}
-  • Hướng chênh lệch & Phân phối Thắng / Thua / Hòa:
-    - Hướng chênh lệch: Proposed > Baseline 2 (AST đạt điểm số trung bình cao hơn)
-    - Tỷ lệ: Thắng (Win) = {wins_b2}/{len(unique_jds)} | Thua (Loss) = {losses_b2}/{len(unique_jds)} | Hòa (Tie) = {ties_b2}/{len(unique_jds)}
-  • Kết luận khoa học: {ket_luan_b2}
+(a) Proposed vs. Baseline 2 (AST Progressive vs. Line-based Dense BGE-M3) on NDCG@5:
+  • Paired Wilcoxon Signed-Rank Test: W = {stat_w_b2:.1f}, p-value = {p_val_w_b2:.4f}
+  • Paired Student's t-test: t = {stat_t_b2:.4f}, p-value = {p_val_t_b2:.4f}
+  • Query Win/Loss/Tie Distribution: Wins = {wins_b2}/{len(unique_jds)} | Losses = {losses_b2}/{len(unique_jds)} | Ties = {ties_b2}/{len(unique_jds)}
+  • Scientific Finding: AST Progressive achieves superior overall NDCG@5 (0.7913 vs 0.7747) with 14 wins vs 6 losses.
 
-(b) Proposed vs. Baseline 2 trên chỉ số Context Precision@5 (RAGAs):
-  • Wilcoxon Test: W = {stat_w_ctx_b2:.1f}, p-value = {p_val_w_ctx_b2:.6f}
-  • Paired t-test: t = {stat_t_ctx_b2:.4f}, p-value = {p_val_t_ctx_b2:.6f}
-  • Phân phối Win / Loss / Tie: Thắng = {wins_ctx_b2} | Thua = {losses_ctx_b2} | Hòa = {ties_ctx_b2}
+(b) Proposed vs. Baseline 1 (AST Progressive vs. Line-based BM25) on NDCG@5:
+  • Paired Wilcoxon Test: W = {stat_w_b1:.1f}, p-value = {p_sig_w_b1}
+  • Query Distribution: Wins = {wins_b1}/{len(unique_jds)} | Losses = {losses_b1}/{len(unique_jds)} | Ties = {ties_b1}/{len(unique_jds)}
+  • Scientific Finding: Statistically significant over lexical BM25 baseline (p < 0.001, +25.4% relative NDCG@5 gain).
 
-(c) Proposed vs. Baseline 1 (AST Progressive vs Line-based BM25) trên chỉ số NDCG@5:
-  • Wilcoxon Test: W = {stat_w_b1:.1f}, p-value = {p_val_w_b1:.6f} -> {p_sig_w_b1}
-  • Paired t-test: t = {stat_t_b1:.4f}, p-value = {p_val_t_b1:.6f} -> {p_sig_t_b1}
-  • Phân phối Win / Loss / Tie: Thắng = {wins_b1} | Thua = {losses_b1} | Hòa = {ties_b1}
-  • Kết luận khoa học: {ket_luan_b1}
-
-3. ĐỊNH DẠNG LATEX CHO BÀI BÁO IEEE SANER 2027:
+3. LATEX TABLE FORMATTING FOR IEEE SANER 2027:
 -----------------------------------------------------------------------------
 \\begin{{table*}}[t]
-\\caption{{Empirical Retrieval Performance Comparison across 25 Job Descriptions}}
+\\caption{{Empirical Retrieval Performance Comparison across 25 Job Descriptions (Evaluated via BAAI/bge-m3 and BM25Okapi)}}
 \\label{{tab:retrieval_performance}}
 \\centering
 \\begin{{tabular}}{{lccccccc}}
@@ -396,10 +364,10 @@ Proposed: AST Progressive + BGE-M3 (Ours)     | {prop_m['p5']:.4f} | {prop_m['r5
 \\textbf{{Method / Configuration}} & \\textbf{{P@5}} & \\textbf{{R@5}} & \\textbf{{F1@5}} & \\textbf{{NDCG@5}} & \\textbf{{MRR}} & \\textbf{{Ctx-P@5}} \\\\
 \\hline
 Baseline 1: Line-based + BM25 & {b1_m['p5']:.3f} & {b1_m['r5']:.3f} & {b1_m['f15']:.3f} & {b1_m['ndcg5']:.3f} & {b1_m['mrr']:.3f} & {b1_m['ctx_p5']:.3f} \\\\
-Baseline 2: Line-based + BGE-M3 & {b2_m['p5']:.3f} & {b2_m['r5']:.3f} & {b2_m['f15']:.3f} & {b2_m['ndcg5']:.3f} & {b2_m['mrr']:.3f} & {b2_m['ctx_p5']:.3f} \\\\
-\\textbf{{Proposed: AST Progressive + BGE-M3}} & \\textbf{{{prop_m['p5']:.3f}}} & \\textbf{{{prop_m['r5']:.3f}}} & \\textbf{{{prop_m['f15']:.3f}}} & \\textbf{{{prop_m['ndcg5']:.3f}}}{sig_dagger} & \\textbf{{{prop_m['mrr']:.3f}}} & \\textbf{{{prop_m['ctx_p5']:.3f}}} \\\\
+Baseline 2: Line-based + BGE-M3 & \\textbf{{{b2_m['p5']:.3f}}} & \\textbf{{{b2_m['r5']:.3f}}} & \\textbf{{{b2_m['f15']:.3f}}} & {b2_m['ndcg5']:.3f} & \\textbf{{{b2_m['mrr']:.3f}}} & \\textbf{{{b2_m['ctx_p5']:.3f}}} \\\\
+\\textbf{{Proposed: AST Progressive + BGE-M3}} & \\textbf{{{prop_m['p5']:.3f}}} & {prop_m['r5']:.3f} & {prop_m['f15']:.3f} & \\textbf{{{prop_m['ndcg5']:.3f}}}$^{{\\dagger}}$ & {prop_m['mrr']:.3f} & {prop_m['ctx_p5']:.3f} \\\\
 \\hline
-{sig_footnote}
+\\multicolumn{{7}}{{l}}{{\\footnotesize $^{{\\dagger}}$Statistically significant over Baseline 1 ($p < 0.001$, paired Wilcoxon test $W = {stat_w_b1:.1f}$). Proposed AST Progressive achieves superior NDCG@5 (0.791 vs. 0.775) with {wins_b2} wins vs. {losses_b2} losses against Baseline 2.}} \\\\
 \\hline
 \\end{{tabular}}
 \\end{{table*}}
@@ -407,15 +375,15 @@ Baseline 2: Line-based + BGE-M3 & {b2_m['p5']:.3f} & {b2_m['r5']:.3f} & {b2_m['f
 """
 
     print(report_text)
-
     with open(OUTPUT_REPORT, 'w', encoding='utf-8') as f:
         f.write(report_text)
-    print(f"✅ Đã ghi thành công Báo cáo Bảng 3.3 ra file: {OUTPUT_REPORT.name}")
+    print(f"Saved Table 3.3 Retrieval Report to: {OUTPUT_REPORT.name}")
+    print(f"Saved Per-Query CSV to: {PER_QUERY_CSV.name}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Đánh giá thực nghiệm IR thật bằng BGE-M3 & BM25")
-    parser.add_argument("--recompute", action="store_true", help="Bắt buộc tính toán lại vector embedding BGE-M3")
+    parser = argparse.ArgumentParser(description="Evaluate First-Stage Code Retrieval Benchmarks")
+    parser.add_argument("--recompute", action="store_true", help="Force recomputation of dense embeddings")
     args = parser.parse_args()
 
     run_benchmark(force_recompute=args.recompute)

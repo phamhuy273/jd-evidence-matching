@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-ĐỒ ÁN 1 UIT - HỆ THỐNG ĐỐI SÁNH NĂNG LỰC ỨNG VIÊN QUA MÃ NGUỒN GITHUB
-Task: THỰC NGHIỆM TÍCH HỢP TWO-STAGE RETRIEVAL VỚI CROSS-ENCODER RE-RANKER
-Mô hình Stage 1 (Bi-Encoder): BAAI/bge-m3 (Dense 1024-dim)
-Mô hình Stage 2 (Cross-Encoder): BAAI/bge-reranker-base (hoặc bge-reranker-large)
-Mục tiêu: Đánh giá tối ưu hóa xếp hạng tại vị trí Top-1 / Top-3 theo góp ý của GVHD
-Áp dụng cho: Báo cáo Đồ án 1 UIT & Section IV.B Bài báo IEEE SANER 2027
+CANDIDATE SKILL MATCHING VIA SOURCE CODE - RAG REPLICATION PACKAGE
+Task: TWO-STAGE RETRIEVAL BENCHMARK WITH CROSS-ENCODER RE-RANKING
+Stage 1 (Bi-Encoder Dense): BAAI/bge-m3 (1024-dim)
+Stage 2 (Cross-Encoder Re-ranker): BAAI/bge-reranker-base (or bge-reranker-large)
+Objective: Evaluate Top-1 and Top-3 Ranking Optimization via Cross-Attention
+Target Publication: IEEE SANER 2027 (ERA Track - CORE A) & Double-Anonymous Peer Review
 =============================================================================
 """
 
@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-# Thiết lập mã hóa UTF-8 cho Windows console
+# Configure UTF-8 encoding for Windows console
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 if hasattr(sys.stderr, 'reconfigure'):
@@ -37,17 +37,17 @@ FINAL_GT_FILE = DATASET_DIR / "ground_truth_final.csv"
 OUTPUT_REPORT = BENCHMARK_RESULTS_DIR / "reranker_evaluation_report.txt"
 PER_QUERY_CSV = BENCHMARK_RESULTS_DIR / "reranker_per_query_results.csv"
 
-# Đường dẫn lưu cache vector Stage 1 (Bi-Encoder BGE-M3)
+# Stage 1 (Bi-Encoder BGE-M3) vector caches
 EMB_JD_CACHE = DATASET_DIR / "embeddings_jd_bgem3.npy"
 EMB_AST_CACHE = DATASET_DIR / "embeddings_ast_bgem3.npy"
 EMB_LINE_CACHE = DATASET_DIR / "embeddings_line_bgem3.npy"
 
-# Đường dẫn lưu cache điểm Stage 2 (Cross-Encoder Re-ranker)
+# Stage 2 (Cross-Encoder Re-ranker) score cache
 RERANK_SCORES_CACHE = DATASET_DIR / "reranker_scores_cache.npy"
 
 
 def dcg_at_k(relevance_scores, k=5):
-    """Tính Discounted Cumulative Gain tại k (chuẩn Linear Gain)."""
+    """Compute Discounted Cumulative Gain at k (Linear Gain formulation)."""
     relevance_scores = np.asarray(relevance_scores, dtype=float)[:k]
     if not len(relevance_scores):
         return 0.0
@@ -57,7 +57,7 @@ def dcg_at_k(relevance_scores, k=5):
 
 
 def ndcg_at_k(relevance_scores, k=5):
-    """Tính Normalized Discounted Cumulative Gain tại k."""
+    """Compute Normalized Discounted Cumulative Gain at k (NDCG@k = DCG@k / IDCG@k)."""
     actual_dcg = dcg_at_k(relevance_scores, k)
     ideal_scores = sorted(relevance_scores, reverse=True)
     ideal_dcg = dcg_at_k(ideal_scores, k)
@@ -67,7 +67,7 @@ def ndcg_at_k(relevance_scores, k=5):
 
 
 def context_precision_at_k(relevance_scores, k=5, threshold=1.0):
-    """Tính Context Precision@k theo chuẩn RAGAs."""
+    """Compute Context Precision@k following RAGAs standard."""
     sub_scores = relevance_scores[:k]
     v = [1 if s >= threshold else 0 for s in sub_scores]
     n_relevant = sum(v)
@@ -86,7 +86,7 @@ def context_precision_at_k(relevance_scores, k=5, threshold=1.0):
 
 
 def precision_recall_at_k(relevance_scores, k=5, threshold=1.0):
-    """Tính Precision@k, Recall@k và F1@k."""
+    """Compute Precision@k, Recall@k, and F1@k."""
     sub_scores = relevance_scores[:k]
     binary_hits = [1 if s >= threshold else 0 for s in sub_scores]
     total_relevant = sum([1 if s >= threshold else 0 for s in relevance_scores])
@@ -98,7 +98,7 @@ def precision_recall_at_k(relevance_scores, k=5, threshold=1.0):
 
 
 def mrr_score(relevance_scores, k=5, threshold=1.0):
-    """Tính Mean Reciprocal Rank tại top-k."""
+    """Compute Mean Reciprocal Rank at Top-k."""
     sub_scores = relevance_scores[:k] if k is not None else relevance_scores
     for idx, score in enumerate(sub_scores):
         if score >= threshold:
@@ -107,7 +107,7 @@ def mrr_score(relevance_scores, k=5, threshold=1.0):
 
 
 def count_win_loss_tie(scores_a, scores_b, tol=1e-5):
-    """Đếm số truy vấn Thắng / Thua / Hòa."""
+    """Count pairwise Wins, Losses, and Ties between configurations."""
     wins = sum(1 for a, b in zip(scores_a, scores_b) if a - b > tol)
     losses = sum(1 for a, b in zip(scores_a, scores_b) if b - a > tol)
     ties = sum(1 for a, b in zip(scores_a, scores_b) if abs(a - b) <= tol)
@@ -115,7 +115,7 @@ def count_win_loss_tie(scores_a, scores_b, tol=1e-5):
 
 
 def safe_wilcoxon(x, y, alternative='greater'):
-    """Kiểm định Wilcoxon an toàn tránh crash khi tất cả phần tử x - y đều bằng 0."""
+    """Safe Wilcoxon signed-rank test avoiding zero-difference exceptions."""
     diff = np.array(x) - np.array(y)
     if np.all(np.isclose(diff, 0, atol=1e-7)):
         return 0.0, 1.0
@@ -126,9 +126,8 @@ def safe_wilcoxon(x, y, alternative='greater'):
         return 0.0, 1.0
 
 
-
 def evaluate_ranking_dict(ranked_labels_list):
-    """Tính toán bộ metrics trung bình cho một danh sách kết quả xếp hạng."""
+    """Compute average metrics dictionary for a ranked candidate list."""
     metrics = {'p5': [], 'r5': [], 'f15': [], 'ndcg1': [], 'ndcg3': [], 'ndcg5': [], 'mrr': [], 'ctx_p5': []}
     for lbls in ranked_labels_list:
         p5, r5, f15 = precision_recall_at_k(lbls, k=5)
@@ -145,23 +144,23 @@ def evaluate_ranking_dict(ranked_labels_list):
 
 def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=False):
     print("=" * 80)
-    print("🚀 BẮT ĐẦU THỰC NGHIỆM TWO-STAGE RETRIEVAL VỚI CROSS-ENCODER RE-RANKER")
-    print(f"Mô hình Stage 1 (Bi-Encoder): BAAI/bge-m3 (Dense 1024-dim)")
-    print(f"Mô hình Stage 2 (Cross-Encoder Re-ranker): {model_name}")
+    print("TWO-STAGE RETRIEVAL BENCHMARK WITH CROSS-ENCODER RE-RANKING")
+    print(f"Stage 1 (Bi-Encoder): BAAI/bge-m3 (Dense 1024-dim)")
+    print(f"Stage 2 (Cross-Encoder): {model_name}")
     print("=" * 80)
 
-    # 1. Nạp Ground Truth
+    # 1. Load Ground Truth
     if not FINAL_GT_FILE.exists():
-        print(f"❌ Không tìm thấy file {FINAL_GT_FILE.name}!")
+        print(f"Error: Missing {FINAL_GT_FILE.name}")
         return
 
     df = pd.read_csv(FINAL_GT_FILE)
     label_col = 'ground_truth_label' if 'ground_truth_label' in df.columns else 'human_label'
-    print(f"✅ Đã nạp {len(df)} mẫu ground truth từ {FINAL_GT_FILE.name}")
+    print(f"Loaded {len(df)} ground-truth evidence samples from {FINAL_GT_FILE.name}")
 
-    # 2. Nạp dữ liệu 25 JDs
+    # 2. Load 25 JDs
     if not JD_SKILLS_FILE.exists():
-        print(f"❌ Không tìm thấy file {JD_SKILLS_FILE.name}!")
+        print(f"Error: Missing {JD_SKILLS_FILE.name}")
         return
 
     with open(JD_SKILLS_FILE, 'r', encoding='utf-8') as f:
@@ -183,9 +182,9 @@ def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=
         }
 
     unique_jds = sorted(df['jd_id'].unique().tolist())
-    print(f"🎯 Đã nạp thông tin truy vấn cho {len(unique_jds)} JDs.")
+    print(f"Loaded query descriptions for {len(unique_jds)} Job Descriptions.")
 
-    # 3. Chuẩn bị nội dung văn bản cho Chunks
+    # 3. Prepare Code Text for Chunks
     ast_texts = []
     line_texts = []
     for _, row in df.iterrows():
@@ -194,17 +193,17 @@ def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=
         ast_texts.append(f"{ctx}\n\n{code}" if ctx else code)
         line_texts.append(code)
 
-    # 4. Nạp Cache Vector Stage 1 (BGE-M3) để lấy thứ hạng ban đầu
-    print("⚡ Đang nạp ma trận vector embedding Stage 1 (BGE-M3)...")
+    # 4. Load Stage 1 Embedding Matrices
+    print("Loading Stage 1 (BGE-M3) embedding matrices...")
     if not (EMB_JD_CACHE.exists() and EMB_AST_CACHE.exists() and EMB_LINE_CACHE.exists()):
-        print("❌ Thiếu file cache vector BGE-M3! Vui lòng chạy evaluate_retrieval_benchmarks.py trước.")
+        print("Missing BGE-M3 cache files! Run evaluate_retrieval_benchmarks.py first.")
         return
 
     jd_embs_dict = np.load(EMB_JD_CACHE, allow_pickle=True).item()
     emb_ast = np.load(EMB_AST_CACHE)
     emb_line = np.load(EMB_LINE_CACHE)
 
-    # 5. Xây dựng danh sách cặp (Pairs) cho Stage 2 Cross-Encoder
+    # 5. Build (Query, Code) Pairs for Stage 2 Cross-Encoder
     all_pairs_ast = []
     all_pairs_line = []
     jd_slice_map = {}
@@ -220,44 +219,43 @@ def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=
             all_pairs_line.append((q_text, line_texts[idx]))
         current_idx += count
 
-    print(f"📦 Đã chuẩn bị {len(all_pairs_ast)} cặp (JD, Code) cho 25 JDs.")
+    print(f"Prepared {len(all_pairs_ast)} candidate pairs across {len(unique_jds)} JDs.")
 
-    # 6. Chạy / Nạp điểm Cross-Encoder Re-ranker
+    # 6. Cross-Encoder Re-ranker Scoring
     cache_valid = (
         not force_recompute
         and RERANK_SCORES_CACHE.exists()
     )
 
     if cache_valid:
-        print("⚡ Nạp điểm dự đoán Cross-Encoder từ cache...")
+        print("Loading Cross-Encoder re-ranking predictions from cache...")
         cached_data = np.load(RERANK_SCORES_CACHE, allow_pickle=True).item()
         scores_rerank_ast_all = cached_data.get("ast")
         scores_rerank_line_all = cached_data.get("line")
     else:
-        print(f"🤖 Đang nạp mô hình Cross-Encoder Re-ranker: {model_name}...")
+        print(f"Loading Cross-Encoder Re-ranker model: {model_name}...")
         from sentence_transformers import CrossEncoder
         reranker = CrossEncoder(model_name)
-        print("✅ Đã nạp thành công Re-ranker.")
+        print("Loaded Re-ranker model.")
 
-        print(f"⏳ Đang chấm điểm Cross-Encoder cho {len(all_pairs_ast)} cặp AST...")
+        print(f"Scoring {len(all_pairs_ast)} AST candidate pairs...")
         scores_rerank_ast_all = reranker.predict(all_pairs_ast, batch_size=16, show_progress_bar=True)
 
-        print(f"⏳ Đang chấm điểm Cross-Encoder cho {len(all_pairs_line)} cặp Line-based...")
+        print(f"Scoring {len(all_pairs_line)} Line-based candidate pairs...")
         scores_rerank_line_all = reranker.predict(all_pairs_line, batch_size=16, show_progress_bar=True)
 
-        # Lưu cache
         np.save(RERANK_SCORES_CACHE, {
             "model": model_name,
             "ast": scores_rerank_ast_all,
             "line": scores_rerank_line_all
         })
-        print("💾 Đã lưu cache điểm Re-ranker ra file .npy.")
+        print("Saved Re-ranker predictions to cache.")
 
-    # 7. Xếp hạng và tính toán số liệu cho 4 Cấu hình đối đầu
-    # Config 1: AST Stage 1 (Bi-Encoder BGE-M3 thuần túy)
-    # Config 2: Line-based Stage 1 (Bi-Encoder BGE-M3 thuần túy)
+    # 7. Evaluate 4 Competing Configurations
+    # Config 1: Line-based Stage 1 (Bi-Encoder BGE-M3)
+    # Config 2: AST Progressive Stage 1 (Bi-Encoder BGE-M3)
     # Config 3: Line-based Stage 2 (+ Re-ranker)
-    # Config 4: AST Stage 2 (+ Re-ranker - Đề xuất hoàn chỉnh!)
+    # Config 4: AST Progressive Stage 2 (+ Re-ranker - Proposed Pipeline)
     ranked_labels_ast_s1 = []
     ranked_labels_line_s1 = []
     ranked_labels_line_s2 = []
@@ -270,22 +268,22 @@ def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=
         gt_labels = df.loc[jd_indices, label_col].values.astype(float)
         query_vec = jd_embs_dict[jd_id]
 
-        # a) AST Stage 1: Cosine similarity
+        # a) AST Stage 1
         scores_ast_s1 = np.dot(emb_ast[jd_indices], query_vec)
         rank_ast_s1 = np.argsort(-scores_ast_s1)
         ranked_labels_ast_s1.append(gt_labels[rank_ast_s1])
 
-        # b) Line Stage 1: Cosine similarity
+        # b) Line Stage 1
         scores_line_s1 = np.dot(emb_line[jd_indices], query_vec)
         rank_line_s1 = np.argsort(-scores_line_s1)
         ranked_labels_line_s1.append(gt_labels[rank_line_s1])
 
-        # c) Line Stage 2: Cross-Encoder scores
+        # c) Line Stage 2
         scores_line_s2 = scores_rerank_line_all[start_pos:end_pos]
         rank_line_s2 = np.argsort(-scores_line_s2)
         ranked_labels_line_s2.append(gt_labels[rank_line_s2])
 
-        # d) AST Stage 2: Cross-Encoder scores
+        # d) AST Stage 2
         scores_ast_s2 = scores_rerank_ast_all[start_pos:end_pos]
         rank_ast_s2 = np.argsort(-scores_ast_s2)
         ranked_labels_ast_s2.append(gt_labels[rank_ast_s2])
@@ -303,73 +301,75 @@ def run_reranker_benchmark(model_name="BAAI/bge-reranker-base", force_recompute=
             "line_s2_ndcg5": ndcg_at_k(gt_labels[rank_line_s2], 5),
         })
 
-    # Lưu per-query ra CSV
+    # Save per-query CSV
     pd.DataFrame(per_query_rows).to_csv(PER_QUERY_CSV, index=False, encoding='utf-8-sig')
 
-    # Tính toán toàn bộ metrics
+    # Compute full metrics
     m_ast_s1 = evaluate_ranking_dict(ranked_labels_ast_s1)
     m_line_s1 = evaluate_ranking_dict(ranked_labels_line_s1)
     m_line_s2 = evaluate_ranking_dict(ranked_labels_line_s2)
     m_ast_s2 = evaluate_ranking_dict(ranked_labels_ast_s2)
 
-    # Trung bình
     avg_ast_s1 = {k: np.mean(v) for k, v in m_ast_s1.items()}
     avg_line_s1 = {k: np.mean(v) for k, v in m_line_s1.items()}
     avg_line_s2 = {k: np.mean(v) for k, v in m_line_s2.items()}
     avg_ast_s2 = {k: np.mean(v) for k, v in m_ast_s2.items()}
 
-    # 8. Kiểm định Ý nghĩa Thống kê (Wilcoxon Signed-Rank Test)
-    # So sánh 1: AST Stage 2 (có Reranker) vs AST Stage 1 (không có Reranker) trên NDCG@1
+    # 8. Statistical Significance Testing (Wilcoxon Signed-Rank Test)
     w_ast_s2_vs_s1_n1, p_ast_s2_vs_s1_n1 = safe_wilcoxon(m_ast_s2['ndcg1'], m_ast_s1['ndcg1'], alternative='greater')
     w_ast_s2_vs_s1_n5, p_ast_s2_vs_s1_n5 = safe_wilcoxon(m_ast_s2['ndcg5'], m_ast_s1['ndcg5'], alternative='greater')
     wins_s2_vs_s1_n1, losses_s2_vs_s1_n1, ties_s2_vs_s1_n1 = count_win_loss_tie(m_ast_s2['ndcg1'], m_ast_s1['ndcg1'])
 
-    # So sánh 2: AST Stage 2 vs Line-based Stage 1 (Baseline gốc) trên NDCG@1 và NDCG@5
     w_ast_s2_vs_line_s1_n1, p_ast_s2_vs_line_s1_n1 = safe_wilcoxon(m_ast_s2['ndcg1'], m_line_s1['ndcg1'], alternative='greater')
     w_ast_s2_vs_line_s1_n5, p_ast_s2_vs_line_s1_n5 = safe_wilcoxon(m_ast_s2['ndcg5'], m_line_s1['ndcg5'], alternative='greater')
     wins_s2_vs_line_n1, losses_s2_vs_line_n1, ties_s2_vs_line_n1 = count_win_loss_tie(m_ast_s2['ndcg1'], m_line_s1['ndcg1'])
     wins_s2_vs_line_n5, losses_s2_vs_line_n5, ties_s2_vs_line_n5 = count_win_loss_tie(m_ast_s2['ndcg5'], m_line_s1['ndcg5'])
 
+    p_s2_vs_s1_n1_str = "p < 0.001 (***)" if p_ast_s2_vs_s1_n1 < 0.001 else f"p = {p_ast_s2_vs_s1_n1:.4f}"
+    p_s2_vs_line_n1_str = "p < 0.001 (***)" if p_ast_s2_vs_line_s1_n1 < 0.001 else f"p = {p_ast_s2_vs_line_s1_n1:.4f}"
+    p_s2_vs_line_n5_str = "p < 0.01 (**)" if p_ast_s2_vs_line_s1_n5 < 0.01 else f"p = {p_ast_s2_vs_line_s1_n5:.4f}"
+
     report_text = f"""=============================================================================
-BÁO CÁO THỰC NGHIỆM: TWO-STAGE RETRIEVAL VỚI CROSS-ENCODER RE-RANKER
-MÔ HÌNH STAGE 1: BAAI/bge-m3 (Dense Bi-Encoder 1024-dim)
-MÔ HÌNH STAGE 2: {model_name} (Cross-Encoder Re-ranker)
-ĐÁP ỨNG GÓP Ý HỌC THUẬT: TỐI ƯU HÓA XẾP HẠNG TOP-1 VÀ TOP-3
+TWO-STAGE RETRIEVAL BENCHMARK REPORT: CROSS-ENCODER RE-RANKING
+STAGE 1 MODEL: BAAI/bge-m3 (Dense Bi-Encoder 1024-dim)
+STAGE 2 MODEL: {model_name} (Cross-Encoder Re-ranker)
+EVALUATION: RANKING OPTIMIZATION AT TOP-1 AND TOP-3
+TARGET PUBLICATION: IEEE SANER 2027 (ERA TRACK - CORE A)
 =============================================================================
 
-1. BẢNG SO SÁNH HIỆU NĂNG TOÀN DIỆN (TRUNG BÌNH QUA 25 JDs):
+1. RETRIEVAL & RE-RANKING PERFORMANCE COMPARISON (AVERAGED ACROSS 25 JDs):
 --------------------------------------------------------------------------------------------------------------------
-Cấu hình (Configuration)                     | P@5    | R@5    | F1@5   | NDCG@1 | NDCG@3 | NDCG@5 | MRR    | Ctx-P@5
+Configuration                                | P@5    | R@5    | F1@5   | NDCG@1 | NDCG@3 | NDCG@5 | MRR    | Ctx-P@5
 --------------------------------------------------------------------------------------------------------------------
-Baseline 2 (GĐ 1): Line-based + BGE-M3       | {avg_line_s1['p5']:.4f} | {avg_line_s1['r5']:.4f} | {avg_line_s1['f15']:.4f} | {avg_line_s1['ndcg1']:.4f} | {avg_line_s1['ndcg3']:.4f} | {avg_line_s1['ndcg5']:.4f} | {avg_line_s1['mrr']:.4f} | {avg_line_s1['ctx_p5']:.4f}
-Proposed (GĐ 1): AST Progressive + BGE-M3    | {avg_ast_s1['p5']:.4f} | {avg_ast_s1['r5']:.4f} | {avg_ast_s1['f15']:.4f} | {avg_ast_s1['ndcg1']:.4f} | {avg_ast_s1['ndcg3']:.4f} | {avg_ast_s1['ndcg5']:.4f} | {avg_ast_s1['mrr']:.4f} | {avg_ast_s1['ctx_p5']:.4f}
+Baseline 2 (Stage 1): Line-based + BGE-M3    | {avg_line_s1['p5']:.4f} | {avg_line_s1['r5']:.4f} | {avg_line_s1['f15']:.4f} | {avg_line_s1['ndcg1']:.4f} | {avg_line_s1['ndcg3']:.4f} | {avg_line_s1['ndcg5']:.4f} | {avg_line_s1['mrr']:.4f} | {avg_line_s1['ctx_p5']:.4f}
+Proposed (Stage 1): AST Progressive + BGE-M3 | {avg_ast_s1['p5']:.4f} | {avg_ast_s1['r5']:.4f} | {avg_ast_s1['f15']:.4f} | {avg_ast_s1['ndcg1']:.4f} | {avg_ast_s1['ndcg3']:.4f} | {avg_ast_s1['ndcg5']:.4f} | {avg_ast_s1['mrr']:.4f} | {avg_ast_s1['ctx_p5']:.4f}
 --------------------------------------------------------------------------------------------------------------------
-Baseline 2 (GĐ 2): Line-based + BGE-Reranker | {avg_line_s2['p5']:.4f} | {avg_line_s2['r5']:.4f} | {avg_line_s2['f15']:.4f} | {avg_line_s2['ndcg1']:.4f} | {avg_line_s2['ndcg3']:.4f} | {avg_line_s2['ndcg5']:.4f} | {avg_line_s2['mrr']:.4f} | {avg_line_s2['ctx_p5']:.4f}
-⭐ Proposed (GĐ 2): AST + BGE-Reranker (Ours)| {avg_ast_s2['p5']:.4f} | {avg_ast_s2['r5']:.4f} | {avg_ast_s2['f15']:.4f} | {avg_ast_s2['ndcg1']:.4f} | {avg_ast_s2['ndcg3']:.4f} | {avg_ast_s2['ndcg5']:.4f} | {avg_ast_s2['mrr']:.4f} | {avg_ast_s2['ctx_p5']:.4f}
+Baseline 2 (Stage 2): Line-based + Re-ranker | {avg_line_s2['p5']:.4f} | {avg_line_s2['r5']:.4f} | {avg_line_s2['f15']:.4f} | {avg_line_s2['ndcg1']:.4f} | {avg_line_s2['ndcg3']:.4f} | {avg_line_s2['ndcg5']:.4f} | {avg_line_s2['mrr']:.4f} | {avg_line_s2['ctx_p5']:.4f}
+Proposed (Stage 2): AST + Re-ranker (Ours)   | {avg_ast_s2['p5']:.4f} | {avg_ast_s2['r5']:.4f} | {avg_ast_s2['f15']:.4f} | {avg_ast_s2['ndcg1']:.4f} | {avg_ast_s2['ndcg3']:.4f} | {avg_ast_s2['ndcg5']:.4f} | {avg_ast_s2['mrr']:.4f} | {avg_ast_s2['ctx_p5']:.4f}
 --------------------------------------------------------------------------------------------------------------------
-Độ tăng trưởng của AST sau Re-ranker (Δ GĐ2 vs GĐ1):
+AST Performance Gain via Re-ranking (Delta Stage 2 vs Stage 1):
   • NDCG@1: {avg_ast_s1['ndcg1']:.4f} -> {avg_ast_s2['ndcg1']:.4f} ({(avg_ast_s2['ndcg1']-avg_ast_s1['ndcg1'])/avg_ast_s1['ndcg1']*100:+.1f}%)
   • NDCG@3: {avg_ast_s1['ndcg3']:.4f} -> {avg_ast_s2['ndcg3']:.4f} ({(avg_ast_s2['ndcg3']-avg_ast_s1['ndcg3'])/avg_ast_s1['ndcg3']*100:+.1f}%)
   • NDCG@5: {avg_ast_s1['ndcg5']:.4f} -> {avg_ast_s2['ndcg5']:.4f} ({(avg_ast_s2['ndcg5']-avg_ast_s1['ndcg5'])/avg_ast_s1['ndcg5']*100:+.1f}%)
 
-2. KẾT QUẢ KIỂM ĐỊNH THỐNG KÊ (WILCOXON SIGNED-RANK TEST):
+2. STATISTICAL SIGNIFICANCE TESTS (PAIRED WILCOXON SIGNED-RANK TEST):
 --------------------------------------------------------------------------------------------------------------------
-(a) Hiệu quả của Re-ranker đối với giải pháp AST (AST GĐ 2 vs AST GĐ 1):
-  • Trên chỉ số NDCG@1:
-    - Wilcoxon W = {w_ast_s2_vs_s1_n1:.1f}, p-value = {p_ast_s2_vs_s1_n1:.6f}
-    - Thắng (Tăng điểm Top-1) = {wins_s2_vs_s1_n1} | Thua = {losses_s2_vs_s1_n1} | Hòa = {ties_s2_vs_s1_n1}
-  • Trên chỉ số NDCG@5:
+(a) Re-ranking Impact on Proposed AST Pipeline (AST Stage 2 vs. AST Stage 1):
+  • On NDCG@1:
+    - Wilcoxon W = {w_ast_s2_vs_s1_n1:.1f}, p-value = {p_s2_vs_s1_n1_str}
+    - Query Win/Loss/Tie: Wins = {wins_s2_vs_s1_n1} | Losses = {losses_s2_vs_s1_n1} | Ties = {ties_s2_vs_s1_n1}
+  • On NDCG@5:
     - Wilcoxon W = {w_ast_s2_vs_s1_n5:.1f}, p-value = {p_ast_s2_vs_s1_n5:.6f}
 
-(b) AST + Re-ranker đối đầu với Baseline 2 Line-based (AST GĐ 2 vs Line GĐ 1):
-  • Trên chỉ số NDCG@1:
-    - Wilcoxon W = {w_ast_s2_vs_line_s1_n1:.1f}, p-value = {p_ast_s2_vs_line_s1_n1:.6f}
-    - Phân phối truy vấn: Thắng = {wins_s2_vs_line_n1} | Thua = {losses_s2_vs_line_n1} | Hòa = {ties_s2_vs_line_n1}
-  • Trên chỉ số NDCG@5:
-    - Wilcoxon W = {w_ast_s2_vs_line_s1_n5:.1f}, p-value = {p_ast_s2_vs_line_s1_n5:.6f}
-    - Phân phối truy vấn: Thắng = {wins_s2_vs_line_n5} | Thua = {losses_s2_vs_line_n5} | Hòa = {ties_s2_vs_line_n5}
+(b) AST + Re-ranker vs. Line-based Baseline (AST Stage 2 vs. Line Stage 1):
+  • On NDCG@1:
+    - Wilcoxon W = {w_ast_s2_vs_line_s1_n1:.1f}, p-value = {p_s2_vs_line_n1_str}
+    - Query Win/Loss/Tie: Wins = {wins_s2_vs_line_n1} | Losses = {losses_s2_vs_line_n1} | Ties = {ties_s2_vs_line_n1}
+  • On NDCG@5:
+    - Wilcoxon W = {w_ast_s2_vs_line_s1_n5:.1f}, p-value = {p_s2_vs_line_n5_str}
+    - Query Win/Loss/Tie: Wins = {wins_s2_vs_line_n5} | Losses = {losses_s2_vs_line_n5} | Ties = {ties_s2_vs_line_n5}
 
-3. ĐỊNH DẠNG BẢNG LATEX CHO BÀI BÁO IEEE SANER (ABLATION TABLE):
+3. LATEX ABLATION TABLE FORMATTING FOR IEEE SANER 2027:
 --------------------------------------------------------------------------------------------------------------------
 \\begin{{table*}}[t]
 \\caption{{Two-Stage Retrieval Performance with Cross-Encoder Re-ranking across 25 JDs}}
@@ -393,14 +393,14 @@ Line-based + BGE-Reranker (Stage 2) & {avg_line_s2['p5']:.3f} & {avg_line_s2['r5
     print(report_text)
     with open(OUTPUT_REPORT, 'w', encoding='utf-8') as f:
         f.write(report_text)
-    print(f"✅ Đã ghi thành công Báo cáo Thực nghiệm Re-ranker ra: {OUTPUT_REPORT.name}")
-    print(f"📑 Đã lưu chi tiết từng query ra: {PER_QUERY_CSV.name}")
+    print(f"Saved Re-ranker Report to: {OUTPUT_REPORT.name}")
+    print(f"Saved Per-Query CSV to: {PER_QUERY_CSV.name}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Đánh giá thực nghiệm Two-Stage Retrieval với Cross-Encoder Re-ranker")
-    parser.add_argument("--model", type=str, default="BAAI/bge-reranker-base", help="Tên mô hình Cross-Encoder trên HuggingFace")
-    parser.add_argument("--recompute", action="store_true", help="Bắt buộc tính toán lại điểm Re-ranker")
+    parser = argparse.ArgumentParser(description="Evaluate Two-Stage Retrieval with Cross-Encoder Re-ranking")
+    parser.add_argument("--model", type=str, default="BAAI/bge-reranker-base", help="HuggingFace Cross-Encoder model name")
+    parser.add_argument("--recompute", action="store_true", help="Force recomputation of Re-ranker scores")
     args = parser.parse_args()
 
     run_reranker_benchmark(model_name=args.model, force_recompute=args.recompute)
