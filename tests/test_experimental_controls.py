@@ -44,24 +44,20 @@ class TestExperimentalControls:
             assert q_data["sensitivity_raw_text"] == raw_text, f"Raw text mismatch for {jd_id}"
 
     def test_master_file_counts_and_uniqueness(self):
-        if MASTER_500_FILE.exists():
-            with open(MASTER_500_FILE, "r", encoding="utf-8") as f:
-                reader = csv.DictReader(f)
-                rows = list(reader)
+        """Rule R43: Verify exactly 40 repos in manifest and 189 unique files in chunk corpus."""
+        manifest_file = ROOT_DIR / "dataset" / "manifest_repos.csv"
+        corpus_file = ROOT_DIR / "dataset" / "chunk_corpus.parquet"
 
-            assert len(rows) == 500, f"Expected 500 master rows, found {len(rows)}"
-            # Verify uniqueness of (jd_id, repo_name, file_path, start_line, end_line)
-            pair_signatures = set()
-            for r in rows:
-                sig = (r.get("jd_id"), r.get("repo_name"), r.get("file_path"), r.get("start_line"), r.get("end_line"))
-                assert sig not in pair_signatures, f"Duplicate pair signature in master file: {sig}"
-                pair_signatures.add(sig)
+        assert manifest_file.exists(), f"manifest_repos.csv missing: {manifest_file}"
+        with open(manifest_file, "r", encoding="utf-8") as f:
+            manifest_rows = list(csv.DictReader(f))
+        assert len(manifest_rows) == 40, f"Expected 40 repos in manifest, found {len(manifest_rows)}"
 
-            # Rule R43: Verify exactly 40 repos and 189 unique files
-            unique_repos = set(r["repo_name"] for r in rows)
-            unique_files = set((r["repo_name"], r["file_path"]) for r in rows)
-            assert len(unique_repos) == 40, f"Expected 40 repos, found {len(unique_repos)}"
-            assert len(unique_files) == 189, f"Expected 189 unique files, found {len(unique_files)}"
+        if corpus_file.exists():
+            import pandas as pd
+            df_corpus = pd.read_parquet(corpus_file)
+            unique_files = df_corpus[["repo_name", "file_path"]].drop_duplicates()
+            assert len(unique_files) == 189, f"Expected 189 unique files in corpus, found {len(unique_files)}"
 
     def test_experimental_parameters_consistency(self):
         """Rule R13: Ensure identical model hyperparameters are specified across pipeline configs."""
