@@ -32,13 +32,13 @@ BENCHMARK_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 def find_default_files():
     """Locate default labeled files in dataset directory."""
     a1_candidates = [
-        DATASET_DIR / "ground_truth_annotator1_labeled.csv",
+        DATASET_DIR / "ground_truth_annotator1.csv",
         DATASET_DIR / "ground_truth_final.csv"
     ]
     a1_file = next((f for f in a1_candidates if f.exists()), None)
 
     a2_candidates = [
-        DATASET_DIR / "ground_truth_annotator2_labeled.csv",
+        DATASET_DIR / "ground_truth_annotator2.csv",
         DATASET_DIR / "ground_truth_final.csv"
     ]
     a2_file = next((f for f in a2_candidates if f.exists()), None)
