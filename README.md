@@ -207,7 +207,8 @@ docker compose down -v
 
 Dự án cung cấp gói dữ liệu và kịch bản thực nghiệm tái lập độc lập phục vụ bài báo khoa học tại IEEE SANER 2027 ERA:
 - **Tập truy vấn**: 25 Job Descriptions công nghệ thực tế (15 Java, 10 React/TypeScript) đóng băng tại `dataset/queries_frozen.json`.
-- **Tập minh chứng mã nguồn**: 40 GitHub repositories với 189 source files định danh tại `dataset/ground_truth_500_master.csv`.
-- **Bộ nhãn chuyên gia (Gold Ground Truth)**: 250 cặp (JD, code chunk) gán nhãn 3 mức (0, 1, 2) bởi 2 annotator độc lập với độ đồng thuận Quadratic Weighted Cohen's Kappa = 0.88 tại `dataset/ground_truth_final.csv` (SHA-256 locked).
+- **Tập minh chứng mã nguồn**: 40 GitHub repositories ghim commit SHA và giấy phép tại `dataset/manifest_repos.csv` (798 chunks trong kho ngữ liệu kép `dataset/chunk_corpus.parquet`).
+- **Bộ nhãn chuyên gia & Thẩm định mở rộng (Unified Ground Truth)**: 603 cặp (JD, code chunk) gán nhãn 3 mức (0, 1, 2) gồm 250 cặp Gold gốc và 353 cặp từ pool thích ứng bởi 2 annotator độc lập với độ đồng thuận Quadratic Weighted Cohen's Kappa = 0.78 (đạt 0.88 trên tập Gold 250) tại `dataset/ground_truth_final.csv`.
 - **Thiết kế thực nghiệm 2×2**: So sánh chiến lược phân đoạn {AST Method-level, Line-based 50 LOC} × Ngữ cảnh {Không Header, Có Header} trên 3 tầng truy xuất (BM25, BGE-M3 Dense, BGE-Reranker-Base) tuân thủ bộ quy tắc R1–R46 và `analysis_plan.md`.
+
 

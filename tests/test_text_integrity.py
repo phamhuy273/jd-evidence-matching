@@ -26,16 +26,17 @@ class TestTextIntegrity:
         # Ground truth row count check
         with open(GOLD_FILE, "r", encoding="utf-8") as f:
             gold_count = len(list(csv.DictReader(f)))
-        assert gold_count == 250
+        assert gold_count == 603
 
         # Query count check
         with open(FROZEN_QUERIES_FILE, "r", encoding="utf-8") as f:
             query_count = len(json.load(f)["queries"])
         assert query_count == 25
 
-        # Check README contains mention of 25 JDs and 250
+        # Check README contains mention of 25 JDs, 250 gold, and 603 total
         assert "25" in readme_text
         assert "250" in readme_text
+        assert "603" in readme_text
 
     def test_no_forbidden_exaggerations(self):
         """Rule R36 & R38: Ensure no fictitious or unsubstantiated claims."""

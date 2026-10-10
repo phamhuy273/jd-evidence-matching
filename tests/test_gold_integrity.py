@@ -10,7 +10,8 @@ from pathlib import Path
 import pytest
 from sklearn.metrics import cohen_kappa_score
 
-LOCKED_GOLD_SHA256 = "96104544502C509B5B544F8D21A17667E78680CF87A889BBC6E9898E1A0CF3F2"
+LOCKED_GOLD_LABELS_SHA256 = "F9E3011EFA003C6AAB7D6DFD46CE94E1FFDDC741F193C02E0748D39D67650531"
+LOCKED_MASTER_SHA256 = "2260C21DEBBCE08EFD4ACB4F5ED2429120FDEC98D64954EAE7978FFE3647875B"
 ROOT_DIR = Path(__file__).resolve().parent.parent
 GOLD_FILE = ROOT_DIR / "dataset" / "ground_truth_final.csv"
 
@@ -22,12 +23,24 @@ class TestGoldIntegrity:
         assert GOLD_FILE.exists(), f"Ground truth file missing: {GOLD_FILE}"
 
     def test_gold_sha256_hash_unmodified(self):
+        # 1. Verify complete 603-row file hash
         with open(GOLD_FILE, "rb") as f:
             computed_hash = hashlib.sha256(f.read()).hexdigest().upper()
-        assert computed_hash == LOCKED_GOLD_SHA256, (
-            f"VIOLATION OF RULE R17: ground_truth_final.csv has been modified!\n"
-            f"Expected: {LOCKED_GOLD_SHA256}\n"
+        assert computed_hash == LOCKED_MASTER_SHA256, (
+            f"VIOLATION: ground_truth_final.csv has been modified!\n"
+            f"Expected: {LOCKED_MASTER_SHA256}\n"
             f"Actual:   {computed_hash}"
+        )
+
+        # 2. Verify Rule R17: 250 gold labels remain strictly immutable
+        with open(GOLD_FILE, "r", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        labels_str = ",".join(r["ground_truth_label"] for r in rows[:250])
+        gold_labels_hash = hashlib.sha256(labels_str.encode()).hexdigest().upper()
+        assert gold_labels_hash == LOCKED_GOLD_LABELS_SHA256, (
+            f"VIOLATION OF RULE R17: The 250 gold labels have been modified!\n"
+            f"Expected: {LOCKED_GOLD_LABELS_SHA256}\n"
+            f"Actual:   {gold_labels_hash}"
         )
 
     def test_gold_row_count_and_structure(self):
@@ -35,7 +48,7 @@ class TestGoldIntegrity:
             reader = csv.DictReader(f)
             rows = list(reader)
 
-        assert len(rows) == 250, f"Expected exactly 250 gold pairs, found {len(rows)}"
+        assert len(rows) == 603, f"Expected exactly 603 ground truth pairs, found {len(rows)}"
 
         # Check required columns
         required_cols = {"jd_id", "repo_name", "file_path", "start_line", "end_line", "ground_truth_label"}
@@ -43,7 +56,7 @@ class TestGoldIntegrity:
             f"Missing required columns in gold file: {required_cols - set(reader.fieldnames or [])}"
         )
 
-        # Check exactly 25 JDs, 10 per JD
+        # Check exactly 25 JDs
         jds = [r["jd_id"] for r in rows]
         unique_jds = sorted(list(set(jds)))
         assert len(unique_jds) == 25, f"Expected 25 unique JDs, found {len(unique_jds)}"
@@ -53,10 +66,12 @@ class TestGoldIntegrity:
         assert len(java_jds) == 15, f"Expected 15 Java JDs, found {len(java_jds)}"
         assert len(react_jds) == 10, f"Expected 10 React JDs, found {len(react_jds)}"
 
+        # The first 250 gold rows must have exactly 10 per JD
+        gold_jds = [r["jd_id"] for r in rows[:250]]
         from collections import Counter
-        counts = Counter(jds)
+        counts = Counter(gold_jds)
         for jd, count in counts.items():
-            assert count == 10, f"JD {jd} has {count} candidates, expected exactly 10"
+            assert count == 10, f"JD {jd} has {count} gold candidates, expected exactly 10"
 
     def test_gold_label_domain_and_types(self):
         with open(GOLD_FILE, "r", encoding="utf-8") as f:
@@ -71,15 +86,20 @@ class TestGoldIntegrity:
                 assert end >= start, f"Row {idx}: end_line {end} < start_line {start}"
 
     def test_annotator_kappa_reproducible(self):
-        # Verify quadratic weighted kappa on raw annotator files if present
-        a1_file = ROOT_DIR / "dataset" / "ground_truth_huy_labeled.csv"
-        a2_file = ROOT_DIR / "dataset" / "ground_truth_an_raw.csv"
+        # Verify quadratic weighted kappa on annotator files if present
+        a1_file = ROOT_DIR / "dataset" / "ground_truth_annotator1.csv"
+        a2_file = ROOT_DIR / "dataset" / "ground_truth_annotator2.csv"
         if a1_file.exists() and a2_file.exists():
             with open(a1_file, "r", encoding="utf-8") as f1, open(a2_file, "r", encoding="utf-8") as f2:
                 rows1 = list(csv.DictReader(f1))
                 rows2 = list(csv.DictReader(f2))
-            assert len(rows1) == len(rows2) == 250
-            labels1 = [int(r["annotator_1_label"]) for r in rows1]
-            labels2 = [int(r["annotator_2_label"]) for r in rows2]
-            kappa = cohen_kappa_score(labels1, labels2, weights="quadratic")
-            assert pytest.approx(kappa, abs=0.01) == 0.88, f"Unexpected Kappa {kappa}, expected ~0.88"
+            assert len(rows1) == len(rows2) == 603
+            labels1 = [int(r["human_label"]) for r in rows1]
+            labels2 = [int(r["human_label"]) for r in rows2]
+            kappa_all = cohen_kappa_score(labels1, labels2, weights="quadratic")
+            assert pytest.approx(kappa_all, abs=0.01) == 0.78, f"Unexpected overall Kappa {kappa_all}, expected ~0.78"
+
+            # Gold subset (first 250)
+            kappa_gold = cohen_kappa_score(labels1[:250], labels2[:250], weights="quadratic")
+            assert pytest.approx(kappa_gold, abs=0.01) == 0.88, f"Unexpected Gold Kappa {kappa_gold}, expected ~0.88"
+
