@@ -1,4 +1,4 @@
-"""generate_table_3_2_real.py - Task 2.4: Empirically measure Table 3.2 on AST and Line corpora.
+"""evaluate_syntax.py - Empirically measure Table 3.2 (Syntax boundaries and chunk morphology) on AST and Line corpora.
 
 Governed by:
 - Rule R5: Measure both branches with identical functions (no theoretical or definition assignments).

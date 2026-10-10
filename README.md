@@ -218,10 +218,10 @@ Dự án cung cấp gói dữ liệu và kịch bản thực nghiệm tái lập
 python scripts/calculate_kappa.py
 
 # 2. Đo lường đặc tính hình thái và tỷ lệ vỡ ranh giới cú pháp (Bảng 3.2, AST 90.9% vs Line 44.0%)
-python scripts/generate_table_3_2_real.py
+python scripts/evaluate_syntax.py
 
 # 3. Đo lường hiệu năng truy xuất 2x2 Factorial & Kiểm định Wilcoxon (Bảng 3.3, NDCG@10, p_Holm = 0.0031)
-python scripts/evaluate_2x2.py
+python scripts/evaluate_retrieval.py
 
 # 4. Đánh giá chất lượng sinh và chống ảo giác RAGAs (Bảng 3.4, Faithfulness = 1.000)
 python scripts/evaluate_ragas.py
