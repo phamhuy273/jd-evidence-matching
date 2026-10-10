@@ -208,7 +208,30 @@ docker compose down -v
 Dự án cung cấp gói dữ liệu và kịch bản thực nghiệm tái lập độc lập phục vụ bài báo khoa học tại IEEE SANER 2027 ERA:
 - **Tập truy vấn**: 25 Job Descriptions công nghệ thực tế (15 Java, 10 React/TypeScript) đóng băng tại `dataset/queries_frozen.json`.
 - **Tập minh chứng mã nguồn**: 40 GitHub repositories ghim commit SHA và giấy phép tại `dataset/manifest_repos.csv` (798 chunks trong kho ngữ liệu kép `dataset/chunk_corpus.parquet`).
-- **Bộ nhãn chuyên gia & Thẩm định mở rộng (Unified Ground Truth)**: 603 cặp (JD, code chunk) gán nhãn 3 mức (0, 1, 2) gồm 250 cặp Gold gốc và 353 cặp từ pool thích ứng bởi 2 annotator độc lập với độ đồng thuận Quadratic Weighted Cohen's Kappa = 0.78 (đạt 0.88 trên tập Gold 250) tại `dataset/ground_truth_final.csv`.
+- **Bộ nhãn chuyên gia & Thẩm định mở rộng (Unified Ground Truth)**: 603 cặp (JD, code chunk) gán nhãn 3 mức (0, 1, 2) gồm 250 cặp Gold gốc và 353 cặp từ pool thích ứng bởi 2 annotator độc lập với độ đồng thuận Quadratic Weighted Cohen's Kappa $\kappa_w = 0.7795$ (đạt 0.8808 trên tập Gold 250) tại `dataset/ground_truth_final.csv`.
 - **Thiết kế thực nghiệm 2×2**: So sánh chiến lược phân đoạn {AST Method-level, Line-based 50 LOC} × Ngữ cảnh {Không Header, Có Header} trên 3 tầng truy xuất (BM25, BGE-M3 Dense, BGE-Reranker-Base) tuân thủ bộ quy tắc R1–R46 và `analysis_plan.md`.
+
+### 🔬 Lệnh tái lập thực nghiệm độc lập (One-Click Reproduction):
+
+```bash
+# 1. Kiểm định độ tin cậy liên thẩm định giả (Bảng 3.1, Kappa = 0.7795)
+python scripts/calculate_kappa.py
+
+# 2. Đo lường đặc tính hình thái và tỷ lệ vỡ ranh giới cú pháp (Bảng 3.2, AST 90.9% vs Line 44.0%)
+python scripts/generate_table_3_2_real.py
+
+# 3. Đo lường hiệu năng truy xuất 2x2 Factorial & Kiểm định Wilcoxon (Bảng 3.3, NDCG@10, p_Holm = 0.0031)
+python scripts/evaluate_2x2.py
+
+# 4. Đánh giá chất lượng sinh và chống ảo giác RAGAs (Bảng 3.4, Faithfulness = 1.000)
+python scripts/evaluate_ragas.py
+
+# 5. Chạy toàn bộ 42 unit tests kiểm định tính toàn vẹn và tái lập
+python -m pytest tests/
+
+# 6. Kiểm toán tự động chống gán cứng (Rules R1 - R46)
+python scripts/audit_no_hardcode.py
+```
+
 
 
