@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{Subgroup retrieval effectiveness and AST fallback rates by language ecosystem (reranking tier).}
+\label{tab:language_subgroup}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{threeparttable}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Subset & $N$ & AST+Header & Line+Header & $\Delta$ & AST Fallback \\
+\midrule
+Java & 15 & 0.583 & 0.716 & $-0.133$ & 0.0\% (0/152) \\
+React/TS & 10 & 0.342 & 0.478 & $-0.136$ & 0.0\% (0/286) \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Exploratory breakdown. $\Delta = \text{AST+Header} - \text{Line+Header}$ (NDCG@10). Fallback rate is 0.0\% following tree-sitter parser grammar expansion.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

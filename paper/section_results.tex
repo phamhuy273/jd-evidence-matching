@@ -1,0 +1,40 @@
+\section{Empirical Results}
+\label{sec:results}
+
+\subsection{Overall Benchmark Results across Twelve Systems}
+\label{sec:results:benchmark}
+Table~\ref{tab:main} presents the 12-configuration benchmark across lexical (BM25), dense bi-encoder (BGE-M3), and cross-encoder reranking tiers. 
+At reranking, \lineH\ achieves the highest \text{NDCG@10} (0.621, 95\% CI $[0.555, 0.682]$). It ties \lineN\ on \text{NDCG@1} (0.800), while \lineN\ has a marginally higher \text{MRR@10} (0.953 vs. 0.950). \astH\ reaches 0.487 ($[0.419, 0.551]$), and \astN\ drops to 0.341 ($[0.263, 0.421]$).
+
+\input{tables/table_1_paper.tex}
+
+Dense encoding improves NDCG@10 over BM25 by 0.118--0.139 with headers; reranking adds another 0.037--0.070. For AST chunks, header gains scale with retriever capacity: $+0.006$ (BM25), $+0.092$ (dense), and $+0.146$ (reranking). For line windows, gains remain modest throughout ($+0.028$, $+0.030$, $+0.041$).
+Binary preference (\texttt{bpref}) orders the four conditions identically to NDCG@10 at every tier (Table~\ref{tab:main}). At the reranking tier: \lineH\ ($0.353$) $>$ \lineN\ ($0.300$) $>$ \astH\ ($0.241$) $>$ \astN\ ($0.170$). The bpref results preserve the same condition ordering, though unjudged items at ranks 6--10 cannot be ruled out. At the dense tier, AST+Header attains higher NDCG@1 (0.620 vs. 0.580) and MRR@10 (0.910 vs. 0.883) than Line+Header, but trails on NDCG@10 (0.450 vs. 0.551). Reranking improves all conditions over dense except AST No-Header (0.358 to 0.341), consistent with cross-encoder reliance on headers for isolated AST units.
+
+\subsection{Hypothesis Testing and RQ Analyses}
+\label{sec:results:hypotheses}
+Table~\ref{tab:statistical_hypothesis_tests} reports the pre-specified confirmatory Wilcoxon signed-rank tests with Holm-Bonferroni correction, alongside the exploratory contrast.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.52\columnwidth]{figs/fig1.pdf}
+\caption{Interaction plot of context header sensitivity at reranking ($N=25$).}
+\label{fig:interaction_plot}
+\end{figure}
+
+\input{tables/table_2_paper.tex}
+
+\textbf{RQ1 (Context Headers):} Prepending headers yields a large, significant gain for AST chunks (\textbf{Comp 3}: $\Delta = +0.146$, 95\% CI $[+0.086, +0.207]$, $p_{\mathrm{Holm}} < 0.001$, $W = 24.0$; AST+H wins 23/25 JDs). In contrast, prepending headers to line windows yields a minor, non-significant gain (\textbf{Comp 4}: $\Delta = +0.041$, 95\% CI [$-0.012$, $+0.093$], $p_{\mathrm{Holm}} = 0.2411$, $W = 118.0$; 15 wins vs. 10 losses). A post hoc exploratory difference-in-differences test (unadjusted) indicates that the header effect differs between strategies ($W = 66.0, p = 0.0081$; Fig.~\ref{fig:interaction_plot}).
+
+\textbf{RQ2 (AST vs. Line):} Without headers, line windows strongly outperform AST chunks (\textbf{Comp 2}: $\Delta = -0.239$, 95\% CI [$-0.292$, $-0.185$], $p_{\mathrm{Holm}} < 0.001$, $W = 3.0$; Line wins 23/25). Line windows without headers also significantly outperform AST chunks with headers (\textbf{Comp 1}: $\Delta = -0.093$, 95\% CI [$-0.164$, $-0.023$], $p_{\mathrm{Holm}} = 0.0438$, $W = 78.0$; Line wins 18 vs. 7). In the exploratory contrast with headers (\textbf{Comp 5}), line windows remain superior ($\Delta = -0.134$, 95\% CI [$-0.199$, $-0.070$], unadjusted $p = 0.0003$, $W = 36.0$; Line wins 20 vs. 5).
+
+\subsection{Subgroups, Morphology Sensitivity, and Header Effects}
+\label{sec:results:sensitivity}
+\textbf{Subgroups \& Common Support:} The direction is consistent in both subgroups (Java $N=15$, React/TS $N=10$; no per-language tests are claimed): Java yields Line+H $0.716$ vs. AST+H $0.583$ ($\Delta = -0.133$); React/TS yields $0.478$ vs. $0.342$ ($\Delta = -0.136$). 
+Evaluating on common support (826/882 pairs covering 91.8\% of relevant evidence across all 25 queries), AST+H remains significantly below Line+H (0.489 vs. 0.600, $\Delta = -0.111$, $p_{\mathrm{Holm}} = 0.0036$, $W = 51.0$), and AST No-H trails Line No-H (0.342 vs. 0.535, $\Delta = -0.193$, $p_{\mathrm{Holm}} < 0.001$, $W = 11.0$; Holm-adjusted). Restricting to common support removes 17.3\% of the end-to-end gap (shrinking by 0.023, $p = 0.0015$); the lead persists, suggesting that coverage differences alone do not account for the observed gap.
+
+\textbf{Window Overlap Sensitivity:} Suppressing overlapping windows from the same file in the top-10 (26.4\% of Line top-10 slots involved in overlap [16.8\% redundant], vs. 0\% in AST No-Header and 0.8\% in AST+Header, the latter due to nested units; Section~\ref{sec:approach:factorial}) lowers Line NDCG@10 slightly (Line+H 0.621 to 0.583, Line No-H 0.580 to 0.574) but preserves the ranking of conditions: Line+H 0.583, Line No-H 0.574, AST+H 0.482, AST No-H 0.341. Line windows retain their lead (\textbf{Comp 5}: $\Delta = -0.101$, unadjusted $p = 0.0013$; \textbf{Comp 1}: $\Delta = -0.092$, unadjusted $p = 0.0236$), and the AST header boost remains large (\textbf{Comp 3}: $\Delta = +0.141$, unadjusted $p < 0.001$).
+
+\textbf{Qualitative Inspection of Header Lift:} Inspecting rank trajectories illustrates how headers ground isolated chunks. 
+For \texttt{JD\_JAVA\_01} (\textit{"Spring Security \& JWT"}; JWT = JSON Web Token), a chunk in \texttt{AccountController.java} (lines 39--64, \texttt{me()}, AST arm) that retrieves authenticated user context via \texttt{userService.getUser()} rises from Rank~6 without header to Rank~1 with header (human relevance 2). 
+For \texttt{JD\_REACT\_01} (\textit{"React Admin Dashboard \& RBAC"}; RBAC = role-based access control), an administrative control panel in \texttt{Admin/index.tsx} (lines 544--613, AST arm) jumps from Rank~13 to Rank~1 with header (relevance 2).

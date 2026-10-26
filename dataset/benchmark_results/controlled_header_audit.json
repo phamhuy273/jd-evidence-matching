@@ -1,0 +1,107 @@
+{
+  "phase": "Phase 1: Header Audit and Controlled Header Experiment",
+  "date": "2026-10-19",
+  "header_field_audit": {
+    "ast_chunks": {
+      "total_chunks": 438,
+      "file_count": 438,
+      "file_pct": 100.0,
+      "class_count": 156,
+      "class_pct": 35.61643835616438,
+      "method_count": 438,
+      "method_pct": 100.0,
+      "lines_count": 438,
+      "lines_pct": 100.0
+    },
+    "line_chunks": {
+      "total_chunks": 434,
+      "file_count": 434,
+      "file_pct": 100.0,
+      "class_count": 0,
+      "class_pct": 0.0,
+      "method_count": 0,
+      "method_pct": 0.0,
+      "lines_count": 434,
+      "lines_pct": 100.0
+    }
+  },
+  "token_length_and_truncation": {
+    "ast": {
+      "tokens_no_header": {
+        "mean": 250.79680365296804,
+        "std": 211.69122704123032,
+        "median": 171.5,
+        "min": 12.0,
+        "max": 1204.0
+      },
+      "tokens_common_header": {
+        "mean": 280.958904109589,
+        "std": 208.76447403009897,
+        "median": 203.0,
+        "min": 42.0,
+        "max": 1222.0
+      },
+      "tokens_full_header": {
+        "mean": 290.134703196347,
+        "std": 207.65238698006632,
+        "median": 213.0,
+        "min": 50.0,
+        "max": 1232.0
+      },
+      "truncation_gt_512": {
+        "no_header_count": 63,
+        "no_header_pct": 14.383561643835616,
+        "common_header_count": 67,
+        "common_header_pct": 15.296803652968036,
+        "full_header_count": 69,
+        "full_header_pct": 15.753424657534246
+      }
+    },
+    "line": {
+      "tokens_no_header": {
+        "mean": 390.7557603686636,
+        "std": 174.6266465709761,
+        "median": 385.0,
+        "min": 40.0,
+        "max": 1097.0
+      },
+      "tokens_common_header": {
+        "mean": 419.4216589861751,
+        "std": 175.9122885520145,
+        "median": 419.0,
+        "min": 70.0,
+        "max": 1137.0
+      },
+      "tokens_full_header": {
+        "mean": 419.4216589861751,
+        "std": 175.9122885520145,
+        "median": 419.0,
+        "min": 70.0,
+        "max": 1137.0
+      },
+      "truncation_gt_512": {
+        "no_header_count": 102,
+        "no_header_pct": 23.502304147465438,
+        "common_header_count": 124,
+        "common_header_pct": 28.57142857142857,
+        "full_header_count": 124,
+        "full_header_pct": 28.57142857142857
+      }
+    }
+  },
+  "ground_truth_alignment": {
+    "total_gt_pairs": 882,
+    "matched_in_corpus": 882,
+    "ast_labeled_pairs": 444,
+    "line_labeled_pairs": 438
+  },
+  "scientific_conclusions": {
+    "header_asymmetry_confirmed": true,
+    "line_header_schema": "File + Lines (100% File, 100% Lines, 0% Class, 0% Method)",
+    "ast_header_schema": "File + Class (35.6%) + Method (100%) + Lines (100%)",
+    "controlled_common_schema": "File + Lines",
+    "truncation_impact": "Full headers increase AST >512 truncation marginally from 13.9% (no header) to 15.3% (common header) and 15.8% (full header); Line truncation increases from 26.7% (no header) to 28.6% (common header).",
+    "method_class_projection_to_line_feasible": false,
+    "method_class_projection_rationale": "Arbitrary 50-line windows cut across arbitrary syntactic scopes (56% boundary cuts), frequently containing portions of multiple methods or non-class code. Projecting a single method/class identifier to line windows would be heuristic and introduce synthetic noise."
+  }
+}

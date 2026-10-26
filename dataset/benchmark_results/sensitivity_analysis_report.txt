@@ -1,0 +1,73 @@
+================================================================================
+EXPLORATORY SENSITIVITY & ROBUSTNESS ANALYSES REPORT
+Governed by Analysis Plan Addendum (Exploratory / Post-Hoc Framework)
+================================================================================
+
+1. LANGUAGE-STRATIFIED RETRIEVAL (NDCG@10, Reranker Tier):
+--------------------------------------------------------------------------------
+Configuration                     | Java (N=15) | React (N=10) | Overall (N=25)
+--------------------------------------------------------------------------------
+rerank_line_no_header (Base)      | 0.6946      | 0.4073       | 0.5797
+rerank_line_with_header           | 0.7158      | 0.4777       | 0.6206
+rerank_ast_no_header              | 0.4698      | 0.1471       | 0.3407
+rerank_ast_with_header (Ours)     | 0.5830      | 0.3420       | 0.4866
+--------------------------------------------------------------------------------
+
+2. RETRIEVAL FALLBACK COMPOSITION (Top-10 candidates across 25 JDs = 250 snippets):
+--------------------------------------------------------------------------------
+Configuration               | Total Top-10 | Pure AST Method | Line Fallback (% Fallback)
+--------------------------------------------------------------------------------
+bm25_ast_no_header          | 250          | 100.0%          | 0.0% (0 chunks)
+bm25_ast_with_header        | 250          | 100.0%          | 0.0% (0 chunks)
+dense_ast_no_header         | 250          | 100.0%          | 0.0% (0 chunks)
+dense_ast_with_header       | 250          | 100.0%          | 0.0% (0 chunks)
+rerank_ast_no_header        | 250          | 100.0%          | 0.0% (0 chunks)
+rerank_ast_with_header      | 250          | 100.0%          | 0.0% (0 chunks)
+--------------------------------------------------------------------------------
+
+3. COMPARISON 5 (EXPLORATORY): FULL PROPOSED (AST+Header) VS FULL BASELINE (Line+Header):
+• System A (rerank_ast_with_header) : 0.4866
+• System B (rerank_line_with_header): 0.6206
+• Delta: -0.1339 | 95% Bootstrap CI: [-0.1992, -0.0704]
+• Paired Wilcoxon W = 36.0, p = 0.0003 (Statistically Significant at alpha = 0.05, Line+Header > AST+Header)
+• Win / Loss / Tie: 5/20/0 (Line+Header leads on 20/25 queries)
+
+4. ANNOTATOR ROBUSTNESS (Header contribution on AST under alternative qrels):
+• Consensus-only ranking scores: Line+Header: 0.6175, Line No-Header: 0.5713, AST+Header: 0.4866, AST No-Header: 0.3338
+• Consensus-only AST Header gain: Delta = +0.1528, p = 0.0000 (Confirmed Significant)
+• Annotator 1-only qrels:         Delta = +0.1446, p = 0.0000 (Confirmed Significant)
+• Annotator 2-only qrels:         Delta = +0.1477, p = 0.0000 (Confirmed Significant)
+
+5. JUDGED-ONLY (SHORTLIST) EVALUATION (Excluding unjudged items, fair comparison vs pool baseline):
+• rerank_line_with_header : 0.7243
+• rerank_line_no_header   : 0.6696
+• rerank_ast_with_header  : 0.5774
+• rerank_ast_no_header    : 0.4156
+• AST Header Effect       : Delta = +0.1618, p = 0.0000
+• Comp 1 (AST+H vs Line)  : Delta = -0.0922, p = 0.0318
+• Comp 5 (AST+H vs Line+H): Delta = -0.1469, p = 0.0002
+--------------------------------------------------------------------------------
+
+6. REACHABLE QRELS SENSITIVITY (Corpus Coordinate Reachability Verification: 0 unmatched pairs, 100% reachable):
+• Unmatched pairs: 0 (0 relevant label >= 1)
+• Reachable pairs: 882
+• Line No-Header: all = 0.5797, reachable = 0.5797
+• Line+Header:    all = 0.6206, reachable = 0.6206
+• AST No-Header:  all = 0.3407, reachable = 0.3407
+• AST+Header:     all = 0.4866, reachable = 0.4866
+• C1 (AST+H vs Line):   delta_all = -0.0930, delta_reach = -0.0930 (p = 0.0219)
+• C2 (AST noH vs Line): delta_all = -0.2390, delta_reach = -0.2390 (p = 0.0000)
+• C3 (Header on AST):   delta_all = +0.1459, delta_reach = +0.1459 (p = 0.0000)
+• C4 (Header on Line):  delta_all = +0.0409, delta_reach = +0.0409 (p = 0.2411)
+• C5 (AST+H vs Line+H): delta_all = -0.1339, delta_reach = -0.1339 (p = 0.0003)
+--------------------------------------------------------------------------------
+
+7. OVERLAP-DEDUPLICATED NDCG@10 (Sensitivity to overlapping 50-LOC windows):
+• rerank_line_with_header : 0.5831
+• rerank_line_no_header   : 0.5735
+• rerank_ast_with_header  : 0.4819
+• rerank_ast_no_header    : 0.3407
+• Comp 5 (AST+H vs Line+H): Delta = -0.1012, p = 0.0013
+• Comp 1 (AST+H vs Line)  : Delta = -0.0916, p = 0.0236
+• Comp 3 (Header on AST)  : Delta = +0.1412, p = 0.0000
+================================================================================

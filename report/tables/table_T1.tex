@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\caption{Inter-annotator reliability across programming language ecosystems and unified ground truth.}
+\label{tab:inter_annotator_agreement}
+\centering\footnotesize
+\setlength{\tabcolsep}{8pt}
+\begin{threeparttable}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Partition & $N$ & Exact (\%) & $\Delta = 1$ (\%) & $\Delta = 2$ (\%) & $\kappa_w$ & Landis \& Koch \\
+\midrule
+Java Spring Boot Ecosystem & 543 & 533 (98.2\%) & 10 (1.8\%) & 0 (0.0\%) & 0.9805 & Almost Perfect \\
+\cmidrule(lr){1-7}
+React / TypeScript Ecosystem & 339 & 332 (97.9\%) & 6 (1.8\%) & 1 (0.3\%) & 0.9789 & Almost Perfect \\
+\cmidrule(lr){1-7}
+Complete Unified Ground Truth (Total) & 882 & 865 (98.1\%) & 16 (1.8\%) & 1 (0.1\%) & 0.9822 & Almost Perfect \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Note: $\kappa_w$ denotes quadratic weighted Cohen's Kappa over the 3-point relevance scale (0 = not relevant, 1 = partially relevant, 2 = highly relevant). Benchmark interpretation adheres to Landis \& Koch (1977) criteria. Derived dynamically from \texttt{ground\_truth\_annotator1.csv} and \texttt{ground\_truth\_annotator2.csv}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

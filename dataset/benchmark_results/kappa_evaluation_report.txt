@@ -1,0 +1,37 @@
+
+================================================================================
+  INTER-ANNOTATOR AGREEMENT EVALUATION REPORT (TABLE 3.1)
+================================================================================
+• Total Evaluated Candidate Evidence Pairs (N): 882
+• Exact Consensus Matches (po)               : 865 / 882 (98.07%)
+• Minor Disagreements (|delta| = 1)          : 16 / 882 (1.81%)
+• Severe Disagreements (|delta| = 2)         : 1 / 882 (0.11%)
+--------------------------------------------------------------------------------
+• Unweighted Cohen's Kappa (kappa)            : 0.9708
+• Linear Weighted Kappa (kappa_linear)        : 0.9764
+• QUADRATIC WEIGHTED KAPPA (kappa_w)          : 0.9822  <-- [PRIMARY METRIC]
+• Agreement Level (Landis & Koch, 1977)       : Almost Perfect Agreement [ALMOST_PERFECT]
+================================================================================
+
+PARTITION BREAKDOWN:
+   ---------------------------------------------------------------------------
+   Partition                           |   N   |  Exact (%)   | kappa_w  |  Landis & Koch 
+   ---------------------------------------------------------------------------
+   Java Spring Boot Ecosystem          |  543  | 533 (98.2%) | 0.9805 | Almost Perfect Agreement
+   React / TypeScript Ecosystem        |  339  | 332 (97.9%) | 0.9789 | Almost Perfect Agreement
+   Complete Unified Ground Truth (Total) |  882  | 865 (98.1%) | 0.9822 | Almost Perfect Agreement
+   ---------------------------------------------------------------------------
+
+CONFUSION MATRIX (3x3):
+   (Rows: Annotator 1  x  Columns: Annotator 2)
+   -----------------------------------------------------------------
+   Annotator 1 \ Annotator 2  |  Level 0   |  Level 1   |  Level 2   |  Row Sum 
+   -----------------------------------------------------------------
+   Level 0                    |    232     |     7      |     1      |    240   
+   Level 1                    |     6      |    304     |     0      |    310   
+   Level 2                    |     0      |     3      |    329     |    332   
+   -----------------------------------------------------------------
+   Column Sum (Annotator 2)   |    238     |    314     |    330     |    882   
+   -----------------------------------------------------------------
+
+Saved confusion matrix plot: confusion_matrix_kappa.png

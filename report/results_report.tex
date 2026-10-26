@@ -1,0 +1,169 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{placeins}
+\usepackage[hidelinks,pdfauthor={},pdftitle={Results Report},pdfcreator={}]{hyperref}
+
+\begin{document}
+
+\title{Results Report: Comprehensive Empirical Findings and Benchmark Tabulations}
+\author{\IEEEauthorblockN{Anonymous Replication Package Author}
+\IEEEauthorblockA{Target: IEEE SANER 2027 (ERA Track) Double-Anonymous Review}}
+
+\maketitle
+
+\begin{abstract}
+This report compiles the complete empirical evaluation artifacts for the study \textit{``An Empirical Evaluation of Source Code Chunking and Context Headers for Requirement Evidence Retrieval''}. All presented numbers, confidence intervals, test statistics, and tables are strictly generated via dynamic programmatic extraction from raw benchmark result files under Rule R1, with zero manual number editing. Confirmatory comparisons and exploratory contrasts strictly adhere to the pre-specified internal analysis plan.
+\end{abstract}
+
+\section{How to Read This Report}
+\subsection{Experimental Design \& Factorial Structure}
+The investigation evaluates requirement evidence retrieval from source code across a $2\times 2$ factorial matrix:
+\begin{itemize}
+    \item \textbf{Chunking Strategy:} Fixed-window sliding lines (50 LOC baseline, 10 LOC overlap) versus AST-based method extraction with syntactic fallback.
+    \item \textbf{Context Header:} Raw chunk contents (No-Header) versus structural hierarchical context headers (With-Header).
+\end{itemize}
+Each condition is replicated across three retrieval tiers: (1) Lexical Sparse (BM25), (2) Dense Bi-Encoder (\texttt{BAAI/bge-m3}), and (3) Two-Stage Re-ranking (\texttt{BAAI/bge-reranker-base}). The benchmark comprises $N=25$ professional job descriptions (15 Java, 10 React/TypeScript) and 40 open-source repositories.
+
+\subsection{Primary Metric \& Statistical Protocol}
+The primary evaluation metric is \textbf{NDCG@10 at the Re-ranking tier}, computed using linear relevance gain $\mathrm{rel}/\log_2(i+1)$ without exponential inflation.
+
+Hypothesis testing encompasses a family of four pre-registered confirmatory Wilcoxon signed-rank tests evaluated under step-down Holm-Bonferroni correction ($\alpha = 0.05$):
+\begin{itemize}
+    \item \textbf{Comp 1:} Full Proposed (AST+Header) vs. Full Baseline (Line No-Header).
+    \item \textbf{Comp 2:} Pure Chunking Effect (AST No-Header vs. Line No-Header).
+    \item \textbf{Comp 3:} Header Effect on AST (AST+Header vs. AST No-Header).
+    \item \textbf{Comp 4:} Header Effect on Line (Line+Header vs. Line No-Header).
+\end{itemize}
+
+\subsection{Exploratory Status of Comp 5}
+The contrast between AST+Header and Line+Header was defined post-hoc and is designated as \textbf{Comp 5 (Exploratory)}. It is presented outside the Holm family and cannot be claimed as a pre-registered confirmatory finding.
+
+\subsection{Candidate Pool Construction}
+Candidate pooling was formed across all 12 configurations (BM25, Dense, and Re-ranking) via exhaustive Top-5 pooling ($N=882$ unique deduplicated coordinate spans from 1500 candidate instances). Judged@5 coverage is strictly 100.0\% across all 12 systems.
+
+\section{Annotation Reliability and Corpus Morphology}
+Table~\ref{tab:inter_annotator_agreement} documents the inter-annotator reliability across the Java Spring Boot ecosystem ($N=543$), React/TypeScript ecosystem ($N=339$), and the total unified evidence set ($N=882$). The quadratic weighted Cohen's Kappa reaches $\kappa_w = 0.9822$ overall (Almost Perfect Agreement), with $\kappa_w = 0.9805$ in Java and $\kappa_w = 0.9789$ in React/TypeScript. Figure~\ref{fig:confusion_matrix} depicts the $3\times 3$ confusion matrix ($N=882$).
+
+\input{tables/table_T1.tex}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figs/fig_F4.pdf}
+\caption{Inter-annotator confusion matrix across the 3-point relevance scale ($N=882$).}
+\label{fig:confusion_matrix}
+\end{figure}
+
+Table~\ref{tab:chunk_morphology} characterizes chunk morphology across the 40 repositories. Upgraded Tree-sitter extraction achieves 87.2\% intact boundaries, 78.1\% clean parse rates, and 0.0\% line-fallback. In contrast, the sliding-window Line baseline suffers 56.0\% boundary cuts and 77.6\% syntax errors.
+
+\input{tables/table_T2.tex}
+
+\FloatBarrier
+\section{Retrieval Effectiveness Benchmark (2x2 Factorial)}
+Table~\ref{tab:main_retrieval_benchmark} presents the complete $2\times 2$ factorial evaluation. Across the primary Re-ranking tier, Line With-Header achieves NDCG@10 of 0.621 [0.555, 0.682], followed by Line No-Header at 0.580 [0.505, 0.649], AST With-Header at 0.487 [0.419, 0.551], and AST No-Header at 0.341 [0.263, 0.421].
+
+\input{tables/table_T3.tex}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figs/fig_F1.pdf}
+\caption{NDCG@10 retrieval effectiveness across the four conditions at the two-stage re-ranking tier. Error bars represent 95\% bootstrap confidence intervals across 25 JDs.}
+\label{fig:ndcg_bar}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figs/fig_F2.pdf}
+\caption{Interaction plot demonstrating differential context header sensitivity between Line-based chunking and AST-based chunking.}
+\label{fig:interaction_plot}
+\end{figure}
+
+Figure~\ref{fig:ndcg_bar} illustrates the re-ranking performance with 95\% bootstrap confidence intervals. Figure~\ref{fig:interaction_plot} demonstrates the pronounced interaction effect: while context headers yield a modest non-significant improvement on line chunks ($\Delta = +0.041$), they recover $+0.146$ NDCG@10 on AST chunks ($p_{\mathrm{Holm}} = 0.0001$).
+
+\FloatBarrier
+\section{Hypothesis Testing and Paired Comparisons}
+Table~\ref{tab:statistical_hypothesis_tests} presents the non-parametric Wilcoxon signed-rank tests for the confirmatory family and the exploratory contrast.
+
+\input{tables/table_T4.tex}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figs/fig_F3.pdf}
+\caption{Per-query paired difference ($\Delta$ NDCG@10) strip plot for Comp 3 (AST Header Effect) and Comp 5 (Exploratory AST vs. Line+Header). Black diamonds denote median and 95\% bootstrap CI.}
+\label{fig:strip_plot}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Comp 1 (Full Proposed vs. Baseline):} The overall difference between AST+Header and Line No-Header is $\Delta = -0.0930$ (95\% CI [-0.164, -0.023], $p_{\mathrm{raw}} = 0.0219$, $p_{\mathrm{Holm}} = 0.0438$). The pre-registered primary comparison is statistically significant, favoring Line No-Header over AST+Header.
+    \item \textbf{Comp 2 (Pure Chunking):} In the absence of context headers, AST chunking underperforms Line chunking by $\Delta = -0.2390$ ($p_{\mathrm{Holm}} < 0.001$).
+    \item \textbf{Comp 3 (Header on AST):} Adding structural context headers to AST chunks produces a large, statistically significant gain of $\Delta = +0.1459$ ($p_{\mathrm{Holm}} = 0.0001$).
+    \item \textbf{Comp 4 (Header on Line):} Context headers produce a minor, non-significant change on Line chunks ($\Delta = +0.0409$, $p_{\mathrm{Holm}} = 0.2411$).
+    \item \textbf{Comp 5 (Exploratory Contrast):} Line With-Header achieves an edge of 0.1339 over AST With-Header ($p_{\mathrm{raw}} = 0.0003$, 95\% CI [-0.199, -0.070]), which is statistically significant.
+\end{itemize}
+
+Figure~\ref{fig:strip_plot} displays the per-query paired differences for Comp 3 (23 wins, 2 losses) and Comp 5 (5 wins, 20 losses, 0 ties).
+
+\FloatBarrier
+\section{Subgroup Stratification and Sensitivity Analyses}
+Table~\ref{tab:language_stratification} stratifies performance across Java ($N=15$) and React/TypeScript ($N=10$). In Java, AST+Header reaches 0.5830 vs. 0.7158 for Line+Header ($\Delta = -0.133$). In React/TypeScript, AST+Header reaches 0.3420 vs. 0.4777 for Line+Header ($\Delta = -0.136$).
+
+\input{tables/table_T5.tex}
+
+Table~\ref{tab:fallback_composition} tracks the composition of retrieved top-10 items. Following the AST parser upgrade, 0 (0.0\%) fallback chunks appear in the top-10 across all tiers.
+
+\input{tables/table_T6.tex}
+
+Table~\ref{tab:qrel_sensitivity} presents sensitivity audits. When removing all 17 disputed items (Panel A: Consensus Only, $N=865$), the AST header effect remains large and significant ($\Delta = +0.1528$, $p < 0.001$). Under judged-only evaluation (Panel C), Line+Header achieves 0.7243 vs. 0.5774 for AST+Header.
+
+\input{tables/table_T7.tex}
+
+\FloatBarrier
+\section{Candidate Pool Audit and Dataset Provenance}
+Table~\ref{tab:candidate_pool_coverage} provides a complete coverage audit. Top-3 and Top-5 judgment coverage was 100.0\% across all 12 configurations.
+
+\input{tables/table_T8.tex}
+
+Table~\ref{tab:pool_reconciliation_adjudication} details pool deduplication (Panel A) and adjudication decisions (Panel B). 1500 raw Top-5 instances collapsed into 882 unique candidate spans. Adjudication resolved 17 disagreements into 13 agreements with Annotator 1, 4 with Annotator 2, and 0 independent resolutions.
+
+\input{tables/table_T9.tex}
+
+Table~\ref{tab:manifest_repos_licensing} summarizes open-source licenses across the 40 mined evaluation repositories (19 MIT, 16 unspecified public GitHub, 4 Apache-2.0, 1 AGPL-3.0).
+
+\input{tables/table_T10.tex}
+
+\FloatBarrier
+\clearpage
+\onecolumn
+\appendices
+\section{Cryptographic File Provenance}
+Table~\ref{tab:file_provenance} records the SHA-256 digests and timestamps of all 14 data and result artifacts utilized to generate this report.
+
+\input{tables/table_T11.tex}
+
+\section{Reproduction Instructions}
+To reproduce all numbers, tables, figures, and compile this report from scratch, execute:
+{\footnotesize
+\begin{verbatim}
+# 1. Run evaluation & tests
+python scripts/evaluate_retrieval.py
+python scripts/evaluate_sensitivity.py
+
+# 2. Build report artifacts
+python scripts/make_report.py
+
+# 3. Verify numerical concordance
+python -m pytest tests/test_report_numbers.py
+\end{verbatim}
+}
+
+\end{document}

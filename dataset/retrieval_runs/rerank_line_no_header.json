@@ -189,7 +189,7 @@
     },
     {
       "rank": 18,
-      "score": 0.0009430786594748497,
+      "score": 0.0009430776699446142,
       "dense_rank": 18,
       "dense_score": 0.5466593503952026,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -301,7 +301,7 @@
     },
     {
       "rank": 8,
-      "score": 0.007048764266073704,
+      "score": 0.0070487745106220245,
       "dense_rank": 19,
       "dense_score": 0.4932270050048828,
       "chunk_id": "line::krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/GlobalDiscountRepository.java::1_10::LINE_50",
@@ -622,7 +622,7 @@
     },
     {
       "rank": 17,
-      "score": 0.0021375054493546486,
+      "score": 0.0021375000942498446,
       "dense_rank": 19,
       "dense_score": 0.4922872483730316,
       "chunk_id": "line::Snailclimb/spring-security-jwt-guide::src/main/java/github/javaguide/springsecurityjwtguide/security/exception/JwtAccessDeniedHandler.java::1_24::LINE_50",
@@ -633,7 +633,7 @@
     },
     {
       "rank": 18,
-      "score": 0.0007998099899850786,
+      "score": 0.0007998087676241994,
       "dense_rank": 1,
       "dense_score": 0.5494318008422852,
       "chunk_id": "line::devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AuthForwardInterceptor.java::1_29::LINE_50",
@@ -1488,7 +1488,7 @@
     },
     {
       "rank": 15,
-      "score": 0.004660035017877817,
+      "score": 0.004660050850361586,
       "dense_rank": 19,
       "dense_score": 0.5371661186218262,
       "chunk_id": "line::osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/config/AuditingConfig.java::1_38::LINE_50",
@@ -1666,7 +1666,7 @@
     },
     {
       "rank": 11,
-      "score": 0.008381733670830727,
+      "score": 0.008381749503314495,
       "dense_rank": 13,
       "dense_score": 0.5033018589019775,
       "chunk_id": "line::mewebstudio/java-spring-boot-boilerplate::src/main/java/com/mewebstudio/javaspringbootboilerplate/controller/AbstractBaseController.java::1_23::LINE_50",
@@ -1688,7 +1688,7 @@
     },
     {
       "rank": 13,
-      "score": 0.004198693670332432,
+      "score": 0.0041986494325101376,
       "dense_rank": 12,
       "dense_score": 0.5039193630218506,
       "chunk_id": "line::Rapter1990/parkinglot::src/main/java/com/project/parkinglot/logging/repository/LogRepository.java::1_10::LINE_50",
@@ -1721,7 +1721,7 @@
     },
     {
       "rank": 16,
-      "score": 0.001525609870441258,
+      "score": 0.0015256112674251199,
       "dense_rank": 9,
       "dense_score": 0.5069746971130371,
       "chunk_id": "line::Rapter1990/parkinglot::src/main/java/com/project/parkinglot/logging/service/impl/LogServiceImpl.java::1_32::LINE_50",
@@ -1765,7 +1765,7 @@
     },
     {
       "rank": 20,
-      "score": 0.00032636700780130923,
+      "score": 0.0003263666876591742,
       "dense_rank": 16,
       "dense_score": 0.4968780279159546,
       "chunk_id": "line::Rapter1990/parkinglot::src/main/java/com/project/parkinglot/repository/PriceListRepository.java::1_10::LINE_50",
@@ -1921,7 +1921,7 @@
     },
     {
       "rank": 14,
-      "score": 0.0028579903300851583,
+      "score": 0.00285798916593194,
       "dense_rank": 16,
       "dense_score": 0.5043768286705017,
       "chunk_id": "line::LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java::1_13::LINE_50",
@@ -2044,7 +2044,7 @@
     },
     {
       "rank": 5,
-      "score": 0.00878440123051405,
+      "score": 0.008784396573901176,
       "dense_rank": 6,
       "dense_score": 0.534562885761261,
       "chunk_id": "line::huseynovvusal/spring-blog-api::src/main/java/com/huseynovvusal/springblogapi/config/OpenAPIConfiguration.java::1_41::LINE_50",
@@ -2420,7 +2420,7 @@
     },
     {
       "rank": 19,
-      "score": 0.002399096731096506,
+      "score": 0.002399102319031954,
       "dense_rank": 1,
       "dense_score": 0.592134952545166,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -2642,7 +2642,7 @@
     },
     {
       "rank": 19,
-      "score": 0.0002531817299313843,
+      "score": 0.0002531814679969102,
       "dense_rank": 15,
       "dense_score": 0.4994675815105438,
       "chunk_id": "line::LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java::1_13::LINE_50",
@@ -2864,7 +2864,7 @@
     },
     {
       "rank": 19,
-      "score": 0.0005025601130910218,
+      "score": 0.0005025604041293263,
       "dense_rank": 15,
       "dense_score": 0.5164936780929565,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -2943,7 +2943,7 @@
     },
     {
       "rank": 6,
-      "score": 0.09993036091327667,
+      "score": 0.0999307930469513,
       "dense_rank": 17,
       "dense_score": 0.5300360918045044,
       "chunk_id": "line::osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/BlogApiApplication.java::1_38::LINE_50",
@@ -3253,7 +3253,7 @@
     },
     {
       "rank": 14,
-      "score": 0.004734660964459181,
+      "score": 0.004734652116894722,
       "dense_rank": 19,
       "dense_score": 0.5117149353027344,
       "chunk_id": "line::mewebstudio/java-spring-boot-boilerplate::src/main/java/com/mewebstudio/javaspringbootboilerplate/controller/AbstractBaseController.java::1_23::LINE_50",
@@ -3297,7 +3297,7 @@
     },
     {
       "rank": 18,
-      "score": 0.0028031175024807453,
+      "score": 0.0028031186666339636,
       "dense_rank": 1,
       "dense_score": 0.5684003829956055,
       "chunk_id": "line::devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AuthForwardInterceptor.java::1_29::LINE_50",
@@ -3354,7 +3354,7 @@
     },
     {
       "rank": 3,
-      "score": 0.0015042151790112257,
+      "score": 0.0015042144805192947,
       "dense_rank": 2,
       "dense_score": 0.560667872428894,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -3486,7 +3486,7 @@
     },
     {
       "rank": 15,
-      "score": 0.0001879864139482379,
+      "score": 0.00018798607925418764,
       "dense_rank": 20,
       "dense_score": 0.5277218818664551,
       "chunk_id": "line::alim1496/simple-react-ecommerce::src/components/Footer.tsx::1_18::LINE_50",
@@ -3686,7 +3686,7 @@
     },
     {
       "rank": 13,
-      "score": 0.004386053886264563,
+      "score": 0.004386047832667828,
       "dense_rank": 2,
       "dense_score": 0.533806562423706,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -3897,7 +3897,7 @@
     },
     {
       "rank": 12,
-      "score": 0.001779814250767231,
+      "score": 0.0017798168119043112,
       "dense_rank": 8,
       "dense_score": 0.5153580904006958,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -3974,7 +3974,7 @@
     },
     {
       "rank": 19,
-      "score": 0.0005458296509459615,
+      "score": 0.0005458325031213462,
       "dense_rank": 16,
       "dense_score": 0.5079002380371094,
       "chunk_id": "line::DevlinRocha/banter::src/components/Members.tsx::321_359::LINE_50",
@@ -4196,7 +4196,7 @@
     },
     {
       "rank": 19,
-      "score": 9.856354881776497e-05,
+      "score": 9.856326505541801e-05,
       "dense_rank": 1,
       "dense_score": 0.5801751613616943,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -4418,7 +4418,7 @@
     },
     {
       "rank": 19,
-      "score": 0.0002644672058522701,
+      "score": 0.00026446543051861227,
       "dense_rank": 20,
       "dense_score": 0.5198268294334412,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -4563,7 +4563,7 @@
     },
     {
       "rank": 12,
-      "score": 0.006136288866400719,
+      "score": 0.006136277224868536,
       "dense_rank": 12,
       "dense_score": 0.529013991355896,
       "chunk_id": "line::kevinshen56714/SkyOffice::client/src/hooks.ts::1_6::LINE_50",
@@ -4675,7 +4675,7 @@
     },
     {
       "rank": 2,
-      "score": 0.0059963976964354515,
+      "score": 0.005996414925903082,
       "dense_rank": 3,
       "dense_score": 0.5346719026565552,
       "chunk_id": "line::hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/controller/AuthController.java::121_137::LINE_50",
@@ -4788,11 +4788,11 @@
       "score": 0.00021193221618887037,
       "dense_rank": 15,
       "dense_score": 0.5093910694122314,
-      "chunk_id": "line::RishiBakshii/mern-chat-app::backend/src/controllers/auth.controller.ts::41_89::LINE_50",
+      "chunk_id": "line::RishiBakshii/mern-chat-app::backend/src/controllers/auth.controller.ts::41_88::LINE_50",
       "repo_name": "RishiBakshii/mern-chat-app",
       "file_path": "backend/src/controllers/auth.controller.ts",
       "start_line": 41,
-      "end_line": 89
+      "end_line": 88
     },
     {
       "rank": 13,
@@ -4829,7 +4829,7 @@
     },
     {
       "rank": 16,
-      "score": 0.00012573445565067232,
+      "score": 0.00012573468848131597,
       "dense_rank": 5,
       "dense_score": 0.5330466628074646,
       "chunk_id": "line::Blazity/next-enterprise::components/Button/Button.test.tsx::1_32::LINE_50",
@@ -4840,7 +4840,7 @@
     },
     {
       "rank": 17,
-      "score": 0.00012339740351308137,
+      "score": 0.00012339763634372503,
       "dense_rank": 13,
       "dense_score": 0.5106610655784607,
       "chunk_id": "line::alim1496/simple-react-ecommerce::src/components/FeatureCard.tsx::1_14::LINE_50",
@@ -4974,7 +4974,7 @@
     },
     {
       "rank": 9,
-      "score": 0.004441951867192984,
+      "score": 0.004441958386451006,
       "dense_rank": 15,
       "dense_score": 0.5388461351394653,
       "chunk_id": "line::ZahraMirzaei/online-shop::components/Benefits/index.tsx::1_33::LINE_50",
@@ -5029,7 +5029,7 @@
     },
     {
       "rank": 14,
-      "score": 0.0017489767633378506,
+      "score": 0.001748971757479012,
       "dense_rank": 1,
       "dense_score": 0.5639930367469788,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Currency.tsx::1_32::LINE_50",
@@ -5152,7 +5152,7 @@
     },
     {
       "rank": 5,
-      "score": 0.005224091466516256,
+      "score": 0.005224096588790417,
       "dense_rank": 2,
       "dense_score": 0.5580525994300842,
       "chunk_id": "line::hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/controller/AuthController.java::121_137::LINE_50",
@@ -5207,7 +5207,7 @@
     },
     {
       "rank": 10,
-      "score": 0.0007276959368027747,
+      "score": 0.0007276966352947056,
       "dense_rank": 12,
       "dense_score": 0.5272989869117737,
       "chunk_id": "line::HalseySpicy/Hooks-Admin::src/api/index.ts::81_105::LINE_50",
@@ -5218,7 +5218,7 @@
     },
     {
       "rank": 11,
-      "score": 0.0006931204115971923,
+      "score": 0.0006931190728209913,
       "dense_rank": 20,
       "dense_score": 0.5159816145896912,
       "chunk_id": "line::HalseySpicy/Hooks-Admin::src/components/ErrorMessage/404.tsx::1_25::LINE_50",
@@ -5484,7 +5484,7 @@
     },
     {
       "rank": 15,
-      "score": 0.001212015631608665,
+      "score": 0.0012120144674554467,
       "dense_rank": 7,
       "dense_score": 0.5510542392730713,
       "chunk_id": "line::kevinshen56714/SkyOffice::client/src/hooks.ts::1_6::LINE_50",

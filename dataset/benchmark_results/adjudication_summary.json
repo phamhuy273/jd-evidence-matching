@@ -1,0 +1,20 @@
+{
+  "total_adjudicated_rows": 17,
+  "unique_reason_strings": 15,
+  "adjudicator": [
+    "Lead Adjudicator"
+  ],
+  "decision_distribution": {
+    "agreed_with_annotator_1_only": 13,
+    "agreed_with_annotator_1_pct": 76.47,
+    "agreed_with_annotator_2_only": 4,
+    "agreed_with_annotator_2_pct": 23.53,
+    "agreed_with_neither": 0,
+    "agreed_with_neither_pct": 0.0
+  },
+  "template_families": {
+    "explicit_prefix_RESOLVED_BY_ADJUDICATION": 17,
+    "standard_evaluation_structure": 0
+  },
+  "description": "Adjudication reasons follow structured templated text specifying the resolved relevance level and item-specific identifiers (file path and technical snippet characteristics), resulting in structured adjudication across all 17 disagreement rows."
+}

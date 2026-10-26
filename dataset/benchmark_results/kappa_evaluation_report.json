@@ -1,0 +1,66 @@
+{
+  "total": {
+    "partition": "Complete Unified Ground Truth (Total)",
+    "n": 882,
+    "exact_matches": 865,
+    "exact_agreement_pct": 98.07,
+    "disagreement_delta_1": 16,
+    "disagreement_delta_1_pct": 1.81,
+    "disagreement_delta_2": 1,
+    "disagreement_delta_2_pct": 0.11,
+    "unweighted_kappa": 0.9708,
+    "linear_weighted_kappa": 0.9764,
+    "quadratic_weighted_kappa": 0.9822,
+    "agreement_level": "Almost Perfect Agreement",
+    "status_icon": "ALMOST_PERFECT"
+  },
+  "subsets": {
+    "java_subgroup": {
+      "partition": "Java Spring Boot Ecosystem",
+      "n": 543,
+      "exact_matches": 533,
+      "exact_agreement_pct": 98.16,
+      "disagreement_delta_1": 10,
+      "disagreement_delta_1_pct": 1.84,
+      "disagreement_delta_2": 0,
+      "disagreement_delta_2_pct": 0.0,
+      "unweighted_kappa": 0.9694,
+      "linear_weighted_kappa": 0.9743,
+      "quadratic_weighted_kappa": 0.9805,
+      "agreement_level": "Almost Perfect Agreement",
+      "status_icon": "ALMOST_PERFECT"
+    },
+    "react_subgroup": {
+      "partition": "React / TypeScript Ecosystem",
+      "n": 339,
+      "exact_matches": 332,
+      "exact_agreement_pct": 97.94,
+      "disagreement_delta_1": 6,
+      "disagreement_delta_1_pct": 1.77,
+      "disagreement_delta_2": 1,
+      "disagreement_delta_2_pct": 0.29,
+      "unweighted_kappa": 0.9669,
+      "linear_weighted_kappa": 0.9732,
+      "quadratic_weighted_kappa": 0.9789,
+      "agreement_level": "Almost Perfect Agreement",
+      "status_icon": "ALMOST_PERFECT"
+    }
+  },
+  "confusion_matrix": [
+    [
+      232,
+      7,
+      1
+    ],
+    [
+      6,
+      304,
+      0
+    ],
+    [
+      0,
+      3,
+      329
+    ]
+  ]
+}

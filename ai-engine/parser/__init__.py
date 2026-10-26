@@ -1,1 +1,1 @@
-# Parser module for AST chunking
+# Parser module

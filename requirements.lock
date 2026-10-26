@@ -1,0 +1,29 @@
+# Exact Pinned Dependencies for IEEE SANER 2027 Replication Package
+# Generated via pip freeze in tested environment (Python 3.14 / x86_64)
+
+# Core Scientific & Data Processing Libraries
+pandas==3.0.6
+numpy==2.5.3
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+requests==2.34.2
+pyarrow==25.0.1
+
+# Information Retrieval, Tokenization & Embedding Models
+sentence-transformers==6.0.1
+transformers==5.17.0
+torch==2.14.0
+rank-bm25==0.2.2
+python-dotenv==1.2.3
+
+# Automated Testing & Verification
+pytest==9.1.1
+pluggy==1.6.0
+iniconfig==2.3.0
+
+# Code Parsing Dependencies (Tree-sitter AST Progressive Disclosure)
+tree-sitter==0.26.0
+tree-sitter-java==0.23.5
+tree-sitter-javascript==0.25.0
+tree-sitter-typescript==0.23.2

@@ -1,26 +1,19 @@
-=============================================================================
+=============================================================================================================
 TABLE 3.2: CORPUS CHARACTERISTICS & QUANTITATIVE CHUNKING COMPARISON (MEASURED)
 Governed by Rule R5 (Zero Hardcoding; Measured via identical AST & Tokenizer functions)
+Disaggregated by AST Subgroups: Pure (N=438), Fallback (N=0), Combined (N=438)
 Tokenizer: BAAI/bge-m3 | Max Seq Length: 512
 Universe: 40 GitHub Repositories / 189 Source Files
-=============================================================================
+=============================================================================================================
 
-Metric / Characteristic                     | Line-based (50 LOC)          | AST Progressive (Ours)
--------------------------------------------------------------------------------------------------------------------
-Total Chunks Extracted                      | 434                          | 364                         
-Mean Chunk Size (LOC)                       | 41.0 (std: 13.1, med: 50) | 28.1 (std: 19.0, med: 24)
-Mean Token Length (Content Only)            | 390.8 (med: 388)         | 266.9 (med: 222)
-Mean Token Length (With Context Header)     | 419.5 (med: 420)         | 304.5 (med: 260)
-Syntax Boundary Preservation (Intact)       | 44.0% (243/434 cuts)     | 90.9% (33/364 cuts)
-Parse Error Free Rate (Valid Syntax)        | 22.4% (337/434 errs)     | 70.1% (109/364 errs)
-Context Header Retention (Class/Method)     | 0.0% (No class/method)       | 64.3% (234/364 headers)
-Truncation Rate (> 512 BGE-M3 Tokens)       | 28.6% (124 chunks)          | 11.0% (40 chunks)
--------------------------------------------------------------------------------------------------------------------
-
-LOC Percentiles:
-  - Line: Min=6, P25=32, P50=50, P75=50, P90=50, Max=50
-  - AST:  Min=6, P25=9, P50=24, P75=50, P90=50, Max=83
-
-Token Percentiles (With Header):
-  - Line: Min=70, P25=300, P50=420, P75=525, P90=653, Max=1137
-  - AST:  Min=82, P25=172, P50=260, P75=406, P90=524, Max=972
+Metric / Characteristic              | Line (50 LOC)          | AST Pure (Ours)        | AST Fallback           | AST Combined
+---------------------------------------------------------------------------------------------------------------------------------------------
+Total Chunks Extracted               | 434                    | 438                    | 0                      | 438                   
+Mean Chunk Size (LOC)                | 41.0 (std 13.1, med 50) | 26.7 (std 23.3, med 16) |  0.0 (std  0.0, med  0) | 26.7 (std 23.3, med 16)
+Mean Tokens (Content Only)           | 390.8 (med  385)       | 250.8 (med  172)       |   0.0 (med    0)       | 250.8 (med  172)
+Mean Tokens (With Header)            | 419.4 (med  419)       | 290.1 (med  213)       |   0.0 (med    0)       | 290.1 (med  213)
+Boundary Preservation (Intact)       |  44.0% (243/434 cuts)   |  87.2% ( 56/438 cuts)   | 100.0% (  0/  0 cuts)   |  87.2% ( 56/438 cuts)
+Parse Error Free Rate (Valid)        |  22.4% (337/434 errs)   |  78.1% ( 96/438 errs)   | 100.0% (  0/  0 errs)   |  78.1% ( 96/438 errs)
+Context Header Retention             |   0.0% (No header)            | 100.0% (438/438)          |   0.0% (  0/  0)          | 100.0% (438/438)
+Truncation Rate (> 512 Tokens)       |  28.6% (124 chunks)        |  15.8% ( 69 chunks)        |   0.0% (  0 chunks)        |  15.8% ( 69 chunks)
+---------------------------------------------------------------------------------------------------------------------------------------------

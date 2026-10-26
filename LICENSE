@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Phạm Viết Quang Huy
+Copyright (c) 2026 Anonymous Authors (SANER 2027 Submission)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Dataset and Experimental Documentation License:
+The datasets, annotations, and documentation in this replication package are licensed
+under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+To view a copy of this license, visit: https://creativecommons.org/licenses/by/4.0/
+
+---
+
+Third-Party Source Code Attribution & Redistribution:
+Source code files in this corpus are derived from 40 open-source GitHub repositories
+cataloged in dataset/manifest_repos.csv. Each project is used under its original
+open-source license (MIT, Apache-2.0, GNU AGPL-3.0, and GitHub public terms) with
+original copyrights retained by their respective authors. Upstream source repositories
+can be deterministically cloned and verified using scripts/fetch_upstream_repos.py.

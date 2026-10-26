@@ -1,0 +1,201 @@
+{
+  "language_breakdown": {
+    "rerank_line_no_header": {
+      "java_mean": 0.6945750594657271,
+      "react_mean": 0.40729874682142997,
+      "overall_mean": 0.5796645344080082
+    },
+    "rerank_line_with_header": {
+      "java_mean": 0.7158476854684135,
+      "react_mean": 0.47770311707514673,
+      "overall_mean": 0.6205898581111068
+    },
+    "rerank_ast_no_header": {
+      "java_mean": 0.4697978583937568,
+      "react_mean": 0.1470813719149167,
+      "overall_mean": 0.3407112638022208
+    },
+    "rerank_ast_with_header": {
+      "java_mean": 0.5830497555203015,
+      "react_mean": 0.3420333161589074,
+      "overall_mean": 0.48664317977574384
+    }
+  },
+  "fallback_composition": {
+    "bm25_ast_no_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    },
+    "bm25_ast_with_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    },
+    "dense_ast_no_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    },
+    "dense_ast_with_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    },
+    "rerank_ast_no_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    },
+    "rerank_ast_with_header": {
+      "total_top10": 250,
+      "fallback_count": 0,
+      "fallback_pct": 0.0,
+      "ast_method_pct": 100.0
+    }
+  },
+  "comp_5_ast_vs_line_with_header": {
+    "comparison": "Comp 5: AST+Header vs Line+Header (Exploratory)",
+    "system_a": "rerank_ast_with_header",
+    "system_b": "rerank_line_with_header",
+    "mean_a": 0.48664317977574384,
+    "mean_b": 0.6205898581111068,
+    "delta": -0.13394667833536292,
+    "ci_95": [
+      -0.19916268801949588,
+      -0.07036915003452211
+    ],
+    "wilcoxon_w": 36.0,
+    "p_value": 0.00028705596923828125,
+    "w_l_t": "5/20/0"
+  },
+  "annotator_robustness": {
+    "consensus_only_scores": {
+      "rerank_line_with_header": 0.6174983713195388,
+      "rerank_line_no_header": 0.5712812818780258,
+      "rerank_ast_with_header": 0.48664317977574384,
+      "rerank_ast_no_header": 0.3338373299743778
+    },
+    "consensus_only_no_disagreements": {
+      "ast_header_mean": 0.48664317977574384,
+      "ast_no_header_mean": 0.3338373299743778,
+      "delta": 0.15280584980136605,
+      "ci_95": [
+        0.09181221420119721,
+        0.21502454159020454
+      ],
+      "p_value": 3.1948089599609375e-05
+    },
+    "annotator_1_only_qrels": {
+      "ast_header_mean": 0.486038718597328,
+      "ast_no_header_mean": 0.34140933932170286,
+      "delta": 0.14462937927562522,
+      "ci_95": [
+        0.08631422119795529,
+        0.20402543558306027
+      ],
+      "p_value": 4.5418739318847656e-05
+    },
+    "annotator_2_only_qrels": {
+      "ast_header_mean": 0.48606179628713897,
+      "ast_no_header_mean": 0.33833533227018614,
+      "delta": 0.14772646401695289,
+      "ci_95": [
+        0.08764326155893148,
+        0.20934644142496023
+      ],
+      "p_value": 3.814697265625e-05
+    }
+  },
+  "judged_only_evaluation": {
+    "rerank_line_with_header": 0.7243098231502648,
+    "rerank_line_no_header": 0.6695656468506165,
+    "rerank_ast_with_header": 0.5773763245050081,
+    "rerank_ast_no_header": 0.41556909564428124,
+    "ast_header_gain": {
+      "delta": 0.16180722886072685,
+      "p_value": 1.5079975128173828e-05
+    },
+    "comp_1_ast_vs_line_no_header": {
+      "delta": -0.0921893223456084,
+      "p_value": 0.03180783987045288
+    },
+    "comp_5_ast_vs_line_with_header": {
+      "delta": -0.14693349864525673,
+      "p_value": 0.00018787384033203125
+    }
+  },
+  "reachable_qrels_sensitivity": {
+    "exploratory": true,
+    "n_unmatched_pairs": 0,
+    "n_unmatched_rel_pairs": 0,
+    "n_reachable_pairs": 882,
+    "ndcg10_all": {
+      "rerank_line_no_header": 0.5796645344080082,
+      "rerank_line_with_header": 0.6205898581111068,
+      "rerank_ast_no_header": 0.3407112638022208,
+      "rerank_ast_with_header": 0.48664317977574384
+    },
+    "ndcg10_reachable": {
+      "rerank_line_no_header": 0.5796645344080082,
+      "rerank_line_with_header": 0.6205898581111068,
+      "rerank_ast_no_header": 0.3407112638022208,
+      "rerank_ast_with_header": 0.48664317977574384
+    },
+    "comparisons": {
+      "C1": {
+        "comparison": "rerank_ast_with_header vs rerank_line_no_header",
+        "delta_all": -0.09302135463226441,
+        "delta_reach": -0.09302135463226441,
+        "p_reach": 0.021908342838287354
+      },
+      "C2": {
+        "comparison": "rerank_ast_no_header vs rerank_line_no_header",
+        "delta_all": -0.2389532706057875,
+        "delta_reach": -0.2389532706057875,
+        "p_reach": 2.980232238769531e-07
+      },
+      "C3": {
+        "comparison": "rerank_ast_with_header vs rerank_ast_no_header",
+        "delta_all": 0.14593191597352312,
+        "delta_reach": 0.14593191597352312,
+        "p_reach": 4.5418739318847656e-05
+      },
+      "C4": {
+        "comparison": "rerank_line_with_header vs rerank_line_no_header",
+        "delta_all": 0.040925323703098496,
+        "delta_reach": 0.040925323703098496,
+        "p_reach": 0.24106645584106445
+      },
+      "C5": {
+        "comparison": "rerank_ast_with_header vs rerank_line_with_header",
+        "delta_all": -0.13394667833536292,
+        "delta_reach": -0.13394667833536292,
+        "p_reach": 0.00028705596923828125
+      }
+    }
+  },
+  "overlap_deduplicated_evaluation": {
+    "rerank_line_with_header": 0.5830908763651326,
+    "rerank_line_no_header": 0.5735491731208284,
+    "rerank_ast_with_header": 0.48193564915250653,
+    "rerank_ast_no_header": 0.3407112638022208,
+    "comp_5_ast_vs_line_with_header": {
+      "delta": -0.10115522721262613,
+      "p_value": 0.0012963414192199707
+    },
+    "comp_1_ast_vs_line_no_header": {
+      "delta": -0.09161352396832184,
+      "p_value": 0.023649930953979492
+    },
+    "comp_3_ast_header_gain": {
+      "delta": 0.1412243853502858,
+      "p_value": 4.5418739318847656e-05
+    }
+  }
+}

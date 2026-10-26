@@ -1,52 +1,15 @@
-# Môi trường & Hệ điều hành
-.env
-.DS_Store
-Thumbs.db
-
-# Database local volume
-pgdata/
-
-# Java / Spring Boot
-backend-service/target/
-backend-service/*.log
-backend-service/.idea/
-backend-service/*.iml
-
-# Python / FastAPI
-ai-engine/__pycache__/
-ai-engine/*.pyc
-ai-engine/.venv/
-ai-engine/venv/
-ai-engine/.pytest_cache/
-
-# Thư mục clone tạm thời khi bóc tách code
-ai-engine/temp_repos/
-
-# Dữ liệu thực nghiệm & Dataset
-dataset/
-
-# Thư mục nháp (Scratch), file rác & log
-scratch/
-*.log
-*.tmp
-*.out
-
-# Tài liệu đồ án, báo cáo (Word, PDF, Excel...)
-*.docx
-*.doc
-*.pdf
-*.pptx
-*.xlsx
-D*a'n 1/
-*Đồ án 1*/
-*DoAn1*/
-*pilot_dataset*.zip
-paper/
-scratch/
-
-# Python Cache chung
-**/__pycache__/
-**/*.pyc
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 .pytest_cache/
 
-
+# LaTeX auxiliary files (keep main.pdf and main.bbl if needed, ignore transient build files)
+*.aux
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk

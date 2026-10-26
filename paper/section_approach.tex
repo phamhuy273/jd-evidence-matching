@@ -1,0 +1,36 @@
+\section{Approach and Study Design}
+\label{sec:approach}
+
+To separate chunk boundaries from contextual metadata, we employ a $2 \times 2$ factorial design evaluated across three retrieval tiers, governed by a frozen analysis protocol.
+
+\subsection{Corpus, Candidate Space, and Curation}
+\label{sec:approach:corpus}
+Our corpus comprises 40 open-source GitHub repositories (20 Java Spring Boot, 20 React/TypeScript) spanning 189 source files (\texttt{sampling\_\allowbreak frame\_\allowbreak log.json}) with production patterns (controllers, services, DTOs, custom hooks, Redux stores, UI components). To focus on authentic evidence, curation targeted core architectural modules (mean 4.7 files/repo) via directory conventions prior to query extraction and without access to retrieval results. 
+Licenses encompass 19 MIT (47.5\%), 16 with no explicit license (GitHub default copyright, 40.0\%), 4 Apache-2.0 (10.0\%), and 1 AGPL-3.0 (2.5\%); all source text is redistributed for non-commercial research replication and will be removed upon request by rights holders. 
+Queries represent 25 job descriptions (15 Java, 10 React/TS) extracted via a frozen prompt on \texttt{gemini-\allowbreak 2.5-flash} (run on 2026-10-09; \texttt{queries\_\allowbreak frozen.json}). Each query combines title, domain, and 5--8 mandatory skills. 
+Retrieval evaluates across all 40 repositories without language filtering: 434 line chunks and 438 AST chunks (872 instances across strategies).
+
+\subsection{Factorial Conditions and Retrieval Pipeline}
+\label{sec:approach:factorial}
+We evaluate two orthogonal dimensions:
+\textbf{Chunking Strategy:} \textit{Line-window chunking} slices files into windows of 50 lines of code (LOC) with 10-LOC overlap (step 40 LOC, minimum 6 LOC; 434 chunks, mean 41.0 LOC, median 50 LOC, 100\% line coverage across all 189 files, 28.6\% exceeding 512 tokens, 56.0\% cutting syntactic boundaries). 
+\textit{AST chunking} extracts node-level units using Tree-sitter\footnote{\url{https://tree-sitter.github.io/}} parsers expanded to modern constructs: 438 chunks (134 methods/constructors, 96 arrow functions, 86 component wrappers, 62 functions, 28 class/interface/record/enum declarations, and 32 type/constant/config declarations; mean 26.7 LOC, median 16 LOC, 15.8\% exceeding 512 tokens). AST chunks can be nested (e.g., a class declaration and its methods), so per-chunk LOC sums exceed the number of covered lines. 
+Due to $6 \le \text{LOC} \le 85$ filtering, AST chunks cover 69.0\% of lines (10,585/15,351) across 183/189 files (6 files contain zero AST chunks), 87.2\% of AST chunks align with syntactic boundaries under our interval check (the remaining 56 are module-wrapped functions counted as cut despite being intact AST nodes), versus 44.0\% of line windows. 
+No AST chunks required line-based fallback under the final parser configuration (0.0\%; 0/438 chunks). The six files lacking extractable units (6/189) contribute no AST chunks; the common-support analysis (Section~\ref{sec:results:sensitivity}) addresses this coverage difference.
+\textbf{Context Header Condition:} \textit{Without Header} contains raw code. For \textit{With Header}, line chunks prepend File and Lines cues (100\%); AST chunks prepend File, enclosing Class (when nested, 35.6\%), Method (node name: method, function, component, type), and Lines cues (\texttt{// File: ... [// Class: ...] // Method: ... // Lines: ...}).
+\textbf{Retrieval Tiers:} (1)~\textit{BM25}~\cite{robertson2009bm25} (Rank-BM25 \texttt{BM25Okapi}, identifier regex tokenization). (2)~\textit{Dense} BAAI/bge-m3~\cite{chen2024bgem3} (1024d, 8192 tokens, cosine similarity). (3)~\textit{Reranking} BAAI/bge-reranker-base~\cite{xiao2024cpack} (cross-encoder rescoring top-20 dense candidates, 512-token limit). Parsers use official Tree-sitter grammars.
+
+\subsection{Unified Blinded Pooling Protocol}
+\label{sec:approach:pooling}
+To reduce pooling bias, we executed a single-wave Cranfield/TREC pooling protocol: top-5 candidates from all 12 systems (BM25, Dense, Rerank $\times$ 4 conditions) were pooled, yielding 1,500 candidate slots deduplicated to 882 unique pairs. 
+Two software engineering (SE) annotators (the authors) independently labeled all 882 pairs after calibration on a pre-specified 3-point relevance rubric: \textbf{0} (irrelevant/boilerplate: imports, standard configuration, or code lacking implementation of the target capability), \textbf{1} (partially relevant/indirect: interface signatures, type definitions, or peripheral helpers), and \textbf{2} (direct evidence: concrete, executable implementation directly demonstrating at least one listed skill). Labels attach to (query, raw code chunk) coordinates, so with-header and no-header conditions share identical relevance ground truth. 
+Annotators were blinded to system, header condition, rank, and score (chunk geometry cannot be concealed, making strategy blinding partial). 
+Inter-annotator agreement reached almost perfect concordance: quadratic-weighted Cohen's $\kappa = 0.9822$ (linear $\kappa = 0.9764$, unweighted $\kappa = 0.9708$, $98.07\%$ exact agreement). 
+The 17 disagreements were resolved by a Lead Adjudicator using standardized rubrics; all pooled pairs carry final consensus labels (zero orphaned pairs, top-5 fully judged by construction).
+
+\subsection{Evaluation Metrics and Hypothesis Testing}
+\label{sec:approach:metrics}
+The primary metric is normalized discounted cumulative gain at rank 10 ($\text{NDCG@10}$)~\cite{jarvelin2002cumulated} (linear gain $\mathrm{rel}_i/\log_2(i+1)$). 
+Unjudged items receive relevance 0; we also report binary preference (\texttt{bpref})~\cite{buckley2004bpref}, $\text{NDCG@1}$, $\text{MRR@10}$, and $\text{Judged@10}$ (fraction of top-$k$ chunks carrying a human label). 
+The pre-specified confirmatory family (fixed in an analysis plan before the final evaluation run and included in the replication package) tests four paired comparisons over $N=25$ queries at the rerank tier: \textbf{Comp 1} (\astH\ vs. \lineN), \textbf{Comp 2} (\astN\ vs. \lineN), \textbf{Comp 3} (\astH\ vs. \astN), and \textbf{Comp 4} (\lineH\ vs. \lineN) via two-sided Wilcoxon signed-rank tests~\cite{wilcoxon1945individual} with Holm-Bonferroni correction~\cite{holm1979simple} ($\alpha = 0.05$). 
+We report paired effect sizes $\Delta$ (mean per-query NDCG@10 difference $A - B$, with $A$ the first-named condition, so negative values favor $B$) with 95\% bootstrap CIs (10,000 resamples), plus exploratory contrast \textbf{Comp 5} (\astH\ vs. \lineH). $W$ denotes the Wilcoxon signed-rank statistic; "+H" and "No-H" abbreviate with and without header. Wilcoxon $p$-values are exact where no ties occur and asymptotic otherwise.

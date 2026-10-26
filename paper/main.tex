@@ -1,0 +1,49 @@
+\documentclass[10pt,conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,graphicx,booktabs,multirow,makecell,array}
+\usepackage{siunitx,threeparttable,xcolor,microtype,enumitem,url}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdfauthor={},pdfcreator={}}
+
+\newcommand{\astH}{AST+Header}
+\newcommand{\astN}{AST No-Header}
+\newcommand{\lineH}{Line+Header}
+\newcommand{\lineN}{Line No-Header}
+\newcommand{\castname}{cAST}
+
+\begin{document}
+
+\title{An Empirical Evaluation of Source Code Chunking and Context Headers for Requirement Evidence Retrieval}
+
+\author{\IEEEauthorblockN{Anonymous Authors}}
+
+\maketitle
+
+\begin{abstract}
+Locating source code that evidences a technical requirement is fundamental in software analysis. 
+While syntax-aware chunking is widely advocated to preserve code structure, prior evaluations conflate chunk boundaries with the contextual metadata prepended to chunks. 
+In this Early Research Achievement (ERA) paper, we present a controlled $2 \times 2$ factorial evaluation crossing chunking strategy (node-level abstract syntax trees vs. 50-line windows) with context headers (present vs. absent). 
+Evaluating across 25 job descriptions, 40 repositories, and three retrieval tiers (BM25, dense, cross-encoder reranking) against 882 human-labeled pairs, our findings show: 
+(1)~Context headers substantially boost AST chunks (NDCG@10 increases from 0.341 to 0.487, $p < 0.001$), while their gain for line windows is minor ($\Delta = +0.041$, $p = 0.2411$). 
+(2)~Simple 50-line windows match or exceed AST chunking across all comparable tiers; even headerless line windows significantly outperform AST chunks with headers ($\Delta = -0.093$, $p = 0.0438$). 
+(3)~Line windows with headers achieve the highest overall retrieval effectiveness (0.621 vs. 0.487, $p = 0.0003$). 
+These results indicate that contextual density frequently outweighs syntactic boundary integrity in evidence retrieval; we conclude with a research roadmap on enriched headers and developer verification.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Source code retrieval, code chunking, abstract syntax trees, context headers, requirements traceability, empirical software engineering
+\end{IEEEkeywords}
+
+\input{section_intro.tex}
+\input{section_related_work.tex}
+\input{section_approach.tex}
+\input{section_results.tex}
+\input{section_discussion_threats.tex}
+\input{section_plan.tex}
+\input{section_conclusion.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

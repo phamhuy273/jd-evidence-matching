@@ -1,0 +1,42 @@
+EXPLORATORY ANALYSIS (outside the frozen confirmatory family). Values are not comparable with Table I.
+Labels: 882 existing + 0 new. Unjudged-top3 systems: none
+
+== ideal = shared ==
+dense_line_same_no_header          NDCG@10=0.522 NDCG@5=0.617 Bpref=0.306 J@3=1.00 J@10=0.72 len=20.0
+dense_line_same_with_header        NDCG@10=0.553 NDCG@5=0.629 Bpref=0.356 J@3=1.00 J@10=0.75 len=20.0
+dense_pure_ast_no_header           NDCG@10=0.359 NDCG@5=0.413 Bpref=0.184 J@3=1.00 J@10=0.72 len=20.0
+dense_pure_ast_with_header         NDCG@10=0.451 NDCG@5=0.582 Bpref=0.254 J@3=1.00 J@10=0.69 len=20.0
+rerank_line_same_no_header         NDCG@10=0.581 NDCG@5=0.730 Bpref=0.308 J@3=1.00 J@10=0.72 len=20.0
+rerank_line_same_with_header       NDCG@10=0.623 NDCG@5=0.772 Bpref=0.363 J@3=1.00 J@10=0.74 len=20.0
+rerank_pure_ast_no_header          NDCG@10=0.341 NDCG@5=0.376 Bpref=0.174 J@3=1.00 J@10=0.71 len=20.0
+rerank_pure_ast_with_header        NDCG@10=0.488 NDCG@5=0.663 Bpref=0.248 J@3=1.00 J@10=0.66 len=20.0
+-- tests (rerank, NDCG@10) --
+C1 PureAST+H vs Line+H         delta=-0.135 CI=[-0.201,-0.070] W/L/T=[5, 20, 0] p_raw=0.0003 p_Holm=0.0007
+C2 PureAST noH vs Line noH     delta=-0.240 CI=[-0.294,-0.187] W/L/T=[2, 23, 0] p_raw=0.0000 p_Holm=0.0000
+C3 header effect on PureAST    delta=+0.147 CI=[+0.086,+0.209] W/L/T=[23, 2, 0] p_raw=0.0000 p_Holm=0.0001
+C4 PureAST+H vs Line noH       delta=-0.093 CI=[-0.166,-0.021] W/L/T=[7, 18, 0] p_raw=0.0296 p_Holm=0.0296
+-- tests (dense, NDCG@10) --
+C1 PureAST+H vs Line+H         delta=-0.102 CI=[-0.156,-0.049] W/L/T=[5, 20, 0] p_raw=0.0004 p_Holm=0.0010
+C2 PureAST noH vs Line noH     delta=-0.163 CI=[-0.236,-0.093] W/L/T=[5, 20, 0] p_raw=0.0003 p_Holm=0.0010
+C3 header effect on PureAST    delta=+0.092 CI=[+0.059,+0.126] W/L/T=[23, 2, 0] p_raw=0.0000 p_Holm=0.0000
+C4 PureAST+H vs Line noH       delta=-0.071 CI=[-0.142,+0.002] W/L/T=[8, 17, 0] p_raw=0.0516 p_Holm=0.0516
+
+== ideal = arm ==
+dense_line_same_no_header          NDCG@10=0.562 NDCG@5=0.624 Bpref=0.487 J@3=1.00 J@10=0.72 len=20.0
+dense_line_same_with_header        NDCG@10=0.600 NDCG@5=0.636 Bpref=0.564 J@3=1.00 J@10=0.75 len=20.0
+dense_pure_ast_no_header           NDCG@10=0.430 NDCG@5=0.431 Bpref=0.375 J@3=1.00 J@10=0.72 len=20.0
+dense_pure_ast_with_header         NDCG@10=0.553 NDCG@5=0.610 Bpref=0.538 J@3=1.00 J@10=0.69 len=20.0
+rerank_line_same_no_header         NDCG@10=0.629 NDCG@5=0.739 Bpref=0.497 J@3=1.00 J@10=0.72 len=20.0
+rerank_line_same_with_header       NDCG@10=0.681 NDCG@5=0.784 Bpref=0.590 J@3=1.00 J@10=0.74 len=20.0
+rerank_pure_ast_no_header          NDCG@10=0.399 NDCG@5=0.386 Bpref=0.335 J@3=1.00 J@10=0.71 len=20.0
+rerank_pure_ast_with_header        NDCG@10=0.598 NDCG@5=0.695 Bpref=0.518 J@3=1.00 J@10=0.66 len=20.0
+-- tests (rerank, NDCG@10) --
+C1 PureAST+H vs Line+H         delta=-0.083 CI=[-0.162,-0.001] W/L/T=[7, 18, 0] p_raw=0.0710 p_Holm=0.1420
+C2 PureAST noH vs Line noH     delta=-0.230 CI=[-0.287,-0.173] W/L/T=[2, 23, 0] p_raw=0.0000 p_Holm=0.0000
+C3 header effect on PureAST    delta=+0.199 CI=[+0.117,+0.284] W/L/T=[23, 2, 0] p_raw=0.0000 p_Holm=0.0001
+C4 PureAST+H vs Line noH       delta=-0.031 CI=[-0.116,+0.061] W/L/T=[12, 13, 0] p_raw=0.4418 p_Holm=0.4418
+-- tests (dense, NDCG@10) --
+C1 PureAST+H vs Line+H         delta=-0.046 CI=[-0.110,+0.019] W/L/T=[7, 18, 0] p_raw=0.0851 p_Holm=0.1703
+C2 PureAST noH vs Line noH     delta=-0.132 CI=[-0.205,-0.059] W/L/T=[6, 19, 0] p_raw=0.0031 p_Holm=0.0093
+C3 header effect on PureAST    delta=+0.123 CI=[+0.078,+0.171] W/L/T=[23, 2, 0] p_raw=0.0000 p_Holm=0.0000
+C4 PureAST+H vs Line noH       delta=-0.009 CI=[-0.093,+0.082] W/L/T=[11, 14, 0] p_raw=0.6338 p_Holm=0.6338

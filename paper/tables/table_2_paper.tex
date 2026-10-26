@@ -1,0 +1,26 @@
+\begin{table}[t]
+\caption{Hypothesis tests on NDCG@10 at reranking tier ($N=25$).}
+\label{tab:statistical_hypothesis_tests}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{threeparttable}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+ID & Contrast ($A - B$) & $\Delta$ [95\% CI] & W/L/T & $p_{\mathrm{Holm}}$ \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Confirmatory family (step-down Holm, $\alpha = 0.05$)}} \\
+Comp 1 & \astH\ vs. \lineN & $-0.093$ $[-0.164, -0.023]$ & 7/18/0 & $0.0438^{*}$ \\
+Comp 2 & \astN\ vs. \lineN & $-0.239$ $[-0.292, -0.185]$ & 2/23/0 & $<0.001^{***}$ \\
+Comp 3 & \astH\ vs. \astN & $+0.146$ $[+0.086, +0.207]$ & 23/2/0 & $<0.001^{***}$ \\
+Comp 4 & \lineH\ vs. \lineN & $+0.041$ $[-0.012, +0.093]$ & 15/10/0 & $0.2411$ \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Exploratory (outside the Holm family)}} \\
+Comp 5 & \astH\ vs. \lineH & $-0.134$ $[-0.199, -0.070]$ & 5/20/0 & $0.0003^{\dagger}$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\scriptsize
+\item[] W/L/T: queries where $A$ wins, loses, or ties against $B$. Significance follows $p_{\mathrm{Holm}}$ (*~$<0.05$, **~$<0.01$, ***~$<0.001$). $^{\dagger}$~Unadjusted $p$ (exploratory).
+\end{tablenotes}
+\end{threeparttable}%
+}
+\end{table}

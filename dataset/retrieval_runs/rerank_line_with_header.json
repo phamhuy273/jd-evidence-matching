@@ -268,7 +268,7 @@
     },
     {
       "rank": 5,
-      "score": 0.02187427133321762,
+      "score": 0.02187431789934635,
       "dense_rank": 12,
       "dense_score": 0.5150117874145508,
       "chunk_id": "line::Angel-Raa/spring-security-jwt-authentication-and-authorization::src/main/java/com/github/angel/raa/modules/persistence/repository/ProductRepository.java::1_6::LINE_50",
@@ -301,7 +301,7 @@
     },
     {
       "rank": 8,
-      "score": 0.010655737482011318,
+      "score": 0.010655743069946766,
       "dense_rank": 10,
       "dense_score": 0.5177135467529297,
       "chunk_id": "line::krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/GlobalDiscountRepository.java::1_10::LINE_50",
@@ -323,7 +323,7 @@
     },
     {
       "rank": 10,
-      "score": 0.010209993459284306,
+      "score": 0.010209950618445873,
       "dense_rank": 3,
       "dense_score": 0.5284909009933472,
       "chunk_id": "line::Rapter1990/parkinglot::src/main/java/com/project/parkinglot/logging/repository/LogRepository.java::1_10::LINE_50",
@@ -378,7 +378,7 @@
     },
     {
       "rank": 15,
-      "score": 0.006412079092115164,
+      "score": 0.006412060931324959,
       "dense_rank": 15,
       "dense_score": 0.5128909349441528,
       "chunk_id": "line::LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java::1_13::LINE_50",
@@ -567,7 +567,7 @@
     },
     {
       "rank": 12,
-      "score": 0.00691193388774991,
+      "score": 0.006911937613040209,
       "dense_rank": 18,
       "dense_score": 0.5098775625228882,
       "chunk_id": "line::SaiUpadhyayula/spring-reddit-clone::src/main/java/com/programming/techie/springredditclone/controller/AuthController.java::41_52::LINE_50",
@@ -589,7 +589,7 @@
     },
     {
       "rank": 14,
-      "score": 0.0063032894395291805,
+      "score": 0.006303298752754927,
       "dense_rank": 9,
       "dense_score": 0.5168877840042114,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/AuthRestController.java::81_91::LINE_50",
@@ -1011,7 +1011,7 @@
     },
     {
       "rank": 12,
-      "score": 0.02614838071167469,
+      "score": 0.02614840492606163,
       "dense_rank": 17,
       "dense_score": 0.5342857837677002,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/BlogApplicationSpringbootRestApisApplication.java::41_78::LINE_50",
@@ -1055,7 +1055,7 @@
     },
     {
       "rank": 16,
-      "score": 0.012507602572441101,
+      "score": 0.012507579289376736,
       "dense_rank": 5,
       "dense_score": 0.554361879825592,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -1156,7 +1156,7 @@
     },
     {
       "rank": 5,
-      "score": 0.05177156627178192,
+      "score": 0.05177154019474983,
       "dense_rank": 18,
       "dense_score": 0.5182042717933655,
       "chunk_id": "line::rimmelasghar/SpringBoot-boilerPlate::src/main/java/com/rimmelasghar/boilerplate/springboot/controller/RegistrationController.java::1_30::LINE_50",
@@ -1400,7 +1400,7 @@
     },
     {
       "rank": 7,
-      "score": 0.046240732073783875,
+      "score": 0.04624094069004059,
       "dense_rank": 4,
       "dense_score": 0.5789849758148193,
       "chunk_id": "line::osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/BlogApiApplication.java::1_38::LINE_50",
@@ -1743,7 +1743,7 @@
     },
     {
       "rank": 18,
-      "score": 0.006209752522408962,
+      "score": 0.006209749262779951,
       "dense_rank": 6,
       "dense_score": 0.5312666893005371,
       "chunk_id": "line::Rapter1990/parkinglot::src/main/java/com/project/parkinglot/config/OpenApiConfig.java::1_35::LINE_50",
@@ -1932,7 +1932,7 @@
     },
     {
       "rank": 15,
-      "score": 0.007465054746717215,
+      "score": 0.007465076167136431,
       "dense_rank": 17,
       "dense_score": 0.5215604305267334,
       "chunk_id": "line::krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/GlobalDiscountRepository.java::1_10::LINE_50",
@@ -1965,7 +1965,7 @@
     },
     {
       "rank": 18,
-      "score": 0.005019932519644499,
+      "score": 0.005019946955144405,
       "dense_rank": 15,
       "dense_score": 0.5255166292190552,
       "chunk_id": "line::LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java::1_13::LINE_50",
@@ -2187,7 +2187,7 @@
     },
     {
       "rank": 18,
-      "score": 0.004775714129209518,
+      "score": 0.004775695968419313,
       "dense_rank": 2,
       "dense_score": 0.5496476292610168,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java::1_27::LINE_50",
@@ -2620,7 +2620,7 @@
     },
     {
       "rank": 17,
-      "score": 0.007468115538358688,
+      "score": 0.007468101102858782,
       "dense_rank": 2,
       "dense_score": 0.5507792234420776,
       "chunk_id": "line::f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/entity/Product.java::41_62::LINE_50",
@@ -2631,7 +2631,7 @@
     },
     {
       "rank": 18,
-      "score": 0.004665065091103315,
+      "score": 0.004665058571845293,
       "dense_rank": 16,
       "dense_score": 0.5210416913032532,
       "chunk_id": "line::krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/GlobalDiscountRepository.java::1_10::LINE_50",
@@ -2642,7 +2642,7 @@
     },
     {
       "rank": 19,
-      "score": 0.0029437686316668987,
+      "score": 0.002943767001852393,
       "dense_rank": 11,
       "dense_score": 0.529944121837616,
       "chunk_id": "line::LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java::1_13::LINE_50",
@@ -2653,7 +2653,7 @@
     },
     {
       "rank": 20,
-      "score": 0.0028674982022494078,
+      "score": 0.002867500763386488,
       "dense_rank": 15,
       "dense_score": 0.5228089094161987,
       "chunk_id": "line::f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/util/PasswordEncryptionUtil.java::1_31::LINE_50",
@@ -3286,7 +3286,7 @@
     },
     {
       "rank": 17,
-      "score": 0.007551806978881359,
+      "score": 0.007551789283752441,
       "dense_rank": 1,
       "dense_score": 0.5853621959686279,
       "chunk_id": "line::devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AuthForwardInterceptor.java::1_29::LINE_50",
@@ -3420,7 +3420,7 @@
     },
     {
       "rank": 9,
-      "score": 0.0025207095313817263,
+      "score": 0.002520711859688163,
       "dense_rank": 5,
       "dense_score": 0.5581197142601013,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -3620,7 +3620,7 @@
     },
     {
       "rank": 7,
-      "score": 0.0062410784885287285,
+      "score": 0.00624108174815774,
       "dense_rank": 5,
       "dense_score": 0.5372684001922607,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -3853,7 +3853,7 @@
     },
     {
       "rank": 8,
-      "score": 0.0028260371182113886,
+      "score": 0.002826038748025894,
       "dense_rank": 18,
       "dense_score": 0.5207645893096924,
       "chunk_id": "line::DevlinRocha/banter::src/components/addServer/CreateServer.tsx::81_123::LINE_50",
@@ -4242,7 +4242,7 @@
     },
     {
       "rank": 3,
-      "score": 0.08255208283662796,
+      "score": 0.082551971077919,
       "dense_rank": 1,
       "dense_score": 0.601469099521637,
       "chunk_id": "line::RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/login/page.tsx::41_51::LINE_50",
@@ -4253,7 +4253,7 @@
     },
     {
       "rank": 4,
-      "score": 0.02060205489397049,
+      "score": 0.02060207910835743,
       "dense_rank": 4,
       "dense_score": 0.5799369812011719,
       "chunk_id": "line::RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/forgot-password/page.tsx::41_56::LINE_50",
@@ -4453,7 +4453,7 @@
     },
     {
       "rank": 2,
-      "score": 0.05743318423628807,
+      "score": 0.05743294954299927,
       "dense_rank": 3,
       "dense_score": 0.571284294128418,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Container.tsx::1_11::LINE_50",
@@ -4486,7 +4486,7 @@
     },
     {
       "rank": 5,
-      "score": 0.0344553105533123,
+      "score": 0.03445524722337723,
       "dense_rank": 1,
       "dense_score": 0.576104998588562,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Col.tsx::1_13::LINE_50",
@@ -4497,7 +4497,7 @@
     },
     {
       "rank": 6,
-      "score": 0.021060584113001823,
+      "score": 0.021060608327388763,
       "dense_rank": 8,
       "dense_score": 0.5295330286026001,
       "chunk_id": "line::kevinshen56714/SkyOffice::client/src/hooks.ts::1_6::LINE_50",
@@ -4530,7 +4530,7 @@
     },
     {
       "rank": 9,
-      "score": 0.01302141509950161,
+      "score": 0.01302140299230814,
       "dense_rank": 2,
       "dense_score": 0.572545051574707,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -4664,7 +4664,7 @@
   "JD_REACT_07": [
     {
       "rank": 1,
-      "score": 0.043947212398052216,
+      "score": 0.04394735395908356,
       "dense_rank": 20,
       "dense_score": 0.5180234909057617,
       "chunk_id": "line::RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/login/page.tsx::41_51::LINE_50",
@@ -4741,7 +4741,7 @@
     },
     {
       "rank": 8,
-      "score": 0.01104797050356865,
+      "score": 0.011047985404729843,
       "dense_rank": 16,
       "dense_score": 0.5227149724960327,
       "chunk_id": "line::JordanKnott/taskcafe::frontend/src/shared/components/Checklist/index.tsx::601_635::LINE_50",
@@ -4851,7 +4851,7 @@
     },
     {
       "rank": 18,
-      "score": 0.0003662697272375226,
+      "score": 0.00036627010558731854,
       "dense_rank": 11,
       "dense_score": 0.5259460806846619,
       "chunk_id": "line::Blazity/next-enterprise::components/Button/Button.test.tsx::1_32::LINE_50",
@@ -4873,7 +4873,7 @@
     },
     {
       "rank": 20,
-      "score": 8.491268090438098e-05,
+      "score": 8.491260086884722e-05,
       "dense_rank": 13,
       "dense_score": 0.5242704153060913,
       "chunk_id": "line::vercel/commerce::components/welcome-toast.tsx::1_36::LINE_50",
@@ -4941,7 +4941,7 @@
     },
     {
       "rank": 6,
-      "score": 0.0069615598767995834,
+      "score": 0.006961577106267214,
       "dense_rank": 7,
       "dense_score": 0.5607672929763794,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Col.tsx::1_13::LINE_50",
@@ -4963,7 +4963,7 @@
     },
     {
       "rank": 8,
-      "score": 0.0053963069804012775,
+      "score": 0.005396281834691763,
       "dense_rank": 2,
       "dense_score": 0.5736583471298218,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Container.tsx::1_11::LINE_50",
@@ -4974,7 +4974,7 @@
     },
     {
       "rank": 9,
-      "score": 0.004884059075266123,
+      "score": 0.0048840660601854324,
       "dense_rank": 11,
       "dense_score": 0.5492678880691528,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -5018,7 +5018,7 @@
     },
     {
       "rank": 13,
-      "score": 0.0023467789869755507,
+      "score": 0.0023467768914997578,
       "dense_rank": 17,
       "dense_score": 0.5430252552032471,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/cards/plain-card.tsx::1_18::LINE_50",
@@ -5152,7 +5152,7 @@
     },
     {
       "rank": 5,
-      "score": 0.024510610848665237,
+      "score": 0.024510622024536133,
       "dense_rank": 6,
       "dense_score": 0.5375910997390747,
       "chunk_id": "line::RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/login/page.tsx::41_51::LINE_50",
@@ -5196,7 +5196,7 @@
     },
     {
       "rank": 9,
-      "score": 0.005068753845989704,
+      "score": 0.005068756174296141,
       "dense_rank": 10,
       "dense_score": 0.5316696166992188,
       "chunk_id": "line::RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/forgot-password/page.tsx::41_56::LINE_50",
@@ -5284,7 +5284,7 @@
     },
     {
       "rank": 17,
-      "score": 0.0003317871887702495,
+      "score": 0.00033178686862811446,
       "dense_rank": 17,
       "dense_score": 0.522220253944397,
       "chunk_id": "line::mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/AuthRestController.java::81_91::LINE_50",
@@ -5341,7 +5341,7 @@
     },
     {
       "rank": 2,
-      "score": 0.022373734042048454,
+      "score": 0.022373700514435768,
       "dense_rank": 3,
       "dense_score": 0.5772724151611328,
       "chunk_id": "line::sylvaincodes/youtube_ecommerce::components/modules/custom/Container.tsx::1_11::LINE_50",
@@ -5418,7 +5418,7 @@
     },
     {
       "rank": 9,
-      "score": 0.00391350919380784,
+      "score": 0.003913507331162691,
       "dense_rank": 2,
       "dense_score": 0.5837571024894714,
       "chunk_id": "line::robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx::1_14::LINE_50",
@@ -5473,7 +5473,7 @@
     },
     {
       "rank": 14,
-      "score": 0.001429900643415749,
+      "score": 0.0014298992464318871,
       "dense_rank": 8,
       "dense_score": 0.5421451330184937,
       "chunk_id": "line::kevinshen56714/SkyOffice::client/src/hooks.ts::1_6::LINE_50",

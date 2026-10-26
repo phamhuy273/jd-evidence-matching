@@ -1,0 +1,40 @@
+\begin{table*}[t]
+\caption{Retrieval effectiveness across chunking strategies, context header conditions, and pipeline tiers ($N=25$ job descriptions).}
+\label{tab:main_retrieval_benchmark}
+\centering\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{threeparttable}
+\begin{tabular}{@{}llcccccccc@{}}
+\toprule
+Chunking Strategy & Header Condition & NDCG@10$\uparrow$ & NDCG@1$\uparrow$ & NDCG@3$\uparrow$ & NDCG@5$\uparrow$ & MRR@10$\uparrow$ & P@5$\uparrow$ & Recall@10$\uparrow$ & Judged@10 \\
+\midrule
+\multicolumn{10}{l}{\textit{Panel A: Two-Stage Re-ranking Tier (Cross-Encoder BGE-Reranker-Base)}} \\[2pt]
+Line (50 LOC) & No-Header & \makecell{\underline{0.580}\\\scriptsize [0.505, 0.649]} & \textbf{0.800} & \underline{0.736} & \underline{0.728} & \textbf{0.953} & \underline{0.816} & \underline{0.230} & \underline{0.716} \\[1pt]
+Line (50 LOC) & With-Header & \makecell{\textbf{0.621}\\\scriptsize [0.555, 0.682]} & \textbf{0.800} & \textbf{0.773} & \textbf{0.770} & \underline{0.950} & \textbf{0.896} & \textbf{0.262} & \textbf{0.736} \\[1pt]
+AST (Node-Level) & No-Header & \makecell{0.341\\\scriptsize [0.263, 0.421]} & 0.340 & 0.346 & 0.375 & 0.699 & 0.544 & 0.156 & 0.712 \\[1pt]
+AST (Node-Level) & With-Header & \makecell{0.487\\\scriptsize [0.419, 0.551]} & \underline{0.740} & 0.698 & 0.661 & 0.896 & 0.744 & 0.183 & 0.660 \\[1pt]
+\midrule
+\multicolumn{10}{l}{\textit{Panel B: Dense Bi-Encoder Tier (BGE-M3 Embeddings)}} \\[2pt]
+Line (50 LOC) & No-Header & \makecell{\underline{0.521}\\\scriptsize [0.439, 0.600]} & \underline{0.600} & \textbf{0.612} & \underline{0.615} & \underline{0.891} & \underline{0.792} & \underline{0.225} & \underline{0.720} \\[1pt]
+Line (50 LOC) & With-Header & \makecell{\textbf{0.551}\\\scriptsize [0.480, 0.619]} & 0.580 & \underline{0.609} & \textbf{0.628} & 0.883 & \textbf{0.832} & \textbf{0.265} & \textbf{0.752} \\[1pt]
+AST (Node-Level) & No-Header & \makecell{0.358\\\scriptsize [0.298, 0.420]} & 0.420 & 0.381 & 0.412 & 0.813 & 0.608 & 0.167 & 0.716 \\[1pt]
+AST (Node-Level) & With-Header & \makecell{0.450\\\scriptsize [0.393, 0.506]} & \textbf{0.620} & 0.589 & 0.581 & \textbf{0.910} & 0.784 & 0.204 & 0.692 \\[1pt]
+\midrule
+\multicolumn{10}{l}{\textit{Panel C: Lexical Sparse Baseline Tier (BM25)$^{\dagger}$}} \\[2pt]
+Line (50 LOC) & No-Header & \makecell{\underline{0.405}\\\scriptsize [0.350, 0.458]} & \textbf{0.440} & \underline{0.502} & \textbf{0.523} & \underline{0.865} & \textbf{0.824} & \underline{0.208} & 0.644 \\[1pt]
+Line (50 LOC) & With-Header & \makecell{\textbf{0.433}\\\scriptsize [0.376, 0.486]} & \textbf{0.440} & \textbf{0.506} & \underline{0.520} & \textbf{0.868} & \underline{0.800} & \textbf{0.228} & \textbf{0.696} \\[1pt]
+AST (Node-Level) & No-Header & \makecell{0.305\\\scriptsize [0.236, 0.371]} & \underline{0.340} & 0.414 & 0.429 & 0.724 & 0.592 & 0.128 & 0.560 \\[1pt]
+AST (Node-Level) & With-Header & \makecell{0.311\\\scriptsize [0.243, 0.376]} & \underline{0.340} & 0.309 & 0.353 & 0.761 & 0.576 & 0.153 & \underline{0.676} \\[1pt]
+\midrule
+\multicolumn{10}{l}{\textit{Pre-registered Random Baselines}} \\[1pt]
+Random Selection & Full Corpus (872 Chunks) & 0.022 & --- & --- & --- & --- & --- & --- & --- \\[1pt]
+Random Selection & Judged Pool Candidates$^{\ddagger}$ & 0.562 & --- & --- & --- & --- & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\scriptsize
+\item[] Note: 95\% bootstrap confidence intervals across 25 JDs (10,000 resamples, seed 42) shown in brackets below NDCG@10. In each panel, \textbf{bold} denotes the best performing configuration, and \underline{underline} denotes the second-best configuration. Linear relevance gain $\mathrm{rel}/\log_2(i+1)$ is employed across all NDCG calculations.
+\item[] All 12 configurations across lexical (BM25), dense bi-encoder (BGE-M3), and two-stage cross-encoder (BGE-Reranker-Base) tiers were pooled uniformly at Top-5 ($N=25$ JDs, $N=882$ unique graded candidate spans, Judged@5 = 100.0\%). All metrics are evaluated against the adjudicated unified ground truth.
+\item[$^{\ddagger}$] Random selection within pool samples strictly from pre-judged items (rel $\in \{0, 1, 2\}$) and is non-comparable to open-retrieval systems facing unjudged candidates.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

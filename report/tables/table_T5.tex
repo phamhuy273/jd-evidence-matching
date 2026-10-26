@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\caption{Retrieval performance (NDCG@10, Re-ranking tier) stratified by target programming language.}
+\label{tab:language_stratification}
+\centering\footnotesize
+\setlength{\tabcolsep}{10pt}
+\begin{threeparttable}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Configuration & Java ($N=15$) & React/TS ($N=10$) & Overall ($N=25$) \\
+\midrule
+Line No-Header & \underline{0.695} & \underline{0.407} & \underline{0.580} \\
+Line With-Header & \textbf{0.716} & \textbf{0.478} & \textbf{0.621} \\
+AST No-Header & 0.470 & 0.147 & 0.341 \\
+AST With-Header & 0.583 & 0.342 & 0.487 \\
+\midrule
+$\Delta$ (AST+Hdr vs. Line+Hdr)$^{\dagger}$ & $-0.1328$ & $-0.1357$ & $-0.1339$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Note: Stratification over 15 Java job descriptions and 10 React/TypeScript job descriptions at the two-stage re-ranking tier. \textbf{Bold} denotes the best performing configuration, and \underline{underline} denotes the second-best within each language stratum. NDCG computed using linear gain $\mathrm{rel}/\log_2(i+1)$.
+\item[$^{\dagger}$] Exploratory contrast (Comp 5). Negative values denote advantage for Line With-Header.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

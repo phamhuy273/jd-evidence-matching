@@ -1,0 +1,13 @@
+configuration,tier,top3_total,top3_unjudged,judged_at_3,top5_total,top5_unjudged,judged_at_5,top10_total,top10_unjudged,judged_at_10
+bm25_line_no_header,BM25,75,0,1.0,125,0,1.0,250,89,0.644
+bm25_line_with_header,BM25,75,0,1.0,125,0,1.0,250,76,0.696
+bm25_ast_no_header,BM25,75,0,1.0,125,0,1.0,250,110,0.56
+bm25_ast_with_header,BM25,75,0,1.0,125,0,1.0,250,81,0.676
+dense_line_no_header,Dense,75,0,1.0,125,0,1.0,250,70,0.72
+dense_line_with_header,Dense,75,0,1.0,125,0,1.0,250,62,0.752
+dense_ast_no_header,Dense,75,0,1.0,125,0,1.0,250,71,0.716
+dense_ast_with_header,Dense,75,0,1.0,125,0,1.0,250,77,0.692
+rerank_line_no_header,Rerank,75,0,1.0,125,0,1.0,250,71,0.716
+rerank_line_with_header,Rerank,75,0,1.0,125,0,1.0,250,66,0.736
+rerank_ast_no_header,Rerank,75,0,1.0,125,0,1.0,250,72,0.712
+rerank_ast_with_header,Rerank,75,0,1.0,125,0,1.0,250,85,0.66

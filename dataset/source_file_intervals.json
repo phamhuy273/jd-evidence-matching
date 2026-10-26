@@ -1,0 +1,1802 @@
+{
+  "Angel-Concha-Layme/Fake-Store-API::src/main/java/com/fakestore/api/dto/OrderDTO.java": [],
+  "Angel-Raa/spring-security-jwt-authentication-and-authorization::src/main/java/com/github/angel/raa/modules/controller/AuthenticationController.java": [
+    [
+      30,
+      36
+    ],
+    [
+      37,
+      45
+    ],
+    [
+      48,
+      53
+    ],
+    [
+      54,
+      62
+    ]
+  ],
+  "Angel-Raa/spring-security-jwt-authentication-and-authorization::src/main/java/com/github/angel/raa/modules/persistence/repository/CategoryRepository.java": [],
+  "Angel-Raa/spring-security-jwt-authentication-and-authorization::src/main/java/com/github/angel/raa/modules/persistence/repository/ProductRepository.java": [],
+  "Blazity/next-enterprise::app/page.tsx": [
+    [
+      23,
+      66
+    ]
+  ],
+  "Blazity/next-enterprise::components/Button/Button.test.tsx": [],
+  "Blazity/next-enterprise::components/Tooltip/Tooltip.tsx": [
+    [
+      46,
+      75
+    ]
+  ],
+  "Blazity/next-enterprise::lp-items.tsx": [],
+  "Blazity/next-enterprise::next.config.ts": [],
+  "Blazity/next-enterprise::playwright.config.ts": [],
+  "Blazity/next-enterprise::report-bundle-size.js": [
+    [
+      82,
+      95
+    ],
+    [
+      98,
+      114
+    ],
+    [
+      119,
+      123
+    ],
+    [
+      131,
+      133
+    ]
+  ],
+  "DevlinRocha/banter::src/components/Members.tsx": [
+    [
+      21,
+      315
+    ],
+    [
+      135,
+      153
+    ],
+    [
+      155,
+      180
+    ],
+    [
+      182,
+      195
+    ],
+    [
+      197,
+      205
+    ]
+  ],
+  "DevlinRocha/banter::src/components/addServer/AddServer.tsx": [
+    [
+      7,
+      26
+    ]
+  ],
+  "DevlinRocha/banter::src/components/addServer/CreateServer.tsx": [
+    [
+      8,
+      66
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      15,
+      17
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      23,
+      25
+    ]
+  ],
+  "HalseySpicy/Hooks-Admin::src/api/helper/axiosCancel.ts": [
+    [
+      9,
+      10
+    ],
+    [
+      17,
+      29
+    ],
+    [
+      35,
+      44
+    ],
+    [
+      49,
+      54
+    ],
+    [
+      59,
+      61
+    ]
+  ],
+  "HalseySpicy/Hooks-Admin::src/api/helper/checkStatus.ts": [
+    [
+      8,
+      43
+    ]
+  ],
+  "HalseySpicy/Hooks-Admin::src/api/index.ts": [
+    [
+      25,
+      88
+    ],
+    [
+      91,
+      93
+    ],
+    [
+      94,
+      96
+    ],
+    [
+      97,
+      99
+    ],
+    [
+      100,
+      102
+    ]
+  ],
+  "HalseySpicy/Hooks-Admin::src/components/ErrorMessage/404.tsx": [
+    [
+      6,
+      23
+    ]
+  ],
+  "HalseySpicy/Hooks-Admin::src/components/Loading/index.tsx": [
+    [
+      4,
+      6
+    ]
+  ],
+  "Instagram-Clone-Coding/Spring_instagram-clone::src/main/java/cloneproject/Instagram/domain/alarm/controller/AlarmController.java": [
+    [
+      32,
+      48
+    ]
+  ],
+  "Instagram-Clone-Coding/Spring_instagram-clone::src/main/java/cloneproject/Instagram/domain/alarm/service/AlarmService.java": [
+    [
+      49,
+      69
+    ],
+    [
+      71,
+      82
+    ],
+    [
+      84,
+      99
+    ],
+    [
+      101,
+      109
+    ],
+    [
+      111,
+      119
+    ],
+    [
+      121,
+      137
+    ],
+    [
+      139,
+      143
+    ],
+    [
+      145,
+      149
+    ],
+    [
+      151,
+      155
+    ],
+    [
+      157,
+      161
+    ],
+    [
+      163,
+      167
+    ],
+    [
+      169,
+      175
+    ],
+    [
+      177,
+      194
+    ],
+    [
+      196,
+      204
+    ]
+  ],
+  "JordanKnott/taskcafe::frontend/src/shared/components/AddList/Styles.ts": [],
+  "JordanKnott/taskcafe::frontend/src/shared/components/Admin/index.tsx": [
+    [
+      323,
+      503
+    ],
+    [
+      511,
+      530
+    ],
+    [
+      544,
+      712
+    ]
+  ],
+  "JordanKnott/taskcafe::frontend/src/shared/components/Button/index.tsx": [
+    [
+      144,
+      248
+    ]
+  ],
+  "JordanKnott/taskcafe::frontend/src/shared/components/CardComposer/Styles.ts": [],
+  "JordanKnott/taskcafe::frontend/src/shared/components/CardComposer/index.tsx": [
+    [
+      23,
+      71
+    ]
+  ],
+  "JordanKnott/taskcafe::frontend/src/shared/components/Checklist/index.tsx": [
+    [
+      418,
+      479
+    ]
+  ],
+  "LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/exception/DefaultExceptionHandler.java": [
+    [
+      45,
+      51
+    ],
+    [
+      56,
+      62
+    ],
+    [
+      69,
+      73
+    ],
+    [
+      80,
+      84
+    ],
+    [
+      91,
+      95
+    ],
+    [
+      102,
+      106
+    ],
+    [
+      113,
+      117
+    ],
+    [
+      123,
+      127
+    ],
+    [
+      132,
+      136
+    ]
+  ],
+  "LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/DeptRepository.java": [],
+  "LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/repository/primary/MenuRepository.java": [],
+  "LuckyKuang/springboot-base-project::src/main/java/com/luckykuang/auth/service/impl/RoleServiceImpl.java": [
+    [
+      50,
+      57
+    ],
+    [
+      59,
+      62
+    ],
+    [
+      64,
+      67
+    ],
+    [
+      69,
+      73
+    ],
+    [
+      75,
+      84
+    ],
+    [
+      86,
+      95
+    ],
+    [
+      97,
+      103
+    ]
+  ],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/config/OpenApiConfig.java": [],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/controller/ParkController.java": [
+    [
+      41,
+      55
+    ],
+    [
+      64,
+      83
+    ]
+  ],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/logging/repository/LogRepository.java": [],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/logging/service/impl/LogServiceImpl.java": [
+    [
+      25,
+      31
+    ]
+  ],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/payload/response/CustomPageResponse.java": [
+    [
+      35,
+      43
+    ]
+  ],
+  "Rapter1990/parkinglot::src/main/java/com/project/parkinglot/repository/PriceListRepository.java": [],
+  "RishiBakshii/mern-chat-app::backend/src/controllers/attachment.controller.ts": [],
+  "RishiBakshii/mern-chat-app::backend/src/controllers/auth.controller.ts": [],
+  "RishiBakshii/mern-chat-app::backend/src/controllers/chat.controller.ts": [],
+  "RishiBakshii/mern-chat-app::backend/src/controllers/message.controller.ts": [],
+  "RishiBakshii/mern-chat-app::backend/src/controllers/user.controller.ts": [],
+  "RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/forgot-password/page.tsx": [
+    [
+      40,
+      54
+    ]
+  ],
+  "RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/login/page.tsx": [
+    [
+      39,
+      51
+    ]
+  ],
+  "RishiBakshii/mern-chat-app::next-js-frontend/src/app/auth/reset-password/page.tsx": [
+    [
+      32,
+      60
+    ],
+    [
+      62,
+      68
+    ]
+  ],
+  "SaiUpadhyayula/spring-reddit-clone::src/main/java/com/programming/techie/springredditclone/controller/AuthController.java": [
+    [
+      24,
+      29
+    ],
+    [
+      31,
+      35
+    ],
+    [
+      37,
+      40
+    ],
+    [
+      42,
+      45
+    ],
+    [
+      47,
+      51
+    ]
+  ],
+  "SaiUpadhyayula/spring-reddit-clone::src/main/java/com/programming/techie/springredditclone/controller/PostController.java": [
+    [
+      22,
+      26
+    ],
+    [
+      28,
+      31
+    ],
+    [
+      33,
+      36
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      43,
+      46
+    ]
+  ],
+  "Snailclimb/spring-security-jwt-guide::src/main/java/github/javaguide/springsecurityjwtguide/security/exception/JwtAccessDeniedHandler.java": [
+    [
+      19,
+      23
+    ]
+  ],
+  "Snailclimb/spring-security-jwt-guide::src/main/java/github/javaguide/springsecurityjwtguide/security/service/AuthService.java": [
+    [
+      34,
+      50
+    ],
+    [
+      52,
+      76
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/analytics/premium/route.ts": [
+    [
+      11,
+      79
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/billing/status/route.ts": [
+    [
+      7,
+      58
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/exercises/[exerciseId]/statistics/route.ts": [
+    [
+      21,
+      92
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/exercises/route.ts": [
+    [
+      6,
+      36
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/premium/checkout/route.ts": [
+    [
+      12,
+      37
+    ]
+  ],
+  "Snouzy/workout-cool::app/api/premium/plans/route.ts": [
+    [
+      9,
+      203
+    ],
+    [
+      212,
+      250
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/Benefits/index.tsx": [
+    [
+      6,
+      31
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/banners/banner-box/BannerBox.tsx": [
+    [
+      18,
+      57
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/banners/index.tsx": [
+    [
+      6,
+      40
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/brands/BrandBox.tsx": [
+    [
+      8,
+      15
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/brands/index.tsx": [
+    [
+      6,
+      56
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/carousel/Arrows.tsx": [
+    [
+      9,
+      23
+    ],
+    [
+      24,
+      38
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/carousel/Slide.tsx": [
+    [
+      12,
+      38
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/carousel/index.tsx": [
+    [
+      8,
+      44
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/cart/CartItem.tsx": [
+    [
+      17,
+      109
+    ]
+  ],
+  "ZahraMirzaei/online-shop::components/cart/CartList.tsx": [
+    [
+      6,
+      21
+    ]
+  ],
+  "adrianhajdin/social_media_app::src/components/forms/PostForm.tsx": [
+    [
+      29,
+      174
+    ]
+  ],
+  "adrianhajdin/social_media_app::src/components/shared/GridPostList.tsx": [
+    [
+      13,
+      52
+    ]
+  ],
+  "adrianhajdin/social_media_app::src/components/shared/PostStats.tsx": [
+    [
+      18,
+      105
+    ]
+  ],
+  "adrianhajdin/social_media_app::src/components/shared/ProfileUploader.tsx": [
+    [
+      11,
+      47
+    ]
+  ],
+  "al1abb/invoify::app/api/invoice/send/route.ts": [
+    [
+      9,
+      40
+    ]
+  ],
+  "al1abb/invoify::app/api/invoice/warm/route.ts": [
+    [
+      21,
+      48
+    ]
+  ],
+  "al1abb/invoify::app/components/dev/DevDebug.tsx": [
+    [
+      25,
+      52
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/InvoiceActions.tsx": [
+    [
+      42,
+      238
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/InvoiceForm.tsx": [
+    [
+      23,
+      136
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/InvoiceMain.tsx": [
+    [
+      25,
+      88
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/actions/MobilePreviewSheet.tsx": [
+    [
+      31,
+      53
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/actions/PdfViewer.tsx": [
+    [
+      27,
+      44
+    ],
+    [
+      51,
+      65
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/form/Charges.tsx": [
+    [
+      25,
+      181
+    ]
+  ],
+  "al1abb/invoify::app/components/invoice/form/PartyPicker.tsx": [
+    [
+      55,
+      232
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/Banner.tsx": [
+    [
+      4,
+      19
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/BannerPopup.tsx": [
+    [
+      5,
+      35
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/Cart.tsx": [
+    [
+      8,
+      107
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/CartRow.tsx": [
+    [
+      16,
+      81
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/CustomPopup.tsx": [
+    [
+      11,
+      86
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/FeatureCard.tsx": [
+    [
+      4,
+      12
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/Features.tsx": [
+    [
+      30,
+      41
+    ]
+  ],
+  "alim1496/simple-react-ecommerce::src/components/Footer.tsx": [
+    [
+      4,
+      16
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/account/UpdateName.tsx": [
+    [
+      14,
+      86
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/account/UpdatePassword.tsx": [
+    [
+      19,
+      104
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/account/UpdateTheme.tsx": [
+    [
+      7,
+      53
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/apiKey/APIKeys.tsx": [
+    [
+      17,
+      133
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/apiKey/APIKeysContainer.tsx": [
+    [
+      8,
+      31
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/auth/AgreeMessage.tsx": [
+    [
+      4,
+      29
+    ]
+  ],
+  "boxyhq/saas-starter-kit::components/styles.ts": [],
+  "devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AccountServiceConfig.java": [],
+  "devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AuthForwardInterceptor.java": [
+    [
+      23,
+      28
+    ]
+  ],
+  "devdcores/BookStoreApp-Distributed-Application::bookstore-account-service/src/main/java/com/devd/spring/bookstoreaccountservice/config/AuthorizationServerConfig.java": [
+    [
+      75,
+      78
+    ],
+    [
+      80,
+      86
+    ],
+    [
+      88,
+      92
+    ],
+    [
+      94,
+      101
+    ],
+    [
+      103,
+      129
+    ],
+    [
+      107,
+      121
+    ],
+    [
+      131,
+      135
+    ],
+    [
+      137,
+      140
+    ],
+    [
+      142,
+      144
+    ],
+    [
+      146,
+      152
+    ]
+  ],
+  "devias-io/material-kit-react::src/components/auth/layout.tsx": [
+    [
+      14,
+      68
+    ]
+  ],
+  "devias-io/material-kit-react::src/components/auth/reset-password-form.tsx": [
+    [
+      24,
+      77
+    ]
+  ],
+  "devias-io/material-kit-react::src/components/core/chart.tsx": [],
+  "devias-io/material-kit-react::src/components/core/logo.tsx": [
+    [
+      21,
+      31
+    ],
+    [
+      41,
+      56
+    ]
+  ],
+  "devias-io/material-kit-react::src/components/core/theme-provider/theme-provider.tsx": [
+    [
+      15,
+      26
+    ]
+  ],
+  "f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/entity/BaseEntity.java": [],
+  "f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/entity/Product.java": [],
+  "f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/exception/handler/GlobalExceptionHandler.java": [
+    [
+      20,
+      23
+    ],
+    [
+      25,
+      37
+    ],
+    [
+      39,
+      51
+    ]
+  ],
+  "f-lab-edu/fast-shoppers::src/main/java/com/fastshoppers/util/PasswordEncryptionUtil.java": [
+    [
+      13,
+      29
+    ]
+  ],
+  "hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/config/SecurityConfig.java": [
+    [
+      29,
+      41
+    ]
+  ],
+  "hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/config/SsoProperties.java": [],
+  "hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/controller/AuthController.java": [
+    [
+      42,
+      46
+    ],
+    [
+      56,
+      71
+    ],
+    [
+      77,
+      93
+    ],
+    [
+      98,
+      101
+    ],
+    [
+      107,
+      110
+    ],
+    [
+      112,
+      116
+    ],
+    [
+      123,
+      128
+    ],
+    [
+      130,
+      132
+    ],
+    [
+      134,
+      136
+    ]
+  ],
+  "hoangtien2k3/ecommerce-microservices::auth-service/src/main/java/com/ecommerce/authservice/controller/RoleController.java": [
+    [
+      33,
+      41
+    ],
+    [
+      43,
+      51
+    ],
+    [
+      53,
+      57
+    ]
+  ],
+  "huseynovvusal/spring-blog-api::src/main/java/com/huseynovvusal/springblogapi/config/OpenAPIConfiguration.java": [
+    [
+      22,
+      40
+    ]
+  ],
+  "huseynovvusal/spring-blog-api::src/main/java/com/huseynovvusal/springblogapi/config/SecurityConfig.java": [
+    [
+      49,
+      71
+    ],
+    [
+      78,
+      82
+    ],
+    [
+      91,
+      96
+    ],
+    [
+      98,
+      105
+    ],
+    [
+      107,
+      113
+    ],
+    [
+      115,
+      122
+    ]
+  ],
+  "huseynovvusal/spring-blog-api::src/main/java/com/huseynovvusal/springblogapi/controller/AuthenticationController.java": [
+    [
+      45,
+      57
+    ],
+    [
+      65,
+      76
+    ],
+    [
+      84,
+      95
+    ],
+    [
+      103,
+      113
+    ],
+    [
+      120,
+      129
+    ]
+  ],
+  "ixartz/SaaS-Boilerplate::src/components/Background.stories.tsx": [],
+  "ixartz/SaaS-Boilerplate::src/components/DemoBadge.tsx": [
+    [
+      1,
+      15
+    ]
+  ],
+  "ixartz/SaaS-Boilerplate::src/components/ui/accordion.tsx": [
+    [
+      7,
+      11
+    ],
+    [
+      13,
+      27
+    ],
+    [
+      29,
+      61
+    ],
+    [
+      63,
+      81
+    ]
+  ],
+  "jhcode33/react-spring-blog-backend::src/main/java/jhcode/blog/controller/BoardController.java": [
+    [
+      31,
+      36
+    ],
+    [
+      39,
+      48
+    ],
+    [
+      50,
+      58
+    ],
+    [
+      60,
+      64
+    ],
+    [
+      67,
+      73
+    ],
+    [
+      76,
+      80
+    ]
+  ],
+  "jhcode33/react-spring-blog-backend::src/main/java/jhcode/blog/controller/MemberController.java": [
+    [
+      25,
+      29
+    ],
+    [
+      31,
+      35
+    ],
+    [
+      37,
+      41
+    ],
+    [
+      43,
+      50
+    ],
+    [
+      52,
+      58
+    ]
+  ],
+  "jhcode33/react-spring-blog-backend::src/main/java/jhcode/blog/repository/FileRepository.java": [],
+  "jhcode33/react-spring-blog-backend::src/main/java/jhcode/blog/service/BoardService.java": [
+    [
+      33,
+      39
+    ],
+    [
+      42,
+      55
+    ],
+    [
+      58,
+      67
+    ],
+    [
+      70,
+      77
+    ],
+    [
+      80,
+      86
+    ],
+    [
+      89,
+      91
+    ]
+  ],
+  "jhcode33/react-spring-blog-backend::src/main/java/jhcode/blog/service/CommentService.java": [
+    [
+      31,
+      37
+    ],
+    [
+      39,
+      55
+    ],
+    [
+      57,
+      63
+    ],
+    [
+      65,
+      67
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/components/ComputerDialog.tsx": [
+    [
+      77,
+      84
+    ],
+    [
+      86,
+      131
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/components/CreateRoomForm.tsx": [
+    [
+      23,
+      105
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/components/CustomRoomTable.tsx": [
+    [
+      88,
+      224
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/components/Joystick.tsx": [
+    [
+      19,
+      50
+    ],
+    [
+      52,
+      83
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/components/VideoConnectionDialog.tsx": [
+    [
+      25,
+      55
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/hooks.ts": [
+    [
+      5,
+      5
+    ]
+  ],
+  "kevinshen56714/SkyOffice::client/src/stores/ChatStore.ts": [],
+  "krkarma777/online-store::src/main/java/com/bulkpurchase/domain/enums/ErrorPage.java": [
+    [
+      13,
+      16
+    ],
+    [
+      18,
+      20
+    ],
+    [
+      22,
+      24
+    ],
+    [
+      26,
+      33
+    ]
+  ],
+  "krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/GlobalDiscountRepository.java": [],
+  "krkarma777/online-store::src/main/java/com/bulkpurchase/domain/repository/review/ReviewRepository.java": [
+    [
+      17,
+      17
+    ],
+    [
+      18,
+      22
+    ],
+    [
+      24,
+      25
+    ],
+    [
+      28,
+      29
+    ],
+    [
+      31,
+      35
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      45,
+      50
+    ],
+    [
+      52,
+      52
+    ]
+  ],
+  "krkarma777/online-store::src/main/java/com/bulkpurchase/domain/service/AdminDashboardService.java": [
+    [
+      25,
+      27
+    ],
+    [
+      29,
+      31
+    ],
+    [
+      33,
+      38
+    ],
+    [
+      39,
+      47
+    ],
+    [
+      49,
+      56
+    ],
+    [
+      58,
+      65
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/BlogApplicationSpringbootRestApisApplication.java": [
+    [
+      30,
+      32
+    ],
+    [
+      34,
+      37
+    ],
+    [
+      39,
+      42
+    ],
+    [
+      46,
+      76
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/ApplicationConstants.java": [],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/config/SwaggerConfig.java": [
+    [
+      14,
+      25
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/AuthRestController.java": [
+    [
+      40,
+      56
+    ],
+    [
+      58,
+      81
+    ],
+    [
+      84,
+      90
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/CategoryRestController.java": [
+    [
+      30,
+      36
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      45,
+      50
+    ],
+    [
+      54,
+      59
+    ],
+    [
+      63,
+      68
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/CommentController.java": [
+    [
+      26,
+      33
+    ],
+    [
+      36,
+      43
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/FileRestController.java": [],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/PostRestController.java": [
+    [
+      57,
+      64
+    ],
+    [
+      67,
+      73
+    ],
+    [
+      76,
+      82
+    ],
+    [
+      85,
+      95
+    ],
+    [
+      98,
+      105
+    ],
+    [
+      109,
+      114
+    ],
+    [
+      118,
+      123
+    ],
+    [
+      127,
+      131
+    ],
+    [
+      133,
+      137
+    ],
+    [
+      141,
+      153
+    ],
+    [
+      156,
+      164
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/controller/UserRestController.java": [
+    [
+      34,
+      39
+    ],
+    [
+      42,
+      47
+    ],
+    [
+      52,
+      62
+    ],
+    [
+      65,
+      71
+    ],
+    [
+      74,
+      79
+    ]
+  ],
+  "mdtalalwasim/blog-application-spring-boot-rest-api::blog-application-springboot-rest-apis/src/main/java/com/mdtalalwasim/blog/app/entity/Category.java": [],
+  "mewebstudio/java-spring-boot-boilerplate::src/main/java/com/mewebstudio/javaspringbootboilerplate/controller/AbstractBaseController.java": [
+    [
+      16,
+      22
+    ]
+  ],
+  "mewebstudio/java-spring-boot-boilerplate::src/main/java/com/mewebstudio/javaspringbootboilerplate/controller/AccountController.java": [
+    [
+      39,
+      64
+    ],
+    [
+      66,
+      106
+    ],
+    [
+      108,
+      145
+    ]
+  ],
+  "no2ehi/full-amazon-clone::components/Footer.tsx": [
+    [
+      9,
+      243
+    ]
+  ],
+  "no2ehi/full-amazon-clone::components/admin/categories/CreateCategory.tsx": [
+    [
+      7,
+      59
+    ]
+  ],
+  "no2ehi/full-amazon-clone::components/admin/product/CreateProduct.tsx": [
+    [
+      24,
+      308
+    ]
+  ],
+  "osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/BlogApiApplication.java": [
+    [
+      19,
+      21
+    ],
+    [
+      23,
+      26
+    ],
+    [
+      28,
+      31
+    ],
+    [
+      33,
+      36
+    ]
+  ],
+  "osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/config/AuditingConfig.java": [
+    [
+      18,
+      21
+    ],
+    [
+      26,
+      37
+    ]
+  ],
+  "osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/config/SecutiryConfig.java": [
+    [
+      34,
+      40
+    ],
+    [
+      42,
+      60
+    ],
+    [
+      62,
+      65
+    ],
+    [
+      67,
+      70
+    ],
+    [
+      72,
+      75
+    ]
+  ],
+  "osopromadze/Spring-Boot-Blog-REST-API::src/main/java/com/sopromadze/blogapi/controller/AlbumController.java": [
+    [
+      42,
+      45
+    ],
+    [
+      47,
+      54
+    ],
+    [
+      56,
+      60
+    ],
+    [
+      62,
+      65
+    ],
+    [
+      67,
+      72
+    ],
+    [
+      74,
+      78
+    ],
+    [
+      80,
+      88
+    ]
+  ],
+  "rene-kt/spring-restapi-ecommerce::src/main/java/com/rene/ecommerce/services/AuthService.java": [
+    [
+      34,
+      57
+    ],
+    [
+      59,
+      67
+    ],
+    [
+      61,
+      64
+    ],
+    [
+      69,
+      79
+    ],
+    [
+      81,
+      89
+    ],
+    [
+      91,
+      103
+    ]
+  ],
+  "rimmelasghar/SpringBoot-boilerPlate::src/main/java/com/rimmelasghar/boilerplate/springboot/controller/RegistrationController.java": [
+    [
+      22,
+      28
+    ]
+  ],
+  "rimmelasghar/SpringBoot-boilerPlate::src/main/java/com/rimmelasghar/boilerplate/springboot/exceptions/ApiExceptionResponse.java": [],
+  "robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/cards/plain-card.tsx": [
+    [
+      9,
+      16
+    ]
+  ],
+  "robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/cards/title-card.tsx": [
+    [
+      11,
+      34
+    ]
+  ],
+  "robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/input/select-color.tsx": [
+    [
+      24,
+      75
+    ]
+  ],
+  "robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/input/text-area.tsx": [
+    [
+      13,
+      42
+    ],
+    [
+      24,
+      27
+    ]
+  ],
+  "robbins23/admin-dashboard-nextjs-typescript-daisyui-template::src/components/typography/error-text.tsx": [
+    [
+      8,
+      12
+    ]
+  ],
+  "rocketbase-io/commons-auth::commons-auth-adapter/src/main/java/io/rocketbase/commons/handler/LoginSuccessCookieHandler.java": [
+    [
+      20,
+      36
+    ]
+  ],
+  "rocketbase-io/commons-auth::commons-auth-api/src/main/java/io/rocketbase/commons/convert/QueryAppUserConverter.java": [
+    [
+      12,
+      26
+    ],
+    [
+      28,
+      40
+    ]
+  ],
+  "rocketbase-io/commons-auth::commons-auth-api/src/main/java/io/rocketbase/commons/dto/appinvite/AppInviteRead.java": [],
+  "sosow0212/community::src/main/java/yoon/community/config/auth/CustomUserDetailsService.java": [
+    [
+      23,
+      29
+    ],
+    [
+      32,
+      41
+    ]
+  ],
+  "sosow0212/community::src/main/java/yoon/community/controller/board/BoardController.java": [
+    [
+      27,
+      29
+    ],
+    [
+      31,
+      39
+    ],
+    [
+      41,
+      48
+    ],
+    [
+      50,
+      55
+    ],
+    [
+      57,
+      64
+    ],
+    [
+      66,
+      72
+    ],
+    [
+      74,
+      80
+    ],
+    [
+      82,
+      88
+    ],
+    [
+      90,
+      97
+    ],
+    [
+      99,
+      106
+    ]
+  ],
+  "sosow0212/community::src/main/java/yoon/community/controller/category/CategoryController.java": [
+    [
+      28,
+      30
+    ],
+    [
+      32,
+      37
+    ],
+    [
+      39,
+      45
+    ],
+    [
+      47,
+      53
+    ],
+    [
+      55,
+      61
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/hooks/useMotion.ts": [
+    [
+      5,
+      149
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Catalog/components/Search.tsx": [
+    [
+      9,
+      40
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Catalog/index.tsx": [
+    [
+      12,
+      93
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Detail/components/Casts.tsx": [
+    [
+      16,
+      64
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Detail/components/Videos.tsx": [
+    [
+      9,
+      43
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Detail/index.tsx": [
+    [
+      13,
+      128
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Home/components/Hero.tsx": [
+    [
+      9,
+      55
+    ]
+  ],
+  "sudeepmahato16/movie-app::src/pages/Home/index.tsx": [
+    [
+      9,
+      36
+    ]
+  ],
+  "sylvaincodes/youtube_ecommerce::components/modules/custom/CategoriesAccordion.tsx": [
+    [
+      14,
+      83
+    ],
+    [
+      23,
+      36
+    ]
+  ],
+  "sylvaincodes/youtube_ecommerce::components/modules/custom/Col.tsx": [
+    [
+      3,
+      13
+    ]
+  ],
+  "sylvaincodes/youtube_ecommerce::components/modules/custom/Container.tsx": [
+    [
+      3,
+      11
+    ]
+  ],
+  "sylvaincodes/youtube_ecommerce::components/modules/custom/Currency.tsx": [
+    [
+      12,
+      32
+    ]
+  ],
+  "vercel/commerce::components/carousel.tsx": [
+    [
+      5,
+      45
+    ]
+  ],
+  "vercel/commerce::components/cart/actions.ts": [
+    [
+      15,
+      29
+    ],
+    [
+      31,
+      52
+    ],
+    [
+      54,
+      96
+    ],
+    [
+      98,
+      101
+    ],
+    [
+      103,
+      106
+    ]
+  ],
+  "vercel/commerce::components/logo-square.tsx": [
+    [
+      4,
+      23
+    ]
+  ],
+  "vercel/commerce::components/opengraph-image.tsx": [
+    [
+      10,
+      45
+    ]
+  ],
+  "vercel/commerce::components/price.tsx": [
+    [
+      3,
+      24
+    ]
+  ],
+  "vercel/commerce::components/prose.tsx": [
+    [
+      3,
+      13
+    ]
+  ],
+  "vercel/commerce::components/welcome-toast.tsx": [
+    [
+      6,
+      36
+    ]
+  ],
+  "w3labkr/nextjs14-supabase-blog::app/api/auth/callback/route.ts": [
+    [
+      10,
+      45
+    ],
+    [
+      23,
+      25
+    ],
+    [
+      26,
+      28
+    ],
+    [
+      29,
+      31
+    ]
+  ],
+  "w3labkr/nextjs14-supabase-blog::app/api/auth/confirm/route.ts": [
+    [
+      11,
+      50
+    ],
+    [
+      27,
+      29
+    ],
+    [
+      30,
+      32
+    ],
+    [
+      33,
+      35
+    ]
+  ],
+  "w3labkr/nextjs14-supabase-blog::app/api/v1/email/list/route.ts": [
+    [
+      6,
+      30
+    ]
+  ],
+  "w3labkr/nextjs14-supabase-blog::app/api/v1/email/route.ts": [
+    [
+      6,
+      39
+    ],
+    [
+      41,
+      72
+    ],
+    [
+      74,
+      107
+    ]
+  ],
+  "w3labkr/nextjs14-supabase-blog::app/api/v1/email/verify/route.ts": [
+    [
+      10,
+      45
+    ],
+    [
+      47,
+      62
+    ],
+    [
+      64,
+      72
+    ]
+  ]
+}

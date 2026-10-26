@@ -1,0 +1,45 @@
+================================================================================
+PHASE 2 & 3 POOL RECONCILIATION & GROUND TRUTH REPORT (12 CONFIGS, TOP-5)
+================================================================================
+1. HIGH-LEVEL TOTALS:
+• Total candidate instances pooled (25 JDs x 12 systems x Top-5) : 1500
+• Unique candidate code spans after span-level deduplication     : 882
+• Rows in to_label.csv                                           : 882
+• Entries in pool_span_mapping.json                               : 882
+• Multi-chunk collapsed coordinates (shared slice across systems): 1
+
+2. EMPIRICAL VERIFICATION OF to_label.csv:
+• Are the 882 rows in to_label.csv EXACTLY the deduplicated Top-5 pool? YES
+• Unmatched coordinates between Top-5 pool and to_label.csv      : 0
+
+3. PER-QUERY RECONCILIATION TABLE:
+JD_ID        | Instances | Rep_Uniq | Act_Uniq | Diff  | ChunkIDs
+-----------------------------------------------------------------
+JD_JAVA_01   |        60 |       32 |       32 |    +0 |       32
+JD_JAVA_02   |        60 |       40 |       40 |    +0 |       40
+JD_JAVA_03   |        60 |       40 |       40 |    +0 |       40
+JD_JAVA_04   |        60 |       38 |       38 |    +0 |       38
+JD_JAVA_05   |        60 |       35 |       35 |    +0 |       35
+JD_JAVA_06   |        60 |       42 |       42 |    +0 |       42
+JD_JAVA_07   |        60 |       31 |       31 |    +0 |       31
+JD_JAVA_08   |        60 |       33 |       33 |    +0 |       33
+JD_JAVA_09   |        60 |       32 |       32 |    +0 |       32
+JD_JAVA_10   |        60 |       34 |       34 |    +0 |       34
+JD_JAVA_11   |        60 |       39 |       39 |    +0 |       39
+JD_JAVA_12   |        60 |       37 |       37 |    +0 |       37
+JD_JAVA_13   |        60 |       35 |       35 |    +0 |       35
+JD_JAVA_14   |        60 |       35 |       35 |    +0 |       35
+JD_JAVA_15   |        60 |       40 |       40 |    +0 |       40
+JD_REACT_01  |        60 |       35 |       35 |    +0 |       35
+JD_REACT_02  |        60 |       35 |       35 |    +0 |       35
+JD_REACT_03  |        60 |       34 |       34 |    +0 |       34
+JD_REACT_04  |        60 |       38 |       38 |    +0 |       39
+JD_REACT_05  |        60 |       21 |       21 |    +0 |       21
+JD_REACT_06  |        60 |       29 |       29 |    +0 |       29
+JD_REACT_07  |        60 |       42 |       42 |    +0 |       42
+JD_REACT_08  |        60 |       38 |       38 |    +0 |       38
+JD_REACT_09  |        60 |       35 |       35 |    +0 |       35
+JD_REACT_10  |        60 |       32 |       32 |    +0 |       32
+-----------------------------------------------------------------
+TOTAL        |      1500 |      882 |      882 |    +0 |      883
+================================================================================

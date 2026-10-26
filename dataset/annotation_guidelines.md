@@ -87,7 +87,7 @@ Each (JD, Code Snippet) pair is assigned an integer label in `{0, 1, 2}`.
 3. **Consensus Adjudication of Disagreements:**
    - For all items where $label_1 \neq label_2$, an adjudication session is conducted.
    - Every resolved item MUST have:
-     - The identity of the adjudicator (e.g., `Adjudicator: Lead Reviewer (Huy Pham)`).
+     - The identity of the adjudicator (e.g., `Adjudicator: Lead Adjudicator`).
      - A concrete, factual technical explanation detailing *why* the snippet satisfies or fails the requirement. Template/boilerplate explanations are strictly prohibited.
 4. **Header Bias Verification (Neutral Re-annotation of Gold):**
    - A random subset of 50 Gold items from `ground_truth_final.csv` is blinded and presented in the neutral format.

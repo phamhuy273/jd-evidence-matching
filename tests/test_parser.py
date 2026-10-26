@@ -158,3 +158,106 @@ public class BrokenSyntax {
         assert chunks[0]["start_line"] == 1 and chunks[0]["end_line"] == 50
         assert chunks[1]["start_line"] == 41 and chunks[1]["end_line"] == 90
         assert chunks[2]["start_line"] == 81 and chunks[2]["end_line"] == 120
+
+    def test_java_record_chunking(self):
+        rec_code = """package com.example.dto;
+public record OrderDTO(Long id, String name, double price) {
+}"""
+        chunks = ast_loader.parse_and_chunk("src/main/java/OrderDTO.java", rec_code, "java")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_RECORD"
+        assert chunks[0]["class_name"] == "OrderDTO"
+        assert "// Class: OrderDTO" in chunks[0]["context_header"]
+
+    def test_java_enum_chunking(self):
+        enum_code = """package com.example.model;
+public enum OrderStatus {
+    PENDING, PROCESSING, COMPLETED, CANCELLED
+}"""
+        chunks = ast_loader.parse_and_chunk("src/main/java/OrderStatus.java", enum_code, "java")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_ENUM"
+        assert chunks[0]["class_name"] == "OrderStatus"
+
+    def test_java_interface_chunking(self):
+        iface_code = """package com.example.repo;
+import org.springframework.data.jpa.repository.JpaRepository;
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+}"""
+        chunks = ast_loader.parse_and_chunk("src/main/java/CategoryRepository.java", iface_code, "java")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_INTERFACE"
+        assert chunks[0]["class_name"] == "CategoryRepository"
+
+    def test_java_entity_dto_chunking(self):
+        entity_code = """package com.example.entity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+@Entity
+public class Product {
+    @Id
+    private Long id;
+    private String name;
+}"""
+        chunks = ast_loader.parse_and_chunk("src/main/java/Product.java", entity_code, "java")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_CLASS_DECLARATION"
+        assert chunks[0]["class_name"] == "Product"
+
+    def test_react_styled_components_chunking(self):
+        styled_code = """import styled from 'styled-components';
+export const Container = styled.div`
+  width: 100%;
+  padding: 16px;
+  background-color: #f5f5f5;
+`;"""
+        chunks = ast_loader.parse_and_chunk("src/components/Styles.ts", styled_code, "typescript")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_COMPONENT_WRAPPER"
+        assert chunks[0]["method_name"] == "Container"
+
+    def test_react_memo_and_forward_ref(self):
+        memo_code = """import React, { forwardRef } from 'react';
+export const FancyButton = forwardRef((props, ref) => (
+  <button ref={ref} className="fancy-btn">{props.children}</button>
+));"""
+        chunks = ast_loader.parse_and_chunk("src/components/FancyButton.tsx", memo_code, "tsx")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_COMPONENT_WRAPPER"
+        assert chunks[0]["method_name"] == "FancyButton"
+
+    def test_redux_slice_chunking(self):
+        slice_code = """import { createSlice } from '@reduxjs/toolkit';
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState: { user: null },
+  reducers: {
+    login: (state, action) => { state.user = action.payload; }
+  }
+});"""
+        chunks = ast_loader.parse_and_chunk("src/store/authSlice.ts", slice_code, "typescript")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_COMPONENT_WRAPPER"
+        assert chunks[0]["method_name"] == "authSlice"
+
+    def test_typescript_types_chunking(self):
+        types_code = """export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  roles: string[];
+}"""
+        chunks = ast_loader.parse_and_chunk("src/types/user.ts", types_code, "typescript")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_TYPES"
+
+    def test_config_export_default_chunking(self):
+        config_code = """import { defineConfig } from '@playwright/test';
+export default defineConfig({
+  testDir: './tests',
+  timeout: 30000,
+});"""
+        chunks = ast_loader.parse_and_chunk("playwright.config.ts", config_code, "typescript")
+        assert len(chunks) == 1
+        assert chunks[0]["chunk_type"] == "AST_EXPORT_DEFAULT"
+

@@ -3951,11 +3951,11 @@
     {
       "rank": 15,
       "score": 0.5093910694122314,
-      "chunk_id": "line::RishiBakshii/mern-chat-app::backend/src/controllers/auth.controller.ts::41_89::LINE_50",
+      "chunk_id": "line::RishiBakshii/mern-chat-app::backend/src/controllers/auth.controller.ts::41_88::LINE_50",
       "repo_name": "RishiBakshii/mern-chat-app",
       "file_path": "backend/src/controllers/auth.controller.ts",
       "start_line": 41,
-      "end_line": 89
+      "end_line": 88
     },
     {
       "rank": 16,

@@ -1,0 +1,25 @@
+\begin{table*}[t]
+\caption{Hypothesis testing results for pre-registered primary comparisons and exploratory contrast (NDCG@10, Re-ranking tier).}
+\label{tab:statistical_hypothesis_tests}
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{threeparttable}
+\begin{tabular}{@{}llccccccc@{}}
+\toprule
+ID & Hypothesis Description & Contrast ($A - B$) & $\Delta$ NDCG@10 & 95\% Bootstrap CI & W/L/T & $W$ & $p_{\mathrm{raw}}$ & $p_{\mathrm{Holm}}$ \\
+\midrule
+\multicolumn{9}{l}{\textit{Pre-registered Confirmatory Family (Step-down Holm-Bonferroni Correction, $\alpha=0.05$)}} \\[2pt]
+Comp 1 & Full Proposed vs. Full Baseline & AST+Header vs. Line No-Header & $-0.0930$ & [-0.164, -0.023] & 7/18/0 & 78.0 & 0.0219 & 0.0438$^{*}$ \\
+Comp 2 & Pure Chunking Effect & AST No-Header vs. Line No-Header & $-0.2390$ & [-0.292, -0.185] & 2/23/0 & 3.0 & $<0.001$ & $<0.001$$^{***}$ \\
+Comp 3 & Context Header Effect on AST & AST+Header vs. AST No-Header & $+0.1459$ & [0.086, 0.207] & 23/2/0 & 24.0 & $<0.001$ & $<0.001$$^{***}$ \\
+Comp 4 & Context Header Effect on Line & Line+Header vs. Line No-Header & $+0.0409$ & [-0.012, 0.093] & 15/10/0 & 118.0 & 0.2411 & 0.2411 \\
+\midrule
+\multicolumn{9}{l}{\textit{Exploratory Analysis (Outside Pre-registered Family)}} \\[2pt]
+Comp 5 & AST+Header vs. Line+Header & AST+Header vs. Line+Header & $-0.1339$ & [-0.199, -0.070] & 5/20/0 & 36.0 & $<0.001$ & --- \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Note: $N=25$ paired Job Descriptions. $W$: Wilcoxon signed-rank test statistic. Win/Loss/Tie (W/L/T) indicates the count of queries where System $A > B$, $A < B$, or $A = B$. Holm adjusted $p$-values ($p_{\mathrm{Holm}}$) control family-wise error rate across Comps 1--4. Significance levels: $^{*}p < 0.05$, $^{**}p < 0.01$, $^{***}p < 0.001$. Comp 5 is an exploratory comparison outside the frozen registered confirmatory family and is not adjusted under Holm's step-down procedure.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

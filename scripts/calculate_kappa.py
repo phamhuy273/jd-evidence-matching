@@ -11,6 +11,7 @@ Target: IEEE SANER 2027 (ERA Track) & Double-Anonymous Peer Review
 
 import os
 import sys
+import json
 import argparse
 from pathlib import Path
 import numpy as np
@@ -50,14 +51,16 @@ def interpret_kappa(kappa_val):
     """Interpret kappa score according to Landis & Koch (1977) benchmark standards."""
     if kappa_val < 0.0:
         return "Poor Agreement", "POOR"
-    elif kappa_val < 0.40:
-        return "Slight / Fair Agreement", "FAIR"
-    elif kappa_val < 0.60:
+    elif kappa_val <= 0.20:
+        return "Slight Agreement", "SLIGHT"
+    elif kappa_val <= 0.40:
+        return "Fair Agreement", "FAIR"
+    elif kappa_val <= 0.60:
         return "Moderate Agreement", "MODERATE"
-    elif kappa_val < 0.75:
+    elif kappa_val <= 0.80:
         return "Substantial Agreement", "SUBSTANTIAL"
     else:
-        return "Almost Perfect / Excellent Agreement", "EXCELLENT"
+        return "Almost Perfect Agreement", "ALMOST_PERFECT"
 
 
 def plot_confusion_matrix(cm, labels, output_path):
@@ -138,34 +141,68 @@ def main():
 
     # Merge on pair_id
     if 'pair_id' in df_a1.columns and 'pair_id' in df_a2.columns and path_a1 != path_a2:
-        merged = pd.merge(df_a1[['pair_id', col_a1]], df_a2[['pair_id', col_a2]], on='pair_id', suffixes=('_a1', '_a2'))
+        cols_to_merge_a1 = ['pair_id', col_a1]
+        for extra_col in ['jd_id', 'query_id']:
+            if extra_col in df_a1.columns:
+                cols_to_merge_a1.append(extra_col)
+                break
+        merged = pd.merge(df_a1[cols_to_merge_a1], df_a2[['pair_id', col_a2]], on='pair_id', suffixes=('_a1', '_a2'))
         y_a1 = merged[f"{col_a1}_a1"].values
         y_a2 = merged[f"{col_a2}_a2"].values
+        q_ids = merged['jd_id'].values if 'jd_id' in merged.columns else (merged['query_id'].values if 'query_id' in merged.columns else None)
     else:
         y_a1 = df_a1[col_a1].values
         y_a2 = df_a1[col_a2].values
+        q_ids = df_a1['jd_id'].values if 'jd_id' in df_a1.columns else (df_a1['query_id'].values if 'query_id' in df_a1.columns else None)
 
     # Clean valid integer labels (0, 1, 2)
     valid_mask = pd.notna(y_a1) & pd.notna(y_a2)
     y_a1 = y_a1[valid_mask].astype(int)
     y_a2 = y_a2[valid_mask].astype(int)
+    if q_ids is not None:
+        q_ids = q_ids[valid_mask]
 
     n_pairs = len(y_a1)
     labels = [0, 1, 2]
 
-    # Metrics
-    kappa_quadratic = cohen_kappa_score(y_a1, y_a2, weights='quadratic', labels=labels)
-    kappa_linear = cohen_kappa_score(y_a1, y_a2, weights='linear', labels=labels)
-    kappa_unweighted = cohen_kappa_score(y_a1, y_a2, labels=labels)
+    def compute_partition_stats(ya, yb, name):
+        n = len(ya)
+        kw = float(cohen_kappa_score(ya, yb, weights='quadratic', labels=labels))
+        kl = float(cohen_kappa_score(ya, yb, weights='linear', labels=labels))
+        ku = float(cohen_kappa_score(ya, yb, labels=labels))
+        matches = int(np.sum(ya == yb))
+        po = float(matches / n)
+        diffs = np.abs(ya - yb)
+        dev1 = int(np.sum(diffs == 1))
+        dev2 = int(np.sum(diffs == 2))
+        level, icon = interpret_kappa(kw)
+        return {
+            "partition": name,
+            "n": n,
+            "exact_matches": matches,
+            "exact_agreement_pct": round(po * 100.0, 2),
+            "disagreement_delta_1": dev1,
+            "disagreement_delta_1_pct": round(dev1 / n * 100.0, 2),
+            "disagreement_delta_2": dev2,
+            "disagreement_delta_2_pct": round(dev2 / n * 100.0, 2),
+            "unweighted_kappa": round(ku, 4),
+            "linear_weighted_kappa": round(kl, 4),
+            "quadratic_weighted_kappa": round(kw, 4),
+            "agreement_level": level,
+            "status_icon": icon,
+        }
 
-    raw_matches = int(np.sum(y_a1 == y_a2))
-    po = raw_matches / n_pairs
-    diffs = np.abs(y_a1 - y_a2)
-    minor_disagreements = int(np.sum(diffs == 1))
-    severe_disagreements = int(np.sum(diffs == 2))
+    total_stats = compute_partition_stats(y_a1, y_a2, "Complete Unified Ground Truth (Total)")
+
+    subsets = {}
+    if q_ids is not None:
+        java_mask = np.array([str(qid).startswith("JD_JAVA") for qid in q_ids])
+        react_mask = np.array([str(qid).startswith("JD_REACT") for qid in q_ids])
+        if np.sum(java_mask) > 0 and np.sum(react_mask) > 0:
+            subsets["java_subgroup"] = compute_partition_stats(y_a1[java_mask], y_a2[java_mask], "Java Spring Boot Ecosystem")
+            subsets["react_subgroup"] = compute_partition_stats(y_a1[react_mask], y_a2[react_mask], "React / TypeScript Ecosystem")
 
     cm = confusion_matrix(y_a1, y_a2, labels=labels)
-    level_desc, status_icon = interpret_kappa(kappa_quadratic)
 
     report_lines = []
     def log(msg=""):
@@ -175,16 +212,26 @@ def main():
     log("\n" + "=" * 80)
     log("  INTER-ANNOTATOR AGREEMENT EVALUATION REPORT (TABLE 3.1)")
     log("=" * 80)
-    log(f"• Total Evaluated Candidate Evidence Pairs (N): {n_pairs}")
-    log(f"• Exact Consensus Matches (po)               : {raw_matches} / {n_pairs} ({po*100:.2f}%)")
-    log(f"• Minor Disagreements (|delta| = 1)          : {minor_disagreements} / {n_pairs} ({(minor_disagreements/n_pairs)*100:.2f}%)")
-    log(f"• Severe Disagreements (|delta| = 2)         : {severe_disagreements} / {n_pairs} ({(severe_disagreements/n_pairs)*100:.2f}%)")
+    log(f"• Total Evaluated Candidate Evidence Pairs (N): {total_stats['n']}")
+    log(f"• Exact Consensus Matches (po)               : {total_stats['exact_matches']} / {total_stats['n']} ({total_stats['exact_agreement_pct']:.2f}%)")
+    log(f"• Minor Disagreements (|delta| = 1)          : {total_stats['disagreement_delta_1']} / {total_stats['n']} ({total_stats['disagreement_delta_1_pct']:.2f}%)")
+    log(f"• Severe Disagreements (|delta| = 2)         : {total_stats['disagreement_delta_2']} / {total_stats['n']} ({total_stats['disagreement_delta_2_pct']:.2f}%)")
     log("-" * 80)
-    log(f"• Unweighted Cohen's Kappa (kappa)            : {kappa_unweighted:.4f}")
-    log(f"• Linear Weighted Kappa (kappa_linear)        : {kappa_linear:.4f}")
-    log(f"• QUADRATIC WEIGHTED KAPPA (kappa_w)          : {kappa_quadratic:.4f}  <-- [PRIMARY METRIC]")
-    log(f"• Agreement Level (Landis & Koch, 1977)       : {level_desc} [{status_icon}]")
+    log(f"• Unweighted Cohen's Kappa (kappa)            : {total_stats['unweighted_kappa']:.4f}")
+    log(f"• Linear Weighted Kappa (kappa_linear)        : {total_stats['linear_weighted_kappa']:.4f}")
+    log(f"• QUADRATIC WEIGHTED KAPPA (kappa_w)          : {total_stats['quadratic_weighted_kappa']:.4f}  <-- [PRIMARY METRIC]")
+    log(f"• Agreement Level (Landis & Koch, 1977)       : {total_stats['agreement_level']} [{total_stats['status_icon']}]")
     log("=" * 80)
+
+    if subsets:
+        log("\nPARTITION BREAKDOWN:")
+        log("   " + "-" * 75)
+        log(f"   {'Partition':<35} | {'N':^5} | {'Exact (%)':^12} | {'kappa_w':^8} | {'Landis & Koch':^15}")
+        log("   " + "-" * 75)
+        for k, sub in subsets.items():
+            log(f"   {sub['partition']:<35} | {sub['n']:^5} | {sub['exact_matches']} ({sub['exact_agreement_pct']:.1f}%) | {sub['quadratic_weighted_kappa']:.4f} | {sub['agreement_level']:<15}")
+        log(f"   {total_stats['partition']:<35} | {total_stats['n']:^5} | {total_stats['exact_matches']} ({total_stats['exact_agreement_pct']:.1f}%) | {total_stats['quadratic_weighted_kappa']:.4f} | {total_stats['agreement_level']:<15}")
+        log("   " + "-" * 75)
 
     log("\nCONFUSION MATRIX (3x3):")
     log("   (Rows: Annotator 1  x  Columns: Annotator 2)")
@@ -209,6 +256,17 @@ def main():
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("\n".join(report_lines))
     log(f"Saved evaluation report: {report_path.name}")
+
+    # Write json report file
+    json_path = report_path.with_suffix(".json")
+    json_data = {
+        "total": total_stats,
+        "subsets": subsets,
+        "confusion_matrix": cm.tolist()
+    }
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(json_data, f, indent=2)
+    log(f"Saved evaluation JSON report: {json_path.name}")
 
 
 if __name__ == "__main__":

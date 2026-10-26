@@ -8,27 +8,24 @@
     "ast_filter": "6 <= LOC <= 85 (No 1-chunk/file cap)",
     "line_filter": "Window 50 LOC, Overlap 10 LOC (Step 40), Min 6 LOC"
   },
-  "ast_sampling": {
-    "generated": 468,
-    "retained": 364,
-    "rejected_short": 90,
-    "rejected_long": 14
-  },
-  "line_sampling": {
-    "generated": 434,
-    "retained": 434,
-    "rejected_short": 0
-  },
   "corpus_totals": {
-    "ast_chunks_count": 364,
+    "ast_chunks_count": 438,
     "line_chunks_count": 434,
-    "total_corpus_chunks": 798
+    "total_corpus_chunks": 872
   },
   "ast_chunk_types_breakdown": {
-    "LINE_FALLBACK": 130,
-    "AST_METHOD": 136,
-    "AST_FUNCTION": 51,
-    "AST_ARROW_FUNCTION": 46,
+    "AST_RECORD": 1,
+    "AST_METHOD": 134,
+    "AST_INTERFACE": 9,
+    "AST_CONSTANT_DECLARATION": 18,
+    "AST_FUNCTION": 62,
+    "AST_EXPRESSION": 1,
+    "AST_COMPONENT_WRAPPER": 86,
+    "AST_TYPES": 18,
+    "AST_EXPORT_DEFAULT": 1,
+    "AST_ARROW_FUNCTION": 96,
+    "AST_CLASS_DECLARATION": 10,
+    "AST_ENUM": 1,
     "AST_CONSTRUCTOR": 1
   }
 }

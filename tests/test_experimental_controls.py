@@ -12,7 +12,6 @@ import pytest
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 QUERIES_FROZEN_FILE = ROOT_DIR / "dataset" / "queries_frozen.json"
-JD_RAW_DIR = ROOT_DIR / "dataset" / "jd_raw"
 MASTER_500_FILE = ROOT_DIR / "dataset" / "ground_truth_500_master.csv"
 
 
@@ -32,16 +31,11 @@ class TestExperimentalControls:
         unique_jd_ids = set(queries.keys())
         assert len(unique_jd_ids) == 25
 
-        # Check each query links to an existing raw file
+        # Check each query contains primary_query and sensitivity_raw_sha256 (Item 11)
         for jd_id, q_data in queries.items():
             assert "primary_query" in q_data and len(q_data["primary_query"]) > 10
-            assert "sensitivity_raw_file" in q_data
-            raw_path = ROOT_DIR / q_data["sensitivity_raw_file"]
-            assert raw_path.exists(), f"Raw file {raw_path} not found for {jd_id}"
-            with open(raw_path, "r", encoding="utf-8") as rf:
-                raw_text = rf.read()
-            assert len(raw_text) > 100, f"Raw text too short for {jd_id}"
-            assert q_data["sensitivity_raw_text"] == raw_text, f"Raw text mismatch for {jd_id}"
+            assert "sensitivity_raw_sha256" in q_data and len(q_data["sensitivity_raw_sha256"]) == 64
+            assert "sensitivity_raw_text" not in q_data, f"Unredacted raw text found in {jd_id}"
 
     def test_master_file_counts_and_uniqueness(self):
         """Rule R43: Verify exactly 40 repos in manifest and 189 unique files in chunk corpus."""

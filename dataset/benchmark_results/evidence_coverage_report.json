@@ -1,0 +1,111 @@
+{
+  "phase": "Phase 2: Coverage and Ground-Truth Evidence Mapping",
+  "date": "2026-10-19",
+  "physical_line_coverage": {
+    "total_lines_universe": 15351,
+    "total_files": 189,
+    "ast_lines_covered": 10585,
+    "ast_line_coverage_pct": 68.95,
+    "ast_files_covered": 183,
+    "ast_files_empty": 6,
+    "line_lines_covered": 15351,
+    "line_line_coverage_pct": 100.0,
+    "line_files_covered": 189
+  },
+  "query_level_coverage": {
+    "total_queries": 25,
+    "ast_queries_with_covered_evidence": 25,
+    "ast_query_coverage_pct": 100.0,
+    "line_queries_with_covered_evidence": 25,
+    "line_query_coverage_pct": 100.0
+  },
+  "evidence_span_coverage": {
+    "all_882_pairs": {
+      "total_pairs": 882,
+      "ast_coverage": {
+        "any_overlap_count": 826,
+        "any_overlap_pct": 93.65079365079364,
+        "strict_containment_count": 454,
+        "strict_containment_pct": 51.47392290249433,
+        "threshold_50_pct_count": 587,
+        "threshold_50_pct_pct": 66.55328798185941,
+        "no_overlap_in_file_count": 36,
+        "no_file_count": 20
+      },
+      "line_coverage": {
+        "any_overlap_count": 882,
+        "any_overlap_pct": 100.0,
+        "strict_containment_count": 758,
+        "strict_containment_pct": 85.94104308390023,
+        "threshold_50_pct_count": 882,
+        "threshold_50_pct_pct": 100.0,
+        "no_overlap_in_file_count": 0,
+        "no_file_count": 0
+      },
+      "common_support": {
+        "any_overlap_count": 826,
+        "any_overlap_pct": 93.65079365079364,
+        "strict_containment_count": 330,
+        "strict_containment_pct": 37.41496598639456
+      }
+    },
+    "relevant_643_pairs": {
+      "total_pairs": 643,
+      "ast_coverage": {
+        "any_overlap_count": 590,
+        "any_overlap_pct": 91.75738724727839,
+        "strict_containment_count": 279,
+        "strict_containment_pct": 43.390357698289264,
+        "threshold_50_pct_count": 393,
+        "threshold_50_pct_pct": 61.11975116640747,
+        "no_overlap_in_file_count": 34,
+        "no_file_count": 19
+      },
+      "line_coverage": {
+        "any_overlap_count": 643,
+        "any_overlap_pct": 100.0,
+        "strict_containment_count": 556,
+        "strict_containment_pct": 86.4696734059098,
+        "threshold_50_pct_count": 643,
+        "threshold_50_pct_pct": 100.0,
+        "no_overlap_in_file_count": 0,
+        "no_file_count": 0
+      },
+      "common_support": {
+        "any_overlap_count": 590,
+        "any_overlap_pct": 91.75738724727839,
+        "strict_containment_count": 192,
+        "strict_containment_pct": 29.86003110419907
+      }
+    },
+    "highly_relevant_329_pairs": {
+      "total_pairs": 329,
+      "ast_coverage": {
+        "any_overlap_count": 309,
+        "any_overlap_pct": 93.9209726443769,
+        "strict_containment_count": 138,
+        "strict_containment_pct": 41.94528875379939,
+        "threshold_50_pct_count": 202,
+        "threshold_50_pct_pct": 61.39817629179332,
+        "no_overlap_in_file_count": 14,
+        "no_file_count": 6
+      },
+      "line_coverage": {
+        "any_overlap_count": 329,
+        "any_overlap_pct": 100.0,
+        "strict_containment_count": 257,
+        "strict_containment_pct": 78.11550151975683,
+        "threshold_50_pct_count": 329,
+        "threshold_50_pct_pct": 100.0,
+        "no_overlap_in_file_count": 0,
+        "no_file_count": 0
+      },
+      "common_support": {
+        "any_overlap_count": 309,
+        "any_overlap_pct": 93.9209726443769,
+        "strict_containment_count": 66,
+        "strict_containment_pct": 20.060790273556233
+      }
+    }
+  }
+}

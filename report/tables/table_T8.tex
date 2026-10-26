@@ -1,0 +1,31 @@
+\begin{table*}[t]
+\caption{Candidate pool judgment coverage and unjudged candidate exposure across 12 retrieval configurations.}
+\label{tab:candidate_pool_coverage}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{threeparttable}
+\begin{tabular}{@{}llcccccc@{}}
+\toprule
+Configuration ID & Pipeline Tier & Top-3 Evaluated & Top-3 Unjudged & Judged@3 (\%) & Top-10 Evaluated & Top-10 Unjudged & Judged@10 (\%) \\
+\midrule
+\texttt{bm25\_line\_no\_header} & BM25$^{\dagger}$ & 75 & 0 & 100.0\% & 250 & 89 & 64.4\% \\
+\texttt{bm25\_line\_with\_header} & BM25$^{\dagger}$ & 75 & 0 & 100.0\% & 250 & 76 & 69.6\% \\
+\texttt{bm25\_ast\_no\_header} & BM25$^{\dagger}$ & 75 & 0 & 100.0\% & 250 & 110 & 56.0\% \\
+\texttt{bm25\_ast\_with\_header} & BM25$^{\dagger}$ & 75 & 0 & 100.0\% & 250 & 81 & 67.6\% \\
+\cmidrule(lr){1-8}
+\texttt{dense\_line\_no\_header} & Dense & 75 & 0 & 100.0\% & 250 & 70 & 72.0\% \\
+\texttt{dense\_line\_with\_header} & Dense & 75 & 0 & 100.0\% & 250 & 62 & 75.2\% \\
+\texttt{dense\_ast\_no\_header} & Dense & 75 & 0 & 100.0\% & 250 & 71 & 71.6\% \\
+\texttt{dense\_ast\_with\_header} & Dense & 75 & 0 & 100.0\% & 250 & 77 & 69.2\% \\
+\cmidrule(lr){1-8}
+\texttt{rerank\_line\_no\_header} & Rerank & 75 & 0 & 100.0\% & 250 & 71 & 71.6\% \\
+\texttt{rerank\_line\_with\_header} & Rerank & 75 & 0 & 100.0\% & 250 & 66 & 73.6\% \\
+\texttt{rerank\_ast\_no\_header} & Rerank & 75 & 0 & 100.0\% & 250 & 72 & 71.2\% \\
+\texttt{rerank\_ast\_with\_header} & Rerank & 75 & 0 & 100.0\% & 250 & 85 & 66.0\% \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Note: Evaluated across 25 JDs (75 total top-3 slots, 125 total top-5 slots, 250 total top-10 slots). Pool judgment coverage was 100.0\% at Judged@3 and Judged@5 across all 12 retrieval configurations (BM25, Dense, and Re-ranking). Derived dynamically from \texttt{pool\_coverage\_report.csv}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

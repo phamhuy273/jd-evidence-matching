@@ -1,0 +1,24 @@
+\section{Research Plan and Roadmap}
+\label{sec:plan}
+
+Table~\ref{tab:roadmap} outlines planned phases for RQ3 and RQ4: corpus expansion across four languages (Java, TypeScript, Python, Go; \textbf{P1}), graph-enriched headers via precomputed SCIP/LSIF code-index formats (\textbf{P2}), and developer verification studies seeking ethics approval (\textbf{P3}).
+
+\begin{table}[t]
+\caption{Research Roadmap and Milestones}
+\label{tab:roadmap}
+\centering\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{0.76}
+\begin{threeparttable}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.80in}>{\raggedright\arraybackslash}p{1.00in}>{\raggedright\arraybackslash}p{1.04in}@{}}
+\toprule
+Phase & Objective & Target Data & Analysis Method \\
+\midrule
+\textbf{P1} & Corpus Expansion (RQ3) & 100 repos (Java, TS, Py, Go); 50 JDs/issues & Factorial; mixed-effects models \\
+\textbf{P2} & Graph Headers (RQ3) & Call-graphs \& imports vs. path headers & Paired Wilcoxon-Holm; ablations \\
+\textbf{P3} & Human Study (RQ4) & $N=20$ software developers & Accuracy, inspection time, confidence \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\vspace{-6pt}
+\end{table}

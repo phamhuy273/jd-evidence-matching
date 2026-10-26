@@ -1,0 +1,30 @@
+\begin{table*}[t]
+\caption{Pool deduplication reconciliation and adjudication decision distribution.}
+\label{tab:pool_reconciliation_adjudication}
+\centering\footnotesize
+\setlength{\tabcolsep}{10pt}
+\begin{threeparttable}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Reconciliation / Adjudication Stage & Count & Proportion (\%) \\
+\midrule
+\multicolumn{3}{l}{\textit{Panel A: Coordinate Deduplication \& Pool Construction (Top-5 across 12 Systems)}} \\\\[2pt]
+Raw Pooled Candidate Instances ($25 \times 12 \times 5$) & 1500 & --- \\
+Unique Deduplicated Candidate Spans & 882 & 58.8\% \\
+Multi-Chunk Collapsed Coordinates & 1 & 0.1\% \\
+Complete Unified Ground Truth ($N=882$ pairs) & 882 & 100.0\% \\[2pt]
+\midrule
+\multicolumn{3}{l}{\textit{Panel B: Discrepancy Adjudication Decisions ($N=17$ Disagreements)}} \\[2pt]
+Agreed with Annotator 1 & 13 & 76.5\% \\
+Agreed with Annotator 2 & 4 & 23.5\% \\
+Both Overruled (Independent Resolution) & 0 & 0.0\% \\
+Structured Resolution Reasons (Distinct Strings) & 15 & --- \\
+--- Explicit Prefix \texttt{RESOLVED\_BY\_ADJUDICATION} & 17 & 100.0\% \\
+--- Standard Evaluation Record Format & 0 & 0.0\% \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[] Note: In Panel A, 1500 raw Top-5 retrieval candidates across 12 configurations collapsed into 882 unique code spans. In Panel B, adjudication was performed by an independent lead adjudicator following structured templates. Derived from \texttt{pool\_reconciliation\_report.txt} and \texttt{adjudication\_summary.json}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
