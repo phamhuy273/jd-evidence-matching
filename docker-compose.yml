@@ -13,13 +13,13 @@ services:
       - "${POSTGRES_PORT:-5433}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./database/init:/docker-entrypoint-initdb.d
+      - ./apps/database/init:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
   ai-engine:
     build:
-      context: ./ai-engine
+      context: ./apps/ai-engine
       dockerfile: Dockerfile
     container_name: jd_matching_fastapi
     restart: always
@@ -37,7 +37,7 @@ services:
 
   backend-service:
     build:
-      context: ./backend-service
+      context: ./apps/backend-service
       dockerfile: Dockerfile
     container_name: jd_matching_springboot
     restart: always

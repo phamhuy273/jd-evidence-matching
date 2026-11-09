@@ -1,4 +1,6 @@
-# Python
+# Temporary cloned repositories
+ai-engine/temp_repos/
+temp_repos/
 __pycache__/
 *.py[cod]
 *$py.class
