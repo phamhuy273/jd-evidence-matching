@@ -22,11 +22,11 @@ jobs:
           cache: 'maven'
 
       - name: Grant execute permission for mvnw
-        run: chmod +x backend-service/mvnw
+        run: chmod +x apps/backend-service/mvnw
 
       - name: Run Spring Boot Tests
         run: |
-          cd backend-service
+          cd apps/backend-service
           ./mvnw clean test --no-transfer-progress
 
       - name: Upload Surefire Test Reports
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-surefire-reports
-          path: backend-service/target/surefire-reports/
+          path: apps/backend-service/target/surefire-reports/
           if-no-files-found: ignore
 
   ai-engine-test:
@@ -49,16 +49,16 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-          cache-dependency-path: 'ai-engine/requirements.txt'
+          cache-dependency-path: 'apps/ai-engine/requirements.txt'
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r ai-engine/requirements.txt
+          pip install -r apps/ai-engine/requirements.txt
 
       - name: Run Pytest for Parser & Endpoints
         run: |
-          cd ai-engine
+          cd apps/ai-engine
           python -m pytest -v
 
   docker-build-check:
@@ -77,13 +77,13 @@ jobs:
       - name: Test Build Backend Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend-service
+          context: ./apps/backend-service
           push: false
           tags: jd-matching-backend:ci-check
 
       - name: Test Build AI Engine Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./ai-engine
+          context: ./apps/ai-engine
           push: false
           tags: jd-matching-ai:ci-check
