@@ -1,5 +1,7 @@
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from main import app
+from models.schemas import SkillItem
 
 client = TestClient(app)
 
@@ -44,12 +46,19 @@ def test_extract_skills_endpoint():
         "job_title": "Python Developer",
         "raw_jd_text": "Yêu cầu kinh nghiệm với Python, FastAPI, Docker và cơ sở dữ liệu PostgreSQL."
     }
-    response = client.post("/api/v1/jobs/extract-skills", json=payload)
-    assert response.status_code == 200
-    res = response.json()
-    assert res["status"] == "SUCCESS"
-    skills = res["data"]["skills"]
-    assert len(skills) >= 3
-    skill_names = [s["skill_name"] for s in skills]
-    assert "Python" in skill_names
-    assert "FastAPI" in skill_names
+    mock_skills = [
+        SkillItem(skill_name="Python", category="LANGUAGE", importance="MANDATORY", weight=0.4),
+        SkillItem(skill_name="FastAPI", category="FRAMEWORK", importance="MANDATORY", weight=0.3),
+        SkillItem(skill_name="Docker", category="DEVOPS", importance="PREFERRED", weight=0.15),
+        SkillItem(skill_name="PostgreSQL", category="DATABASE", importance="MANDATORY", weight=0.15),
+    ]
+    with patch("routers.jobs.extract_skills_from_jd", return_value=mock_skills):
+        response = client.post("/api/v1/jobs/extract-skills", json=payload)
+        assert response.status_code == 200
+        res = response.json()
+        assert res["status"] == "SUCCESS"
+        skills = res["data"]["skills"]
+        assert len(skills) >= 3
+        skill_names = [s["skill_name"] for s in skills]
+        assert "Python" in skill_names
+        assert "FastAPI" in skill_names

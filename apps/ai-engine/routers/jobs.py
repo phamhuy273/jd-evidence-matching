@@ -17,11 +17,22 @@ async def extract_skills(request: ExtractSkillsRequest):
             detail="Nội dung JD quá ngắn để trích xuất kỹ năng."
         )
 
-    # Gọi bộ bóc tách kỹ năng (Gemini API hoặc Heuristic)
-    skills = extract_skills_from_jd(
-        job_title=request.job_title,
-        raw_jd_text=request.raw_jd_text
-    )
+    # Gọi bộ bóc tách kỹ năng qua Gemini LLM
+    try:
+        skills = extract_skills_from_jd(
+            job_title=request.job_title,
+            raw_jd_text=request.raw_jd_text
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Lỗi khi gọi Gemini LLM: {str(e)}"
+        )
 
     return StandardResponse(
         code=status.HTTP_200_OK,

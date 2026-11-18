@@ -57,6 +57,8 @@ jobs:
           pip install -r apps/ai-engine/requirements.txt
 
       - name: Run Pytest for Parser & Endpoints
+        env:
+          GEMINI_API_KEY: "dummy_ci_key"
         run: |
           cd apps/ai-engine
           python -m pytest -v
