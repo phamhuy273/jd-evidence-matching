@@ -38,3 +38,18 @@ def test_job_results_endpoint():
     data = response.json()
     assert data["status"] == "SUCCESS"
     assert "ranking" in data["data"]
+
+def test_extract_skills_endpoint():
+    payload = {
+        "job_title": "Python Developer",
+        "raw_jd_text": "Yêu cầu kinh nghiệm với Python, FastAPI, Docker và cơ sở dữ liệu PostgreSQL."
+    }
+    response = client.post("/api/v1/jobs/extract-skills", json=payload)
+    assert response.status_code == 200
+    res = response.json()
+    assert res["status"] == "SUCCESS"
+    skills = res["data"]["skills"]
+    assert len(skills) >= 3
+    skill_names = [s["skill_name"] for s in skills]
+    assert "Python" in skill_names
+    assert "FastAPI" in skill_names

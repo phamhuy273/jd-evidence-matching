@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from models.schemas import ExtractSkillsRequest, ExtractSkillsData, SkillItem, StandardResponse
+from services.skill_extractor import extract_skills_from_jd
 
 router = APIRouter(prefix="/api/v1/jobs", tags=["Jobs"])
 
@@ -7,7 +8,8 @@ router = APIRouter(prefix="/api/v1/jobs", tags=["Jobs"])
 async def extract_skills(request: ExtractSkillsRequest):
     """
     DOC-03 Section 4.2:
-    Tiếp nhận văn bản JD, sử dụng LLM bóc tách danh sách kỹ năng bắt buộc và ưu tiên.
+    Tiếp nhận văn bản JD, sử dụng Gemini 1.5 Flash (hoặc Heuristic fallback)
+    để bóc tách danh sách kỹ năng kỹ thuật, phân loại và phân bổ trọng số.
     """
     if not request.raw_jd_text or len(request.raw_jd_text.split()) < 5:
         raise HTTPException(
@@ -15,14 +17,11 @@ async def extract_skills(request: ExtractSkillsRequest):
             detail="Nội dung JD quá ngắn để trích xuất kỹ năng."
         )
 
-    # Skeleton: Trả về kết quả bóc tách kỹ năng chuẩn mẫu
-    skills = [
-        SkillItem(skill_name="Java", category="LANGUAGE", importance="MANDATORY", weight=0.3),
-        SkillItem(skill_name="Spring Boot", category="FRAMEWORK", importance="MANDATORY", weight=0.3),
-        SkillItem(skill_name="PostgreSQL", category="DATABASE", importance="MANDATORY", weight=0.2),
-        SkillItem(skill_name="Docker", category="DEVOPS", importance="PREFERRED", weight=0.1),
-        SkillItem(skill_name="JUnit 5", category="TESTING", importance="PREFERRED", weight=0.1)
-    ]
+    # Gọi bộ bóc tách kỹ năng (Gemini API hoặc Heuristic)
+    skills = extract_skills_from_jd(
+        job_title=request.job_title,
+        raw_jd_text=request.raw_jd_text
+    )
 
     return StandardResponse(
         code=status.HTTP_200_OK,

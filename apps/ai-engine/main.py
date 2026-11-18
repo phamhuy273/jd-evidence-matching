@@ -1,7 +1,7 @@
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import jobs, matching
+from routers import jobs, matching, cv
 from config import AI_ENGINE_PORT
 
 logging.basicConfig(
@@ -28,6 +28,7 @@ app.add_middleware(
 # Gắn các router nghiệp vụ
 app.include_router(jobs.router)
 app.include_router(matching.router)
+app.include_router(cv.router)
 
 @app.get("/health", tags=["Health"])
 async def health_check():

@@ -69,3 +69,24 @@ class CandidateRanking(BaseModel):
 class JobResultsData(BaseModel):
     job_id: str
     ranking: List[CandidateRanking]
+
+# ===================================================================
+# CV Extraction Models
+# ===================================================================
+
+class GitHubRepoItem(BaseModel):
+    """Đại diện cho 1 GitHub repo tìm được từ CV."""
+    url: str                        # VD: "https://github.com/phamhuy273/my-project"
+    owner: str                      # VD: "phamhuy273"
+    repo_name: str                  # VD: "my-project"
+    source: str = "text"            # "text" = tìm trong text PDF | "annotation" = link ẩn trong PDF
+
+class CVExtractData(BaseModel):
+    """Kết quả trả về sau khi phân tích file CV PDF."""
+    candidate_name: Optional[str] = None       # Tên ứng viên (heuristic từ 5 dòng đầu CV)
+    github_repos: List[GitHubRepoItem] = []    # Danh sách repo GitHub tìm được
+
+class CVEvaluateRequest(BaseModel):
+    """Request body khi user muốn đánh giá ứng viên từ CV."""
+    job_id: str                     # ID của job đang tuyển
+    candidate_name: Optional[str] = None  # Có thể để trống, sẽ tự đọc từ CV

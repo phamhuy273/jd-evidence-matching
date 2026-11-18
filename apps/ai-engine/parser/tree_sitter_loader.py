@@ -120,8 +120,9 @@ class ASTParserLoader:
             chunks = []
 
             def add_chunk(target_node, method_name, current_class, chunk_type):
-                start_line = source_bytes[:target_node.start_byte].count(b'\n') + 1
-                end_line = source_bytes[:target_node.end_byte].count(b'\n') + 1
+                # Dùng start_point/end_point thay vì count('\n') — O(1) thay vì O(N)
+                start_line = target_node.start_point[0] + 1
+                end_line   = target_node.end_point[0] + 1
                 chunk_text = get_node_text(target_node)
                 loc = end_line - start_line + 1
 
@@ -165,8 +166,9 @@ class ASTParserLoader:
                         elif nt == "enum_declaration":
                             add_chunk(node, cls_name, cls_name, "AST_ENUM")
                         elif nt == "interface_declaration":
-                            s_l = source_bytes[:node.start_byte].count(b'\n') + 1
-                            e_l = source_bytes[:node.end_byte].count(b'\n') + 1
+                            # Dùng start_point/end_point — O(1)
+                            s_l = node.start_point[0] + 1
+                            e_l = node.end_point[0] + 1
                             if (e_l - s_l + 1) <= 80 or len(methods) == 0:
                                 add_chunk(node, cls_name, cls_name, "AST_INTERFACE")
                             else:
