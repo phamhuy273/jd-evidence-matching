@@ -34,7 +34,12 @@ public class AiEngineClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response -> {
                     log.error("FastAPI trả về mã lỗi HTTP {}", response.statusCode());
-                    return Mono.error(new AppException(ErrorCode.INTERNAL_AI_ERROR, "Lỗi từ dịch vụ AI Engine"));
+                    return response.bodyToMono(com.fasterxml.jackson.databind.JsonNode.class)
+                            .map(body -> body.path("detail").asText(""))
+                            .filter(message -> !message.isBlank())
+                            .onErrorComplete()
+                            .defaultIfEmpty("Chưa trích được kỹ năng từ JD. Vui lòng thử lại.")
+                            .map(message -> new AppException(ErrorCode.INTERNAL_AI_ERROR, message));
                 })
                 .bodyToMono(new ParameterizedTypeReference<ApiResponse<ExtractSkillsResponse>>() {});
     }

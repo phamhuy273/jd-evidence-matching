@@ -13,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExtractSkillsResponse {
+    @JsonProperty("job_id")
+    private java.util.UUID jobId;
     private List<SkillItemDto> skills;
 
     @Data

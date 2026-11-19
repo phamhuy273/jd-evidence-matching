@@ -28,6 +28,9 @@ public class RepositoryEntity {
     @Column(name = "commit_hash", nullable = false, length = 40)
     private String commitHash;
 
+    @Column(name = "indexed_file_count")
+    private Integer indexedFileCount;
+
     @Column(name = "default_branch", nullable = false, length = 50)
     @Builder.Default
     private String defaultBranch = "main";

@@ -17,21 +17,45 @@ services:
     networks:
       - app-network
 
+  embeddings:
+    image: ollama/ollama:latest
+    volumes:
+      - modeldata:/root/.ollama
+    networks:
+      - app-network
+
+  load-embedding-model:
+    image: ollama/ollama:latest
+    environment:
+      OLLAMA_HOST: http://embeddings:11434
+    entrypoint: ["/bin/sh", "-ec"]
+    command: ["until ollama list >/dev/null 2>&1; do sleep 2; done; exec ollama pull bge-m3"]
+    depends_on:
+      - embeddings
+    networks:
+      - app-network
+
   ai-engine:
     build:
       context: ./apps/ai-engine
       dockerfile: Dockerfile
+    env_file:
+      - path: ./apps/ai-engine/.env
+        required: false
+      - path: ./.env
+        required: false
     container_name: jd_matching_fastapi
     restart: always
     ports:
       - "8001:8001"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password_db_secret}@postgres-vector:5432/${POSTGRES_DB:-jd_matching_db}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - GITHUB_PERSONAL_TOKEN=${GITHUB_PERSONAL_TOKEN}
-      - EMBEDDING_MODEL_NAME=${EMBEDDING_MODEL_NAME:-BAAI/bge-m3}
+      - OLLAMA_URL=http://embeddings:11434
     depends_on:
-      - postgres-vector
+      postgres-vector:
+        condition: service_started
+      load-embedding-model:
+        condition: service_completed_successfully
     networks:
       - app-network
 
@@ -42,7 +66,7 @@ services:
     container_name: jd_matching_springboot
     restart: always
     ports:
-      - "8080:8080"
+      - "${WEB_PORT:-8080}:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-vector:5432/${POSTGRES_DB:-jd_matching_db}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-postgres}
@@ -60,4 +84,5 @@ networks:
 
 volumes:
   pgdata:
+  modeldata:
     driver: local

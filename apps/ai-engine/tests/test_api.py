@@ -19,7 +19,9 @@ def test_evaluate_async_flow():
         "github_repo_url": "https://github.com/test/repo",
         "commit_hash": "abcdef1234567890abcdef1234567890abcdef12"
     }
-    response = client.post("/api/v1/matching/evaluate-async", json=payload)
+    with patch("routers.matching.run_matching_pipeline") as worker:
+        response = client.post("/api/v1/matching/evaluate-async", json=payload)
+        worker.assert_called_once()
     assert response.status_code == 202
     res_data = response.json()
     assert res_data["status"] == "ACCEPTED"
@@ -35,7 +37,8 @@ def test_evaluate_async_flow():
 
 def test_job_results_endpoint():
     job_id = "a0000000-0000-0000-0000-000000000001"
-    response = client.get(f"/api/v1/matching/jobs/{job_id}/results")
+    with patch("routers.matching.rankings_for_job", return_value=[]):
+        response = client.get(f"/api/v1/matching/jobs/{job_id}/results")
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "SUCCESS"

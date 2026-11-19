@@ -70,14 +70,14 @@ def _call_gemini_api(job_title: str, raw_jd_text: str, api_key: str) -> List[Ski
             "temperature": 0.2
         }
     }
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "x-goog-api-key": api_key}
 
     last_error = None
     for model_name in models_to_try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-        for attempt in range(3):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        for attempt in range(2):
             try:
-                response = requests.post(url, headers=headers, json=payload, timeout=15)
+                response = requests.post(url, headers=headers, json=payload, timeout=(5, 45))
                 if response.status_code == 200:
                     data = response.json()
                     candidates = data.get("candidates", [])
@@ -115,14 +115,22 @@ def _call_gemini_api(job_title: str, raw_jd_text: str, api_key: str) -> List[Ski
                         logger.info(f"Gemini LLM ({model_name}) bóc tách thành công {len(result)} kỹ năng.")
                         return result
 
-                elif response.status_code == 503:
-                    time.sleep(1)
-                    last_error = f"HTTP 503 Spike ({model_name})"
+                    raise ValueError("Danh sách kỹ năng trống.")
+                elif response.status_code in (429, 500, 502, 503, 504):
+                    last_error = f"Gemini tạm thời quá tải hoặc giới hạn lượt gọi (HTTP {response.status_code})."
                 else:
-                    last_error = f"HTTP {response.status_code}: {response.text[:200]}"
+                    last_error = f"Gemini từ chối yêu cầu (HTTP {response.status_code})."
                     break
-            except Exception as e:
-                last_error = str(e)
+            except requests.Timeout:
+                last_error = "Gemini phản hồi quá thời gian chờ."
+            except requests.RequestException:
+                last_error = "Không kết nối được Gemini."
+            except (ValueError, TypeError, IndexError, KeyError):
+                last_error = "Gemini chưa trả về danh sách kỹ năng hợp lệ."
+            logger.warning("%s Model %s, lần %d", last_error, model_name, attempt + 1)
+            if attempt == 0:
                 time.sleep(1)
+            else:
+                break
 
-    raise RuntimeError(f"Lỗi gọi Gemini LLM: {last_error}")
+    raise RuntimeError(f"{last_error} Hãy thử trích kỹ năng lại.")

@@ -20,4 +20,5 @@ public class TaskStatusResponse {
 
     @JsonProperty("progress_percent")
     private Integer progressPercent;
+    private String error;
 }

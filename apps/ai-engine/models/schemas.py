@@ -48,22 +48,29 @@ class TaskStatusData(BaseModel):
     task_id: str
     progress_status: str  # PROCESSING, COMPLETED, FAILED
     progress_percent: int
+    error: Optional[str] = None
 
 class EvidenceCodeChunk(BaseModel):
     file_path: str
     code_snippet: str
+    start_line: Optional[int] = None
+    end_line: Optional[int] = None
+    source_url: Optional[str] = None
+    chunk_type: Optional[str] = None
+    similarity: Optional[float] = None
 
 class SkillAssessment(BaseModel):
     skill_name: str
     score: float
     evidence_code_chunk: EvidenceCodeChunk
+    evidence: List[EvidenceCodeChunk] = Field(default_factory=list)
     llm_explanation: str
 
 class CandidateRanking(BaseModel):
     rank: int
     candidate_name: str
     total_score: float
-    faithfulness_score: float
+    faithfulness_score: Optional[float] = None
     skills_assessment: List[SkillAssessment]
 
 class JobResultsData(BaseModel):

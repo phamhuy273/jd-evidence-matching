@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đối sánh JD và GitHub</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f5;color:#172b28;font:16px/1.55 "Segoe UI",sans-serif}main{max-width:900px;margin:3rem auto;padding:0 1.25rem}form,article{background:white;padding:1.4rem;border:1px solid #d9e1df;border-radius:12px}label,summary{display:block;font-weight:600}input,textarea{display:block;width:100%;padding:.65rem;margin:.25rem 0 1rem;font:inherit;border:1px solid #93a6a0;border-radius:5px}button{padding:.7rem 1rem;background:#146453;color:white;border:0;border-radius:5px;font:inherit;cursor:pointer}button:disabled{opacity:.55}pre{overflow:auto;max-height:24rem;background:#f0f4f3;padding:.8rem}a{color:#105a48}details{margin:.6rem 0}summary{cursor:pointer}article{margin:1rem 0}
+</style>
+<main><h1>Đối sánh JD và GitHub</h1><form id="match">
+<label>Vị trí tuyển dụng<input name="title" required></label>
+<label>Mô tả công việc<textarea name="jd" rows="4" minlength="10" required></textarea></label>
+<label>Tên ứng viên<input name="candidate" required></label>
+<label>Kho GitHub công khai<input name="repo" type="url" placeholder="https://github.com/owner/repo" required></label>
+<button>Truy xuất bằng chứng</button></form><p role="status" id="status"></p><section id="results"></section></main>
+<script>
+const form = document.querySelector("form"), statusText = document.querySelector("#status"), results = document.querySelector("#results");
+if (location.protocol === "file:") {
+  form.hidden = true;
+  statusText.append("Để gửi JD và truy xuất bằng chứng, hãy ");
+  const link = document.createElement("a");
+  link.href = "http://localhost:8082/";
+  link.textContent = "mở ứng dụng đang chạy trên máy";
+  statusText.append(link, ".");
+}
+async function api(path, body) {
+  const response = await fetch("/api/v1/" + path, body ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)} : {});
+  const payload = await response.json();
+  if (!response.ok || !payload.data) throw Error(payload.message || "Dịch vụ chưa sẵn sàng.");
+  return payload.data;
+}
+function element(parent, tag, text) {
+  const item = document.createElement(tag);
+  item.textContent = text;
+  parent.append(item);
+  return item;
+}
+let lastJob, lastDescription;
+form.onsubmit = async event => {
+  event.preventDefault();
+  const button = form.querySelector("button"), input = new FormData(form);
+  button.disabled = true;
+  results.replaceChildren();
+  try {
+    statusText.textContent = "Đang trích kỹ năng từ JD…";
+    const description = {job_title:input.get("title"), raw_jd_text:input.get("jd")};
+    const key = JSON.stringify(description);
+    if (lastDescription !== key) {
+      lastJob = await api("jobs/extract-skills", description);
+      lastDescription = key;
+    }
+    const job = lastJob;
+    const task = await api("matching/evaluate-async", {job_id:job.job_id, candidate_name:input.get("candidate"), github_repo_url:input.get("repo"), commit_hash:"HEAD"});
+    for (;;) {
+      const state = await api("matching/tasks/"+task.task_id+"/status");
+      if (state.progress_status === "FAILED") throw Error(state.error || "Đối sánh thất bại.");
+      if (state.progress_status === "COMPLETED") break;
+      statusText.textContent = "Đang phân tích kho mã · "+state.progress_percent+"%";
+      await new Promise(resolve => setTimeout(resolve, 1800));
+    }
+    const data = await api("matching/jobs/"+job.job_id+"/results");
+    for (const candidate of data.ranking) {
+      element(results,"h2",candidate.rank+". "+candidate.candidate_name);
+      element(results,"p","Điểm tương đồng có trọng số: "+candidate.total_score+"/100");
+      for (const skill of candidate.skills_assessment) {
+        const article = element(results,"article","");
+        element(article,"h3",skill.skill_name);
+        for (const hit of skill.evidence) {
+          const entry = element(article,"details","");
+          element(entry,"summary",hit.file_path+" · dòng "+hit.start_line+"–"+hit.end_line);
+          element(entry,"p",hit.chunk_type+" · cosine "+hit.similarity.toFixed(3));
+          element(entry,"pre",hit.code_snippet);
+          const link = element(entry,"a","Mở mã tại commit trên GitHub");
+          link.href = hit.source_url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+      }
+    }
+    statusText.textContent = "Đã truy xuất bằng chứng.";
+  } catch (error) {statusText.textContent = error.message;}
+  finally {button.disabled = false;}
+};
+</script></html>

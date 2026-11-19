@@ -27,10 +27,10 @@ public class CodeChunk {
     @Column(name = "file_path", nullable = false, length = 500)
     private String filePath;
 
-    @Column(name = "class_name", length = 150)
+    @Column(name = "class_name", columnDefinition = "TEXT")
     private String className;
 
-    @Column(name = "method_name", length = 150)
+    @Column(name = "method_name", columnDefinition = "TEXT")
     private String methodName;
 
     @Column(name = "start_line", nullable = false)

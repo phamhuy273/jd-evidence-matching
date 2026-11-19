@@ -5,7 +5,7 @@ from services.skill_extractor import extract_skills_from_jd
 router = APIRouter(prefix="/api/v1/jobs", tags=["Jobs"])
 
 @router.post("/extract-skills", response_model=StandardResponse[ExtractSkillsData])
-async def extract_skills(request: ExtractSkillsRequest):
+def extract_skills(request: ExtractSkillsRequest):
     """
     DOC-03 Section 4.2:
     Tiếp nhận văn bản JD, sử dụng Gemini 1.5 Flash (hoặc Heuristic fallback)
@@ -28,10 +28,10 @@ async def extract_skills(request: ExtractSkillsRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e)
         )
-    except Exception as e:
+    except RuntimeError as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Lỗi khi gọi Gemini LLM: {str(e)}"
+            detail=str(e)
         )
 
     return StandardResponse(

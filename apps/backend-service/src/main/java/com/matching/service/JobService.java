@@ -47,7 +47,8 @@ public class JobService {
                     .importance(s.getImportance() != null ? s.getImportance() : "MANDATORY")
                     .weight(s.getWeight() != null ? BigDecimal.valueOf(s.getWeight()) : BigDecimal.ONE)
                     .build()).collect(Collectors.toList());
-            savedJob.setRequiredSkills(skills);
+            savedJob.getRequiredSkills().addAll(skills);
+            aiResponse.getData().setJobId(savedJob.getId());
             jobDescriptionRepository.save(savedJob);
         }
 

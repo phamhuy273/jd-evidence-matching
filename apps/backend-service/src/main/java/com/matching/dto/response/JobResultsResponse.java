@@ -49,6 +49,7 @@ public class JobResultsResponse {
         private String skillName;
 
         private Double score;
+        private List<EvidenceCodeChunkDto> evidence;
 
         @JsonProperty("evidence_code_chunk")
         private EvidenceCodeChunkDto evidenceCodeChunk;
@@ -67,5 +68,10 @@ public class JobResultsResponse {
 
         @JsonProperty("code_snippet")
         private String codeSnippet;
+        @JsonProperty("start_line") private Integer startLine;
+        @JsonProperty("end_line") private Integer endLine;
+        @JsonProperty("source_url") private String sourceUrl;
+        @JsonProperty("chunk_type") private String chunkType;
+        private Double similarity;
     }
 }

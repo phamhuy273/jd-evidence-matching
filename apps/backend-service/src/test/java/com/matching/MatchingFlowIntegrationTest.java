@@ -167,6 +167,7 @@ public class MatchingFlowIntegrationTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(200)))
+                .andExpect(jsonPath("$.data.job_id", not(emptyOrNullString())))
                 .andExpect(jsonPath("$.data.skills[0].skill_name", is("Java")))
                 .andExpect(jsonPath("$.data.skills[1].skill_name", is("Spring Boot")));
     }

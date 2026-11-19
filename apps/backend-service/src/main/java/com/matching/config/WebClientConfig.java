@@ -17,6 +17,7 @@ public class WebClientConfig {
     public WebClient aiEngineWebClient() {
         return WebClient.builder()
                 .baseUrl(aiEngineUrl)
+                .codecs(config -> config.defaultCodecs().maxInMemorySize(16 * 1024 * 1024))
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
